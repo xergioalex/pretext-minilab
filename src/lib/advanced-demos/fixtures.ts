@@ -87,36 +87,64 @@ export const reflowArticleParagraphs = [
 
 export const subtitleCues: SubtitleCue[] = [
   {
-    id: 'cue-1',
-    start: 0,
-    end: 3.2,
-    speaker: 'Narrator',
-    emphasis: ['quietly', 'predictable'],
-    text: 'The old layout pipeline is quietly expensive because every answer arrives only after the browser has already committed to a rendering path.',
+    id: 'cue-1', start: 0, end: 2.0, speaker: 'Narrator',
+    emphasis: ['quietly', 'expensive'],
+    text: 'The old layout pipeline is quietly expensive — every answer arrives only after the browser has already committed.',
   },
   {
-    id: 'cue-2',
-    start: 3.2,
-    end: 6.8,
-    speaker: 'Engineer',
+    id: 'cue-2', start: 2.0, end: 4.0, speaker: 'Engineer',
     emphasis: ['prepare once', 'reuse'],
-    text: 'With Pretext, you prepare once, reuse the shaped text, and query new widths as many times as the interface needs.',
+    text: 'With Pretext you prepare once, reuse the shaped text, and query new widths as many times as needed.',
   },
   {
-    id: 'cue-3',
-    start: 6.8,
-    end: 10.4,
-    speaker: 'Editor',
-    emphasis: ['safe area', 'reading rhythm'],
-    text: 'That means subtitle safe areas, speaker labels, and reading rhythm can all be solved before the frame is painted.',
+    id: 'cue-3', start: 4.0, end: 5.8, speaker: 'Editor',
+    emphasis: ['safe area', 'rhythm'],
+    text: 'Subtitle safe areas, speaker labels, and reading rhythm — all solved before the frame is painted.',
   },
   {
-    id: 'cue-4',
-    start: 10.4,
-    end: 14.8,
-    speaker: 'Narrator',
-    emphasis: ['real time', 'composed'],
-    text: 'The result feels cinematic because every cue is measured, wrapped, and positioned like a composed object instead of a lucky DOM box.',
+    id: 'cue-4', start: 5.8, end: 7.6, speaker: 'Narrator',
+    emphasis: ['cinematic', 'composed'],
+    text: 'The result feels cinematic because every cue is measured, wrapped, and positioned like a composed object.',
+  },
+  {
+    id: 'cue-5', start: 7.6, end: 9.2, speaker: 'Director',
+    emphasis: ['microseconds', 'frame budget'],
+    text: 'Layout in microseconds means subtitles never blow the frame budget — even during fast dialogue scenes.',
+  },
+  {
+    id: 'cue-6', start: 9.2, end: 10.8, speaker: 'Engineer',
+    emphasis: ['Unicode', 'scripts'],
+    text: 'Unicode segmentation handles CJK, Arabic, Thai, and emoji automatically. No special casing required.',
+  },
+  {
+    id: 'cue-7', start: 10.8, end: 12.4, speaker: 'Editor',
+    emphasis: ['two lines', 'readability'],
+    text: 'Professional subtitles cap at two lines. Pretext makes it trivial to predict when a cue needs splitting.',
+  },
+  {
+    id: 'cue-8', start: 12.4, end: 14.0, speaker: 'Narrator',
+    emphasis: ['responsive', 'reflow'],
+    text: 'Resize the player window and every cue instantly reflows — no flicker, no reparse, no layout shift.',
+  },
+  {
+    id: 'cue-9', start: 14.0, end: 15.6, speaker: 'Director',
+    emphasis: ['emphasis', 'styling'],
+    text: 'Emphasis marks, italic spans, and speaker chips are composited after line breaking — clean separation of concerns.',
+  },
+  {
+    id: 'cue-10', start: 15.6, end: 17.2, speaker: 'Engineer',
+    emphasis: ['streaming', 'live'],
+    text: 'For live captioning, each incoming word triggers a cheap relayout. The container height is always predictable.',
+  },
+  {
+    id: 'cue-11', start: 17.2, end: 18.8, speaker: 'Narrator',
+    emphasis: ['typography', 'invisible'],
+    text: 'The best typography is invisible. Good subtitles disappear into the story — the viewer reads without noticing the craft.',
+  },
+  {
+    id: 'cue-12', start: 18.8, end: 20.4, speaker: 'Editor',
+    emphasis: ['prepare', 'arithmetic'],
+    text: 'Prepare is the expensive step. After that, every layout call is pure arithmetic — the secret to smooth playback.',
   },
 ];
 
