@@ -2,6 +2,7 @@
   import { buildFont } from '../../lib/pretext';
   import { estimateBlockHeight, flowTextThroughRegions } from '../../lib/advanced-demos/layout';
   import { reflowArticleByline, reflowArticleParagraphs, reflowArticleTitle } from '../../lib/advanced-demos/fixtures';
+  import { untrack } from 'svelte';
 
   type PresetId = 'phone' | 'tablet' | 'spread' | 'poster';
 
@@ -17,10 +18,10 @@
 
   const articleText = reflowArticleParagraphs.join('\n\n');
   const presets: Preset[] = [
-    { id: 'phone', label: 'Phone', width: 360, height: 660, columns: 1, bodyFont: 15, headlineFont: 28 },
-    { id: 'tablet', label: 'Tablet', width: 620, height: 680, columns: 2, bodyFont: 16, headlineFont: 32 },
-    { id: 'spread', label: 'Spread', width: 920, height: 700, columns: 3, bodyFont: 16, headlineFont: 40 },
-    { id: 'poster', label: 'Poster', width: 1040, height: 780, columns: 2, bodyFont: 18, headlineFont: 52 },
+    { id: 'phone', label: 'Phone', width: 360, height: 700, columns: 1, bodyFont: 15, headlineFont: 28 },
+    { id: 'tablet', label: 'Tablet', width: 620, height: 720, columns: 2, bodyFont: 16, headlineFont: 32 },
+    { id: 'spread', label: 'Spread', width: 920, height: 740, columns: 3, bodyFont: 16, headlineFont: 40 },
+    { id: 'poster', label: 'Poster', width: 1040, height: 820, columns: 2, bodyFont: 18, headlineFont: 52 },
   ];
 
   let wrapperWidth = $state(0);
@@ -33,64 +34,79 @@
   let regionBoxes = $state<Array<{ id: string; x: number; y: number; width: number; height: number }>>([]);
   let metrics = $state<Array<{ id: PresetId; lineCount: number; consumed: number; columns: number }>>([]);
 
-  function recompute() {
-    metrics = presets.map((preset) => {
-      const bodyWidth = Math.floor((preset.width - 60 - (preset.columns - 1) * 24) / preset.columns);
-      const bodyFont = buildFont(preset.bodyFont, 'Georgia, Times New Roman, serif');
-      const lineHeight = Math.round(preset.bodyFont * 1.65);
-      const height = estimateBlockHeight(articleText, bodyFont, bodyWidth, lineHeight);
-      return {
-        id: preset.id,
-        lineCount: Math.round(height / lineHeight),
-        consumed: Math.round(height),
-        columns: preset.columns,
-      };
-    });
+  let computedTitleTop = $state(40);
+  let computedTitleHeight = $state(80);
+  let computedBylineTop = $state(130);
+  let computedBodyTop = $state(180);
+  let effectiveHeadlineFont = $state(40);
+  let effectiveTitleLineHeight = $state(43);
+  let quoteAbsTop = $state(280);
+  let quoteAbsLeft = $state(30);
+  let quoteBoxWidth = $state(120);
+  let quoteBoxHeight = $state(160);
 
+  function recompute() {
     const preset = presets.find((entry) => entry.id === presetId)!;
     const margin = preset.id === 'phone' ? 24 : 30;
     const gap = 24;
-    const titleFont = buildFont(preset.headlineFont, 'Georgia, Times New Roman, serif');
+
+    const headlineScale = 0.7 + emphasizeHeadline * 0.006;
+    effectiveHeadlineFont = Math.round(preset.headlineFont * headlineScale);
+    effectiveTitleLineHeight = Math.round(effectiveHeadlineFont * 1.1);
+
+    const titleFont = buildFont(effectiveHeadlineFont, 'Georgia, Times New Roman, serif');
     const bodyFont = buildFont(preset.bodyFont, 'Georgia, Times New Roman, serif');
-    const titleHeight = estimateBlockHeight(
-      reflowArticleTitle,
-      titleFont,
-      preset.width - margin * 2,
-      Math.round(preset.headlineFont * 1.08)
-    );
-    const bodyTop = margin + titleHeight + 72;
-    const regionHeight = preset.height - bodyTop - margin;
+    const bodyLineHeight = Math.round(preset.bodyFont * 1.65);
+
+    const titleWidth = preset.width - margin * 2;
+    computedTitleTop = 38;
+    computedTitleHeight = estimateBlockHeight(reflowArticleTitle, titleFont, titleWidth, effectiveTitleLineHeight);
+
+    computedBylineTop = computedTitleTop + computedTitleHeight + 10;
+    const bylineHeight = 18;
+    computedBodyTop = computedBylineTop + bylineHeight + 20;
+
+    const regionHeight = Math.max(100, preset.height - computedBodyTop - margin);
     const bodyWidth = Math.floor((preset.width - margin * 2 - gap * (preset.columns - 1)) / preset.columns);
+
+    const quoteLocalTop = 40;
+    const quoteLocalBottom = 190;
+    quoteBoxWidth = 120;
+    quoteBoxHeight = quoteLocalBottom - quoteLocalTop;
+    quoteAbsTop = computedBodyTop + quoteLocalTop;
+    quoteAbsLeft = margin;
 
     regionBoxes = Array.from({ length: preset.columns }, (_, index) => {
       const x = margin + index * (bodyWidth + gap);
       return {
         id: `region-${index}`,
         x,
-        y: bodyTop,
+        y: computedBodyTop,
         width: bodyWidth,
         height: regionHeight,
       };
     });
 
+    const exclusionTotalWidth = quoteBoxWidth + 16;
+
     const flowed = flowTextThroughRegions(
       articleText,
       bodyFont,
-      Math.round(preset.bodyFont * 1.65),
+      bodyLineHeight,
       regionBoxes.map((box, index) => ({
         id: box.id,
         x: box.x,
         y: box.y,
         height: box.height,
         widthAtY: (localY) => {
-          if (reserveQuote && preset.id === 'spread' && index === 0 && localY > 92 && localY < 220) {
-            return Math.max(120, box.width - 124);
+          if (reserveQuote && preset.id === 'spread' && index === 0 && localY >= quoteLocalTop && localY < quoteLocalBottom) {
+            return Math.max(80, box.width - exclusionTotalWidth);
           }
           return box.width;
         },
         xOffsetAtY: (localY) => {
-          if (reserveQuote && preset.id === 'spread' && index === 0 && localY > 92 && localY < 220) {
-            return 124;
+          if (reserveQuote && preset.id === 'spread' && index === 0 && localY >= quoteLocalTop && localY < quoteLocalBottom) {
+            return exclusionTotalWidth;
           }
           return 0;
         },
@@ -98,6 +114,19 @@
     );
 
     lines = flowed.lines;
+
+    metrics = presets.map((p) => {
+      const bw = Math.floor((p.width - (p.id === 'phone' ? 48 : 60) - gap * (p.columns - 1)) / p.columns);
+      const bf = buildFont(p.bodyFont, 'Georgia, Times New Roman, serif');
+      const blh = Math.round(p.bodyFont * 1.65);
+      const height = estimateBlockHeight(articleText, bf, bw, blh);
+      return {
+        id: p.id,
+        lineCount: Math.round(height / blh),
+        consumed: Math.round(height),
+        columns: p.columns,
+      };
+    });
   }
 
   $effect(() => {
@@ -105,7 +134,7 @@
     presetId;
     emphasizeHeadline;
     reserveQuote;
-    recompute();
+    untrack(() => recompute());
   });
 </script>
 
@@ -136,47 +165,58 @@
 
   {#each presets.filter((entry) => entry.id === presetId) as preset}
     {@const clampedWidth = wrapperWidth > 0 ? Math.min(preset.width, wrapperWidth - 32) : preset.width}
-    <div class="page-frame" style={`width:${clampedWidth}px;height:${preset.height}px;`}>
-      <div class="frame-meta">
-        <span>Reflow preset: {preset.label}</span>
-        <span>{preset.columns} columns</span>
-        <span>{reserveQuote ? 'quote reserved' : 'max body density'}</span>
-      </div>
-
-      <h2
-        class="frame-title"
-        style={`font-size:${Math.round(preset.headlineFont + (emphasizeHeadline - 50) * 0.12)}px;`}
-      >
-        {reflowArticleTitle}
-      </h2>
-      <p class="frame-byline">{reflowArticleByline}</p>
-
-      {#if reserveQuote && preset.id === 'spread'}
-        <aside class="pull-quote">
-          “A reflow engine is not a renderer. It is a planning surface for typography.”
-        </aside>
-      {/if}
-
-      {#if showRegions}
-        {#each regionBoxes as region}
-          <div
-            class="region-box"
-            style={`left:${region.x}px;top:${region.y}px;width:${region.width}px;height:${region.height}px;`}
-          ></div>
-        {/each}
-      {/if}
-
-      {#each lines as line}
-        <div class="page-line" style={`left:${line.x}px;top:${line.y}px;`}>
-          {line.text}
+    {@const scale = clampedWidth < preset.width ? clampedWidth / preset.width : 1}
+    <div class="page-wrapper" style={`width:${clampedWidth}px;height:${preset.height * scale}px;`}>
+      <div class="page-frame" style={`width:${preset.width}px;height:${preset.height}px;transform:scale(${scale});transform-origin:top left;`}>
+        <div class="frame-meta">
+          <span>Reflow preset: {preset.label}</span>
+          <span>{preset.columns} column{preset.columns > 1 ? 's' : ''}</span>
+          <span>{reserveQuote && preset.id === 'spread' ? 'quote reserved' : 'max body density'}</span>
         </div>
-      {/each}
+
+        <h2
+          class="frame-title"
+          style={`font-size:${effectiveHeadlineFont}px;line-height:${effectiveTitleLineHeight}px;top:${computedTitleTop}px;left:${preset.id === 'phone' ? 24 : 30}px;right:${preset.id === 'phone' ? 24 : 30}px;`}
+        >
+          {reflowArticleTitle}
+        </h2>
+        <p class="frame-byline" style={`top:${computedBylineTop}px;left:${preset.id === 'phone' ? 24 : 30}px;`}>
+          {reflowArticleByline}
+        </p>
+
+        {#if reserveQuote && preset.id === 'spread'}
+          <aside
+            class="pull-quote"
+            style={`left:${quoteAbsLeft}px;top:${quoteAbsTop}px;width:${quoteBoxWidth - 28}px;max-height:${quoteBoxHeight}px;`}
+          >
+            "A reflow engine is not a renderer. It is a planning surface for typography."
+          </aside>
+        {/if}
+
+        {#if showRegions}
+          {#each regionBoxes as region}
+            <div
+              class="region-box"
+              style={`left:${region.x}px;top:${region.y}px;width:${region.width}px;height:${region.height}px;`}
+            ></div>
+          {/each}
+        {/if}
+
+        {#each lines as line}
+          <div
+            class="page-line"
+            style={`left:${line.x}px;top:${line.y}px;font-size:${preset.bodyFont}px;line-height:${Math.round(preset.bodyFont * 1.65)}px;`}
+          >
+            {line.text}
+          </div>
+        {/each}
+      </div>
     </div>
   {/each}
 </div>
 
 <style>
-  .reflow-demo { display: flex; flex-direction: column; gap: var(--space-md); }
+  .reflow-demo { display: flex; flex-direction: column; gap: var(--space-md); width: 100%; min-width: 0; }
   .controls-bar { display: flex; flex-wrap: wrap; gap: var(--space-md); align-items: end; }
   .ctrl { display: flex; flex-direction: column; gap: 4px; min-width: 140px; }
   .ctrl label {
@@ -205,35 +245,43 @@
   .metric-card span { font-size: 0.72rem; }
   .metric-card.active { border-color: var(--accent); background: var(--accent-dim); }
 
-  .page-frame {
-    position: relative; overflow: hidden; max-width: 100%;
-    border-radius: var(--radius-lg); border: 1px solid var(--border);
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent 20%), #faf7f2;
-    color: #161515;
+  .page-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
     box-shadow: 0 18px 48px rgba(0,0,0,0.16);
+  }
+
+  .page-frame {
+    position: relative; overflow: hidden;
+    border-radius: var(--radius-lg); border: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent 20%), #faf7f2;
+    color: #161515;
   }
   .frame-meta {
     display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-    padding: 18px 30px 0; font-size: 0.64rem; letter-spacing: 0.12em;
+    padding: 14px 30px 0; font-size: 0.64rem; letter-spacing: 0.12em;
     text-transform: uppercase; color: #6c645c; font-weight: 700;
   }
   .frame-title {
-    position: absolute; left: 30px; top: 40px; right: 30px;
-    margin: 0; font-family: Georgia, 'Times New Roman', serif;
-    line-height: 0.94; letter-spacing: -0.04em;
+    position: absolute; margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    letter-spacing: -0.04em; color: #161515;
   }
   .frame-byline {
-    position: absolute; left: 30px; top: 122px; font-size: 0.82rem; color: #6c645c;
+    position: absolute; font-size: 0.82rem; color: #6c645c; margin: 0;
   }
   .pull-quote {
-    position: absolute; left: 30px; top: 236px; width: 100px; padding: 14px;
-    font-size: 1rem; line-height: 1.25; font-weight: 600; color: #5b4cd4;
-    border-left: 3px solid #7c6cf0; background: rgba(124, 108, 240, 0.08);
+    position: absolute; padding: 14px;
+    font-size: 0.88rem; line-height: 1.3; font-weight: 600; color: #5b4cd4;
+    border-left: 3px solid #7c6cf0; background: rgba(124, 108, 240, 0.06);
+    border-radius: 0 6px 6px 0;
+    overflow: hidden;
   }
   .page-line {
     position: absolute; white-space: nowrap;
     font-family: Georgia, 'Times New Roman', serif;
-    font-size: 16px; line-height: 26px; color: #181512;
+    color: #181512;
   }
   .region-box {
     position: absolute; border: 1px dashed rgba(124, 108, 240, 0.4);

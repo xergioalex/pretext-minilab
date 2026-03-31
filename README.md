@@ -31,7 +31,7 @@ This seemingly simple split unlocks UI patterns that were previously impractical
 
 | Demo | What it shows |
 |------|--------------|
-| **[Dragon Chase](https://pretext.xergioalex.com/demos/dragon-chase/)** | A 40-segment dragon follows your cursor. Text reflows around every segment at 60fps. The signature "wow" demo. |
+| **[Dragon Chase](https://pretext.xergioalex.com/demos/dragon-chase/)** | A chain of 40 glowing spheres chases your cursor. Text reflows around every orb at 60fps. The signature "wow" demo. |
 | **[Wave Distortion](https://pretext.xergioalex.com/demos/wave-distortion/)** | A sine wave continuously warps line widths. Every line has a different width, updated every frame. Mesmerizing. |
 | **[Editorial Engine](https://pretext.xergioalex.com/demos/editorial-engine/)** | Floating orbs bounce around an editorial layout. Text reflows dynamically with drop caps, multiple themes. |
 | **[Flow Around Obstacle](https://pretext.xergioalex.com/demos/flow-around-obstacle/)** | Drag a shape (or watch it auto-orbit) while text parts around it in real time. |

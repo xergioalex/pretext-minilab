@@ -4,7 +4,8 @@ Canonical site: https://pretext.xergioalex.com
 Project: interactive showcase for programmable text layout with @chenglou/pretext
 Stack: Astro, Svelte 5, TypeScript, @astrojs/sitemap
 Author: Sergio Florez (XergioAleX) - https://xergioalex.com
-Repository: https://github.com/xergioalex/pretext-minilab
+Repository: https://github.com/xergioalex/pretext-lab
+License: MIT
 Primary language: English
 
 ## What this site is
@@ -117,10 +118,6 @@ Categories:
   - URL: https://pretext.xergioalex.com/demos/incremental-layout-profiler/
   - Summary: devtool-style invalidation and hot-path profiling
 
-- OCR Reconstruction
-  - URL: https://pretext.xergioalex.com/demos/ocr-reconstruction/
-  - Summary: rebuild reading flow from messy OCR blocks
-
 ## Advanced demos
 
 - Flow Around Obstacle
@@ -159,10 +156,6 @@ Categories:
   - URL: https://pretext.xergioalex.com/demos/pdf-reflow-engine/
   - Summary: one article recomposed into multiple publication formats
 
-- Comic Speech Layout
-  - URL: https://pretext.xergioalex.com/demos/comic-speech-layout/
-  - Summary: measured speech balloons and panel-aware dialogue composition
-
 - Topology Morph
   - URL: https://pretext.xergioalex.com/demos/topology-morph/
   - Summary: one document moving across changing region topologies
@@ -171,7 +164,7 @@ Categories:
 
 - Dragon Chase
   - URL: https://pretext.xergioalex.com/demos/dragon-chase/
-  - Summary: 40-segment dragon with real-time text reflow
+  - Summary: chain of 40 glowing spheres with real-time text reflow
 
 - Wave Distortion
   - URL: https://pretext.xergioalex.com/demos/wave-distortion/
@@ -232,6 +225,14 @@ Categories:
 - Text Regatta
   - URL: https://pretext.xergioalex.com/demos/text-regatta/
   - Summary: a sailboat carving wake turbulence through a sea made of text
+
+- Text Particle Pool
+  - URL: https://pretext.xergioalex.com/demos/text-particle-pool/
+  - Summary: characters rain down, pile up with physics collisions, and accumulate into a pool
+
+- Text Ocean SPH
+  - URL: https://pretext.xergioalex.com/demos/text-ocean-sph/
+  - Summary: thousands of character particles form a fluid ocean via SPH simulation
 
 ## Documentation strategy
 

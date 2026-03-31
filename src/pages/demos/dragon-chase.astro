@@ -6,13 +6,13 @@ import DragonChaseIsland from '../../islands/demos/DragonChase.svelte';
 <DemoLayout
   slug="dragon-chase"
   title="Dragon Chase"
-  summary="A 40-segment dragon follows your cursor while text reflows around every segment in real time."
-  context="Inspired by the viral Pretext dragon demo. Each segment of the dragon acts as a circular obstacle, and layoutNextLine() computes a different available width per line based on which segments overlap. Move your mouse (or wait for auto-orbit) and watch text part around the creature at 60fps."
+  summary="A chain of 40 glowing spheres chases your cursor while text reflows around every orb in real time."
+  context="Inspired by the viral Pretext demo. A serpentine trail of 40 spheres acts as circular obstacles, and layoutNextLine() computes a different available width per line based on which orbs overlap. Move your mouse (or wait for auto-orbit) and watch text part around the chain at 60fps."
   apis={['prepareWithSegments()', 'layoutNextLine()']}
   difficulty="Spectacular"
   snippet={`import { prepareWithSegments, layoutNextLine, buildFont } from '@chenglou/pretext';
 
-// 40 segments: head is large (r=24), tail tapers to r=3
+// 40 spheres: head is large (r=24), tail tapers to r=3
 const SEGMENT_COUNT = 40;
 const SPACING = 8;
 let segments = Array.from({ length: SEGMENT_COUNT }, (_, i) => {
@@ -95,8 +95,8 @@ function tick() {
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>
-        Per-line variable-width layout with dozens of simultaneous obstacles. Each of the 40 dragon segments
-        is a circle that blocks text. For every line, the engine checks all segments, computes the available
+        Per-line variable-width layout with dozens of simultaneous obstacles. Each of the 40 glowing spheres
+        is a circle that blocks text. For every line, the engine checks all orbs, computes the available
         width, and calls <code>layoutNextLine()</code> with that width. The entire reflow happens every animation frame.
       </p>
     </div>

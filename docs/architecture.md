@@ -36,7 +36,7 @@ Pretext Lab is a **static Astro site** with **Svelte interactive islands**. The 
 ## Directory Structure
 
 ```
-pretext-minilab/
+pretext-lab/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml              # GitHub Actions CI/CD → GitHub Pages

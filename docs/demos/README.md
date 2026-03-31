@@ -30,7 +30,6 @@ Real-world UI patterns powered by Pretext.
 | [Streaming Text Prediction](./streaming-text.md) | `prepare()`, `layout()` | Intermediate | LLM streaming simulation with height prediction |
 | [Subtitle Composer](./subtitle-composer.md) | `prepareWithSegments()`, `layoutWithLines()` | Advanced | Cinematic subtitle safe-zone layout and cue wrapping |
 | [Incremental Layout Profiler](./incremental-layout-profiler.md) | `prepare()`, `layout()`, `profilePrepare()` | Advanced | Devtool-style invalidation trace of prepare vs layout |
-| [OCR Reconstruction](./ocr-reconstruction.md) | `prepare()`, `layout()`, `layoutNextLine()` | Advanced | Rebuild a readable document from noisy OCR boxes |
 
 ### Advanced
 
@@ -47,7 +46,6 @@ Complex layout techniques using per-line control.
 | [Typographic Heatmap](./typographic-heatmap.md) | `prepareWithSegments()`, `layoutWithLines()` | Advanced | Line density visualization and river detection |
 | [Living Document System](./living-document.md) | `prepare()`, `layout()`, `layoutNextLine()` | Flagship | Priority-driven editorial surface that repacks itself |
 | [PDF Reflow Engine](./pdf-reflow-engine.md) | `prepare()`, `layout()`, `layoutNextLine()` | Advanced | One article composed into many publication formats |
-| [Comic Speech Layout](./comic-speech-layout.md) | `prepareWithSegments()`, `layoutWithLines()` | Advanced | Balloon sizing and panel-aware comic composition |
 | [Topology Morph](./topology-morph.md) | `prepareWithSegments()`, `layoutNextLine()` | Advanced | One document migrating across multiple topologies |
 
 ### Spectacular
@@ -56,7 +54,7 @@ Visual showcases that push Pretext to its limits.
 
 | Demo | APIs | Difficulty | Doc |
 |------|------|------------|-----|
-| [Dragon Chase](./dragon-chase.md) | `prepareWithSegments()`, `layoutNextLine()` | Spectacular | 40-segment dragon with real-time text reflow |
+| [Dragon Chase](./dragon-chase.md) | `prepareWithSegments()`, `layoutNextLine()` | Spectacular | Chain of 40 glowing spheres with real-time text reflow |
 | [Wave Distortion](./wave-distortion.md) | `prepareWithSegments()`, `layoutNextLine()` | Spectacular | Sine wave warps line widths continuously |
 | [Text Breakout](./text-breakout.md) | `prepareWithSegments()`, `layoutWithLines()` | Game | Classic Breakout with word bricks |
 | [Gravity Letters](./gravity-letters.md) | `prepareWithSegments()`, `layoutWithLines()` | Spectacular | Physics-based letter animation |
@@ -72,6 +70,8 @@ Visual showcases that push Pretext to its limits.
 | [Text Origami Panels](./text-origami.md) | `prepareWithSegments()`, `layoutNextLine()` | Spectacular | Continuous text flow across foldable paper panels |
 | [Text Black Hole](./text-black-hole.md) | `prepareWithSegments()`, `layoutNextLine()` | Flagship | Radial compression and lensing around a singularity |
 | [Text Regatta](./text-regatta.md) | `prepareWithSegments()`, `layoutNextLine()` | Flagship | A sailboat navigates a sea whose surface is made of flowing text |
+| [Text Particle Pool](./text-particle-pool.md) | `prepareWithSegments()`, `layoutWithLines()` | Spectacular | Characters rain down, pile up with physics, accumulate into a pool |
+| [Text Ocean SPH](./text-ocean-sph.md) | `prepareWithSegments()`, `layoutWithLines()` | Flagship | Thousands of character particles form a fluid ocean via SPH |
 
 ---
 
@@ -97,8 +97,8 @@ $effect(() => {
 | Approach | Demos | Description |
 |----------|-------|-------------|
 | **DOM-based** | Chat Bubbles, Masonry Cards, Resize Relayout, Rich Text, i18n, Streaming Text, Typographic Heatmap, Living Document, Subtitle Composer, Incremental Layout Profiler | Text displayed in HTML elements; Pretext provides dimensions |
-| **Canvas-based** | Canvas Layout, Gravity Letters, Text Breakout, Text Vortex, Text Rain, Text Collision, Voronoi Text, Text Terrain | Pretext provides line breaks; Canvas handles rendering |
-| **Hybrid** | Dragon Chase, Editorial Engine, Flow Around Obstacle, Wave Distortion, Text Silhouette, Text Waterfall, Text Hourglass, Text Earthquake, Multi-Column, PDF Reflow Engine, Text Fluid, Text Origami, Topology Morph, Text Black Hole, Comic Speech Layout, OCR Reconstruction, Text Regatta | Text as positioned divs plus overlays, staged regions, or custom geometry |
+| **Canvas-based** | Canvas Layout, Gravity Letters, Text Breakout, Text Vortex, Text Rain, Text Collision, Voronoi Text, Text Terrain, Text Particle Pool, Text Ocean SPH | Pretext provides line breaks; Canvas handles rendering |
+| **Hybrid** | Dragon Chase, Editorial Engine, Flow Around Obstacle, Wave Distortion, Text Silhouette, Text Waterfall, Text Hourglass, Text Earthquake, Multi-Column, PDF Reflow Engine, Text Fluid, Text Origami, Topology Morph, Text Black Hole, Text Regatta | Text as positioned divs plus overlays, staged regions, or custom geometry |
 | **Web Audio** | Audio-Reactive | Sound-driven layout parameters |
 | **Visualization** | DOM vs Pretext, Shrink-Wrap, Measure Height | SVG, bars, and metrics showing layout data |
 

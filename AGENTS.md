@@ -173,7 +173,7 @@ onMount(() => { tick(); return () => cancelAnimationFrame(animFrame); });
 | `shrink-wrap` | Tight Multiline Shrink-Wrap | `prepareWithSegments`, `layoutWithLines` | DOM + bars |
 | `dom-vs-pretext` | DOM vs Pretext Architecture | `prepare`, `layout` | DOM + benchmark |
 
-### Practical (8)
+### Practical (7)
 
 | Slug | Title | APIs | Rendering |
 |------|-------|------|-----------|
@@ -184,9 +184,8 @@ onMount(() => { tick(); return () => cancelAnimationFrame(animFrame); });
 | `streaming-text` | Streaming Text Prediction | `prepare`, `layout` | DOM |
 | `subtitle-composer` | Subtitle Composer | `prepareWithSegments`, `layoutWithLines` | DOM |
 | `incremental-layout-profiler` | Incremental Layout Profiler | `prepare`, `layout`, `profilePrepare` | DOM |
-| `ocr-reconstruction` | OCR Reconstruction | `prepare`, `layout`, `layoutNextLine` | Hybrid |
 
-### Advanced (11)
+### Advanced (10)
 
 | Slug | Title | APIs | Rendering |
 |------|-------|------|-----------|
@@ -199,10 +198,9 @@ onMount(() => { tick(); return () => cancelAnimationFrame(animFrame); });
 | `typographic-heatmap` | Typographic Heatmap | `prepareWithSegments`, `layoutWithLines` | DOM |
 | `living-document` | Living Document System | `prepare`, `layout`, `layoutNextLine` | DOM |
 | `pdf-reflow-engine` | PDF Reflow Engine | `prepare`, `layout`, `layoutNextLine` | Hybrid |
-| `comic-speech-layout` | Comic Speech Layout | `prepareWithSegments`, `layoutWithLines` | Hybrid |
 | `topology-morph` | Topology Morph | `prepareWithSegments`, `layoutNextLine` | Hybrid |
 
-### Spectacular (16)
+### Spectacular (18)
 
 | Slug | Title | APIs | Rendering |
 |------|-------|------|-----------|
@@ -222,6 +220,8 @@ onMount(() => { tick(); return () => cancelAnimationFrame(animFrame); });
 | `text-origami` | Text Origami Panels | `prepareWithSegments`, `layoutNextLine` | Hybrid |
 | `text-black-hole` | Text Black Hole | `prepareWithSegments`, `layoutNextLine` | Hybrid |
 | `text-regatta` | Text Regatta | `prepareWithSegments`, `layoutNextLine` | Hybrid |
+| `text-particle-pool` | Text Particle Pool | `prepareWithSegments`, `layoutWithLines` | Canvas 2D |
+| `text-ocean-sph` | Text Ocean SPH | `prepareWithSegments`, `layoutWithLines` | Canvas 2D |
 
 ## Pretext API Surface (verified from @chenglou/pretext v0.0.3)
 
@@ -274,8 +274,8 @@ onMount(() => { tick(); return () => cancelAnimationFrame(animFrame); });
 | Approach | Description | Used By |
 |----------|-------------|---------|
 | **DOM** | Text in HTML elements, Pretext provides dimensions | Masonry, Chat, Resize Relayout, Streaming, Heatmap, Multi-Column, Living Document, Subtitle Composer, Incremental Layout Profiler |
-| **Canvas 2D** | Pretext provides line breaks, Canvas renders | Canvas Layout, Gravity Letters, Text Breakout, Text Vortex, Text Rain, Text Collision, Voronoi, Text Terrain |
-| **Hybrid** | Positioned divs for text + SVG/Canvas for effects | Dragon Chase, Editorial Engine, Flow Around Obstacle, Wave Distortion, Text Silhouette, Waterfall, Hourglass, Earthquake, PDF Reflow Engine, OCR Reconstruction, Text Fluid, Text Origami, Topology Morph, Text Black Hole, Comic Speech Layout, Text Regatta |
+| **Canvas 2D** | Pretext provides line breaks, Canvas renders | Canvas Layout, Gravity Letters, Text Breakout, Text Vortex, Text Rain, Text Collision, Voronoi, Text Terrain, Text Particle Pool, Text Ocean SPH |
+| **Hybrid** | Positioned divs for text + SVG/Canvas for effects | Dragon Chase, Editorial Engine, Flow Around Obstacle, Wave Distortion, Text Silhouette, Waterfall, Hourglass, Earthquake, PDF Reflow Engine, Text Fluid, Text Origami, Topology Morph, Text Black Hole, Text Regatta |
 | **Web Audio** | Audio analysis drives layout parameters | Audio-Reactive Typography |
 
 ## Escaping Curly Braces in Astro

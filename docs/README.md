@@ -22,8 +22,8 @@ Welcome to the comprehensive documentation for **Pretext Lab** — an interactiv
 ### Getting Started
 
 ```bash
-git clone https://github.com/xergioalex/pretext-minilab.git
-cd pretext-minilab
+git clone https://github.com/xergioalex/pretext-lab.git
+cd pretext-lab
 npm install --legacy-peer-deps
 npm run dev
 ```

@@ -123,7 +123,7 @@ export const demos: DemoMeta[] = [
   {
     slug: 'dragon-chase',
     title: 'Dragon Chase',
-    summary: 'A 40-segment dragon follows your cursor — text reflows around every segment at 60fps.',
+    summary: 'A chain of 40 glowing spheres chases your cursor — text reflows around every orb at 60fps.',
     category: 'spectacular',
     featured: true,
     flagship: true,

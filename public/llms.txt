@@ -42,7 +42,7 @@ The site currently includes 39 demos spanning:
 - https://pretext.xergioalex.com/demos/pdf-reflow-engine/
 - https://pretext.xergioalex.com/demos/subtitle-composer/
 - https://pretext.xergioalex.com/demos/text-black-hole/
-- https://pretext.xergioalex.com/demos/ocr-reconstruction/
+- https://pretext.xergioalex.com/demos/text-ocean-sph/
 
 ## Discovery
 

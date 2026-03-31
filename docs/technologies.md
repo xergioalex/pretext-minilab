@@ -281,7 +281,7 @@ Defined in `.vscode/extensions.json`:
 ## Dependency Graph
 
 ```
-pretext-minilab
+pretext-lab
 ├── astro (6.1.2)            ← Static site framework
 │   └── vite                  ← Bundler (used internally by Astro)
 ├── @astrojs/svelte (8.0.4)  ← Svelte integration for Astro

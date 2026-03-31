@@ -2,7 +2,7 @@
 
 ## Overview
 
-Dragon Chase is the flagship demo of Pretext Lab. A 40-segment dragon follows the mouse cursor while text reflows around every segment in real time at 60fps. Each segment is a circle with a radius that decreases linearly from head to tail, creating a serpentine body that carves dynamic exclusion zones through the text. The demo proves that Pretext can handle hundreds of variable-width layout calls per frame without dropping below 60fps -- something impossible with DOM-based text measurement.
+Dragon Chase is the flagship demo of Pretext Lab. A serpentine chain of 40 glowing spheres follows the mouse cursor while text reflows around every orb in real time at 60fps. Each sphere has a radius that decreases linearly from head to tail, creating an organic trail that carves dynamic exclusion zones through the text. The demo proves that Pretext can handle hundreds of variable-width layout calls per frame without dropping below 60fps -- something impossible with DOM-based text measurement.
 
 This matters because it demonstrates the most extreme use case for programmatic text layout: an arbitrary, continuously moving shape that the text must flow around, recomputed every single animation frame.
 
@@ -11,7 +11,7 @@ This matters because it demonstrates the most extreme use case for programmatic 
 | Function / Type | Purpose |
 |---|---|
 | `prepareWithSegments(text, font)` | Tokenizes the input text into measured segments once, producing a `PreparedTextWithSegments` object that can be reused across all subsequent layout calls. |
-| `layoutNextLine(prepared, cursor, availableWidth)` | Lays out one line of text at a time, returning a `LayoutLine` or `null`. Called repeatedly per frame with a different `availableWidth` for each line based on dragon collision geometry. |
+| `layoutNextLine(prepared, cursor, availableWidth)` | Lays out one line of text at a time, returning a `LayoutLine` or `null`. Called repeatedly per frame with a different `availableWidth` for each line based on sphere collision geometry. |
 | `buildFont(fontSize)` | Constructs the font descriptor object required by `prepare` and `prepareWithSegments`. |
 | `LayoutCursor` type | Tracks the current position within the prepared text between successive `layoutNextLine` calls. |
 | `SAMPLE_TEXTS.long` | Provides a sufficiently long sample paragraph to fill the visible area and demonstrate reflow. |
@@ -29,9 +29,9 @@ const prepared = prepareWithSegments(text, font);
 
 This is the expensive step -- font metrics are measured via Canvas. The result is cached and reused every frame.
 
-### Step 2: Dragon Physics (every frame)
+### Step 2: Chain Physics (every frame)
 
-The dragon is an array of 40 segments, each stored as `[x, y, radius]`.
+The chain is an array of 40 spheres, each stored as `[x, y, radius]`.
 
 - **Head**: follows the mouse position with an easing factor of 0.12 (`head += (mouse - head) * 0.12`), giving smooth, organic motion.
 - **Body segments**: each segment follows the previous one, maintaining a constant distance of 8px between centers. The position is computed by finding the angle from the current segment to the previous one and placing it exactly 8px away.
@@ -42,10 +42,10 @@ The dragon is an array of 40 segments, each stored as `[x, y, radius]`.
 
 For each candidate text line at vertical position `y`:
 
-1. Iterate all 40 dragon segments.
+1. Iterate all 40 spheres.
 2. For each segment, check if the vertical distance between the line's vertical center and the segment center is less than the segment's radius. If so, the segment blocks that line.
 3. Compute the horizontal extent (left edge, right edge) of each blocking segment at the line's y-position using circle geometry: `halfWidth = sqrt(radius^2 - verticalDistance^2)`.
-4. Accumulate the leftmost and rightmost horizontal blockage across all 40 segments.
+4. Accumulate the leftmost and rightmost horizontal blockage across all 40 spheres.
 5. Determine which side of the blockage has more available space (left of obstacles vs. right of obstacles).
 6. Use the wider side as the available width for that line.
 
@@ -73,7 +73,7 @@ Each call to `layoutNextLine` advances the cursor through the prepared text and 
 
 ### Step 5: Rendering
 
-The computed lines and dragon segments are drawn to the screen.
+The computed lines and spheres are drawn to the screen.
 
 ## State Management
 
@@ -82,7 +82,7 @@ The computed lines and dragon segments are drawn to the screen.
 | `fontSize` | `$state(16)` | Current font size in pixels, controlled by slider (range 11-22). |
 | `containerWidth` | `$state(700)` | Width of the text container in pixels, controlled by slider. |
 | `mouseX`, `mouseY` | `$state` | Current mouse position relative to the container. |
-| `segments` | `$state([...])` | Array of 40 `[x, y, radius]` tuples representing the dragon body. |
+| `segments` | `$state([...])` | Array of 40 `[x, y, radius]` tuples representing the sphere chain. |
 | `lines` | `$state([])` | Computed text lines for the current frame, each with position and content. |
 | `lastMouseMove` | `$state` | Timestamp of last mouse movement, used to trigger idle animation after 2s. |
 | `prepared` | derived | The `PreparedTextWithSegments` object, recomputed when `fontSize` or text changes. |
@@ -94,12 +94,12 @@ The computed lines and dragon segments are drawn to the screen.
 |---|---|---|---|
 | Font Size | Slider | 11 - 22 px | Changes text size; triggers re-preparation of text and re-layout. |
 | Container Width | Slider | 400 - 950 px | Changes the maximum available width for text layout. |
-| Mouse Position | Mouse move | Container bounds | Drives the dragon head position; all segments follow. |
+| Mouse Position | Mouse move | Container bounds | Drives the head sphere position; all segments follow. |
 
 ## Visual Rendering
 
-### Dragon Body
-- Each of the 40 segments is drawn as a circle with a radial gradient.
+### Sphere Chain
+- Each of the 40 spheres is drawn as a circle with a radial gradient.
 - Hue varies per segment across the purple range (260-300 degrees in HSL), creating a subtle color shift from head to tail.
 - The head segment has two small white circles for eyes.
 - Opacity fades toward the tail (segment 0 is fully opaque, segment 39 is nearly transparent).
@@ -107,15 +107,15 @@ The computed lines and dragon segments are drawn to the screen.
 
 ### Text Lines
 - Each line is positioned absolutely at its computed `(x, y)` coordinates.
-- Lines that have been displaced by the dragon (i.e., their available width differs from the full container width) are colored with the accent color (`#7c6cf0`) to visually highlight the reflow effect.
+- Lines that have been displaced by the sphere chain (i.e., their available width differs from the full container width) are colored with the accent color (`#7c6cf0`) to visually highlight the reflow effect.
 - Undisplaced lines use the standard text color.
 
 ## Key Technical Insight
 
 The core lesson of Dragon Chase is **throughput under adversarial conditions**. Every frame requires:
 
-- 40 segment position updates (physics)
-- ~30-50 lines x 40 segments = 1,200-2,000 collision checks (geometry)
+- 40 sphere position updates (physics)
+- ~30-50 lines x 40 spheres = 1,200-2,000 collision checks (geometry)
 - ~30-50 calls to `layoutNextLine()`, each with a unique width (text layout)
 
 With DOM-based measurement, each `layoutNextLine` equivalent would require setting an element's width, inserting text, and reading back the resulting height -- triggering a browser reflow. At 30-50 reflows per frame at 60fps, the browser would be computing 1,800-3,000 reflows per second. This is fundamentally impossible in DOM.
@@ -126,7 +126,7 @@ Pretext reduces text layout to pure arithmetic over pre-measured glyph data. No 
 
 1. **Prepare text once**: call `prepareWithSegments(text, buildFont(fontSize))` and cache the result. Re-prepare only when the text or font size changes.
 
-2. **Model your obstacle**: define the dragon as an array of circle segments. Implement a simple "follow the leader" chain where each segment trails the previous one at a fixed distance.
+2. **Model your obstacle**: define the chain as an array of circle segments. Implement a simple "follow the leader" chain where each segment trails the previous one at a fixed distance.
 
 3. **Add mouse tracking**: attach a `mousemove` listener to your container. Apply easing to the head position for smooth following.
 
@@ -136,6 +136,6 @@ Pretext reduces text layout to pure arithmetic over pre-measured glyph data. No 
 
 6. **Layout line by line**: use `layoutNextLine()` in a loop, passing the computed available width for each line. Accumulate results into a lines array.
 
-7. **Render with `requestAnimationFrame`**: draw dragon segments as gradient circles. Position text lines at their computed coordinates. Highlight displaced lines.
+7. **Render with `requestAnimationFrame`**: draw spheres as gradient circles. Position text lines at their computed coordinates. Highlight displaced lines.
 
 8. **Optimize**: avoid re-preparing text every frame. Only the layout loop (step 6) and physics (step 2) run per frame. Keep segment count and collision checks proportional to what your target hardware can handle at 60fps.
