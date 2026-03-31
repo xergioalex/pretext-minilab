@@ -10,7 +10,7 @@
 
 > **Programmable text layout, visualized.** An interactive demo lab exploring what becomes possible when text measurement is no longer coupled to the DOM.
 
-**[Live site](https://pretext.xergioalex.com)** | Built by [Sergio Florez (XergioAleX)](https://xergioalex.com)
+**[Live site](https://pretext.xergioalex.com)** | **[Read the deep dive](https://xergioalex.com/blog/pretext-programmable-text-layout/)** | Built by [Sergio Florez (XergioAleX)](https://xergioalex.com)
 
 ---
 

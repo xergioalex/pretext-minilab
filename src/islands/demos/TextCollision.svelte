@@ -11,14 +11,29 @@
     'Prepare, layout, done.',
     'Width in, height out.',
     'Typography as code.',
+    'Zero layout shift.',
+    'Predict before render.',
+    'Text metrics on demand.',
+    'Unicode-aware breaking.',
+    'Canvas or DOM, your call.',
+    'Shrink-wrap any block.',
+    'Resize without reflow.',
+    'One prepare, infinite layouts.',
+    'Instant height prediction.',
+    'Line breaks solved.',
+    'Programmable typography.',
+    'Layout as a function.',
   ];
 
-  const COLORS = ['#7c6cf0', '#3ecf8e', '#f97316', '#ef4444', '#06b6d4', '#a855f7', '#eab308', '#ec4899'];
+  const COLORS = [
+    '#7c6cf0', '#3ecf8e', '#f97316', '#ef4444', '#06b6d4',
+    '#a855f7', '#eab308', '#ec4899', '#14b8a6', '#8b5cf6',
+  ];
 
   let canvas: HTMLCanvasElement;
   let wrapperWidth = $state(0);
   let canvasWidth = $derived(wrapperWidth > 0 ? wrapperWidth : 800);
-  const canvasHeight = 550;
+  const canvasHeight = 650;
   let fontSize = $state(13);
   let animFrame = 0;
   let totalCollisions = $state(0);
@@ -64,10 +79,18 @@
   function initBlocks() {
     blocks = [];
     totalCollisions = 0;
+    const cols = 5;
+    const colW = canvasWidth / cols;
     for (let i = 0; i < BLOCK_TEXTS.length; i++) {
-      const x = 40 + (i % 4) * (canvasWidth / 4 - 20);
-      const y = 20 + Math.floor(i / 4) * 60;
+      const col = i % cols;
+      const row = Math.floor(i / cols);
+      const x = 10 + col * colW + Math.random() * 20;
+      const y = 10 + row * 55 + Math.random() * 15;
       blocks.push(createBlock(BLOCK_TEXTS[i], COLORS[i % COLORS.length], x, y));
+    }
+    if (autoDropInterval) {
+      clearInterval(autoDropInterval);
+      autoDropInterval = setInterval(dropBlock, 2000);
     }
   }
 
@@ -81,11 +104,11 @@
   }
 
   function dropBlock() {
-    if (blocks.length >= 16) return;
+    if (blocks.length >= 40) return;
     const idx = blocks.length % BLOCK_TEXTS.length;
     const x = 100 + Math.random() * (canvasWidth - 300);
     const b = createBlock(BLOCK_TEXTS[idx], COLORS[idx % COLORS.length], x, -50);
-    b.vy = 2;
+    b.vy = 2 + Math.random() * 2;
     blocks.push(b);
   }
 
@@ -315,11 +338,17 @@
     return blocks.filter(b => Math.abs(b.vx) < 0.1 && Math.abs(b.vy) < 0.1).length;
   }
 
+  let autoDropInterval: ReturnType<typeof setInterval>;
+
   onMount(() => {
     initBlocks();
     resizeCanvas();
     tick();
-    return () => cancelAnimationFrame(animFrame);
+    autoDropInterval = setInterval(dropBlock, 2000);
+    return () => {
+      cancelAnimationFrame(animFrame);
+      clearInterval(autoDropInterval);
+    };
   });
 
   $effect(() => {

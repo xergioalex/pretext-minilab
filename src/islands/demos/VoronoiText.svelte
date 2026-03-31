@@ -231,7 +231,7 @@
         const seed = seeds[i];
         if (!seed.dragging) {
           const orbitRadius = 60;
-          const speed = 0.6;
+          const speed = 1.6;
           seed.x = seed.baseX + Math.cos(time * speed + i * 1.05) * orbitRadius;
           seed.y = seed.baseY + Math.sin(time * speed * 0.8 + i * 1.4) * orbitRadius * 0.5;
           // Clamp to canvas
