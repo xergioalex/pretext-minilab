@@ -150,11 +150,18 @@
   }
 
   function reset() {
-    hasFault = false;
     targetSeparation = 0;
     separation = 0;
     shakeOffset = { x: 0, y: 0 };
     computeLayout();
+    // Re-trigger fault after a brief pause so it animates open again
+    setTimeout(() => {
+      faultX = containerWidth * 0.45;
+      faultY = totalHeight * 0.3;
+      hasFault = true;
+      targetSeparation = 80;
+      computeLayout();
+    }, 400);
   }
 
   function tick() {
