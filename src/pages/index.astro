@@ -32,7 +32,24 @@ const demoIcons: Record<string, string> = {
 };
 ---
 
-<BaseLayout title="Pretext Lab — Programmable Text Layout for the Web">
+<BaseLayout
+  title="Pretext Lab — Programmable Text Layout for the Web"
+  description="28 interactive demos exploring programmable text layout with @chenglou/pretext. Prepare text once, layout at any width instantly — no DOM reflow needed."
+  jsonLd={{
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Pretext Lab',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Web',
+    url: 'https://pretext.xergioalex.com',
+    description: '28 interactive demos for programmable text layout with @chenglou/pretext — from basic measurement to physics simulations, all running at 60fps without DOM reflow.',
+    author: { '@type': 'Person', name: 'Sergio Alexander Florez Galeano', url: 'https://xergioalex.com' },
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    isAccessibleForFree: true,
+    inLanguage: 'en',
+    keywords: 'text layout, pretext, typography, javascript, interactive demos, canvas, web development',
+  }}
+>
   <section class="hero">
     <div class="container hero-inner">
       <h1 class="hero-title">

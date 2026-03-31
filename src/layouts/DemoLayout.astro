@@ -14,9 +14,35 @@ interface Props {
 
 const { title, slug, summary, context, apis, difficulty, snippet } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const demoUrl = new URL(`${base}demos/${slug}/`, Astro.site);
+
+const demoJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LearningResource',
+  name: title,
+  description: summary,
+  url: demoUrl.toString(),
+  educationalLevel: difficulty,
+  learningResourceType: 'Interactive demo',
+  about: {
+    '@type': 'SoftwareSourceCode',
+    name: '@chenglou/pretext',
+    programmingLanguage: 'JavaScript',
+    runtimePlatform: 'Browser',
+  },
+  author: { '@type': 'Person', name: 'Sergio Alexander Florez Galeano', url: 'https://xergioalex.com' },
+  inLanguage: 'en',
+  isAccessibleForFree: true,
+  keywords: `pretext, ${apis.join(', ')}, text layout, ${difficulty.toLowerCase()}, interactive demo`,
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'Pretext Lab',
+    url: 'https://pretext.xergioalex.com',
+  },
+};
 ---
 
-<BaseLayout title={`${title} — Pretext Lab`} description={summary}>
+<BaseLayout title={`${title} — Pretext Lab`} description={summary} ogType="article" jsonLd={demoJsonLd}>
   <!-- Always fullscreen -->
   <div class="demo-fs">
     <div class="fs-topbar">

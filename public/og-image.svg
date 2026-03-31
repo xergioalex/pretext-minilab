@@ -1,0 +1,39 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="100%" stop-color="#12121a"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#7c6cf0" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#7c6cf0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <!-- Accent bar top -->
+  <rect width="1200" height="4" fill="#7c6cf0"/>
+  <!-- Logo P -->
+  <rect x="80" y="180" width="64" height="64" rx="12" fill="#7c6cf0"/>
+  <text x="112" y="228" font-family="system-ui, sans-serif" font-size="36" font-weight="800" fill="white" text-anchor="middle">P</text>
+  <!-- Title -->
+  <text x="164" y="228" font-family="system-ui, sans-serif" font-size="48" font-weight="700" fill="#e8e8ed">Pretext Lab</text>
+  <!-- Subtitle -->
+  <text x="80" y="300" font-family="system-ui, sans-serif" font-size="28" fill="#9898a8">Programmable Text Layout for the Web</text>
+  <!-- Description -->
+  <text x="80" y="370" font-family="system-ui, sans-serif" font-size="20" fill="#5c5c6e">28 interactive demos — prepare() once, layout() at any width instantly</text>
+  <!-- API tags -->
+  <rect x="80" y="410" width="120" height="32" rx="6" fill="#1a1a26" stroke="#2a2a3a" stroke-width="1"/>
+  <text x="140" y="432" font-family="monospace" font-size="14" fill="#7c6cf0" text-anchor="middle">prepare()</text>
+  <rect x="215" y="410" width="110" height="32" rx="6" fill="#1a1a26" stroke="#2a2a3a" stroke-width="1"/>
+  <text x="270" y="432" font-family="monospace" font-size="14" fill="#7c6cf0" text-anchor="middle">layout()</text>
+  <rect x="340" y="410" width="170" height="32" rx="6" fill="#1a1a26" stroke="#2a2a3a" stroke-width="1"/>
+  <text x="425" y="432" font-family="monospace" font-size="14" fill="#7c6cf0" text-anchor="middle">layoutNextLine()</text>
+  <rect x="525" y="410" width="170" height="32" rx="6" fill="#1a1a26" stroke="#2a2a3a" stroke-width="1"/>
+  <text x="610" y="432" font-family="monospace" font-size="14" fill="#7c6cf0" text-anchor="middle">layoutWithLines()</text>
+  <!-- Footer -->
+  <text x="80" y="560" font-family="system-ui, sans-serif" font-size="16" fill="#5c5c6e">pretext.xergioalex.com</text>
+  <text x="1120" y="560" font-family="system-ui, sans-serif" font-size="16" fill="#5c5c6e" text-anchor="end">by XergioAleX</text>
+  <!-- Bottom accent bar -->
+  <rect y="626" width="1200" height="4" fill="#7c6cf0"/>
+</svg>

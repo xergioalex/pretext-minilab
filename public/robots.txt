@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pretext.xergioalex.com/sitemap-index.xml

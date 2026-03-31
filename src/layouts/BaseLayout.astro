@@ -6,13 +6,49 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  ogType?: string;
+  jsonLd?: Record<string, unknown>;
 }
 
-const { title, description = 'An interactive exploration of programmable text layout with Pretext. Built with Astro + Svelte.' } = Astro.props;
+const {
+  title,
+  description = 'An interactive exploration of programmable text layout with Pretext — 28 demos showcasing prepare-once, layout-anywhere text measurement. Built with Astro + Svelte.',
+  ogType = 'website',
+  jsonLd,
+} = Astro.props;
 const base = import.meta.env.BASE_URL;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(`${base}og-image.png`, Astro.site);
 
 const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || '';
+
+// Default JSON-LD WebSite schema (used on all pages)
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Pretext Lab',
+  alternateName: 'Pretext Mini-Lab',
+  url: 'https://pretext.xergioalex.com',
+  description: 'Interactive demo lab for programmable text layout with @chenglou/pretext — 28 demos from basic measurement to physics simulations.',
+  author: {
+    '@type': 'Person',
+    name: 'Sergio Alexander Florez Galeano',
+    alternateName: 'XergioAleX',
+    url: 'https://xergioalex.com',
+    sameAs: [
+      'https://github.com/xergioalex',
+      'https://twitter.com/XergioAleX',
+    ],
+  },
+  publisher: {
+    '@type': 'Person',
+    name: 'Sergio Alexander Florez Galeano',
+    url: 'https://xergioalex.com',
+  },
+  inLanguage: 'en',
+  isAccessibleForFree: true,
+  keywords: 'text layout, pretext, typography, web development, javascript, canvas, svelte, astro, interactive demos, programmable text, line breaking, text measurement',
+};
 ---
 
 <!doctype html>
@@ -21,20 +57,37 @@ const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || '';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
+  <meta name="author" content="Sergio Florez (XergioAleX)" />
+  <meta name="keywords" content="pretext, text layout, typography, javascript, canvas, line breaking, web development, interactive demos, svelte, astro" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#7c6cf0" />
+  <meta name="color-scheme" content="dark light" />
 
-  <!-- Social / OG -->
+  <!-- Open Graph -->
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={ogType} />
   <meta property="og:url" content={canonicalURL} />
+  <meta property="og:image" content={ogImageURL} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Pretext Lab — Programmable Text Layout for the Web" />
+  <meta property="og:site_name" content="Pretext Lab" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
-  <meta name="author" content="Sergio Florez (XergioAleX)" />
+  <meta name="twitter:image" content={ogImageURL} />
+  <meta name="twitter:image:alt" content="Pretext Lab — Programmable Text Layout for the Web" />
   <meta name="twitter:creator" content="@XergioAleX" />
+  <meta name="twitter:site" content="@XergioAleX" />
 
   <link rel="canonical" href={canonicalURL} />
   <link rel="icon" type="image/png" href={`${base}favicon.png`} />
+  <link rel="icon" type="image/x-icon" href={`${base}favicon.ico`} />
+  <link rel="sitemap" href={`${base}sitemap-index.xml`} />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -42,6 +95,12 @@ const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || '';
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <title>{title}</title>
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+  {jsonLd && (
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  )}
 
   {/* Umami Analytics */}
   {umamiWebsiteId && (
