@@ -29,23 +29,66 @@ This seemingly simple split unlocks UI patterns that were previously impractical
 
 ## Demos
 
+All 39 demos start in **auto-play mode** so you can see them in action immediately.
+
+### Foundational (4)
+
 | Demo | What it shows |
 |------|--------------|
-| **[Dragon Chase](https://pretext.xergioalex.com/demos/dragon-chase/)** | A chain of 40 glowing spheres chases your cursor. Text reflows around every orb at 60fps. The signature "wow" demo. |
-| **[Wave Distortion](https://pretext.xergioalex.com/demos/wave-distortion/)** | A sine wave continuously warps line widths. Every line has a different width, updated every frame. Mesmerizing. |
-| **[Editorial Engine](https://pretext.xergioalex.com/demos/editorial-engine/)** | Floating orbs bounce around an editorial layout. Text reflows dynamically with drop caps, multiple themes. |
-| **[Flow Around Obstacle](https://pretext.xergioalex.com/demos/flow-around-obstacle/)** | Drag a shape (or watch it auto-orbit) while text parts around it in real time. |
-| **[Masonry Cards](https://pretext.xergioalex.com/demos/masonry-cards/)** | Cards pack into a masonry grid using predicted text heights. Zero layout shift. Shuffle to see repacking. |
-| **[Chat Bubbles](https://pretext.xergioalex.com/demos/chat-bubbles/)** | A realistic chat interface where every bubble is sized with Pretext. Resize the container, watch instant relayout. |
-| **[Canvas Layout](https://pretext.xergioalex.com/demos/canvas-layout/)** | Pretext computes line breaks, Canvas 2D renders them. Three color modes: mono, rainbow, heat. |
-| **[DOM vs Pretext](https://pretext.xergioalex.com/demos/dom-vs-pretext/)** | Side-by-side architecture comparison with live timing. See the speedup measured in your browser. |
 | **[Measure Height](https://pretext.xergioalex.com/demos/measure-height/)** | The fundamental demo: prepare once, layout at any width. Live metric bars show timing. |
 | **[Resize Relayout](https://pretext.xergioalex.com/demos/resize-relayout/)** | 16 text blocks relayout simultaneously as you drag a width slider. |
 | **[Shrink-Wrap](https://pretext.xergioalex.com/demos/shrink-wrap/)** | Compute the tightest bounding box for multiline text. Per-line width visualization. |
-| **[Rich Text Lines](https://pretext.xergioalex.com/demos/rich-text-lines/)** | Mixed inline styles (bold, code, badges) with Pretext-computed line breaks. |
-| **[i18n Stress Test](https://pretext.xergioalex.com/demos/i18n-stress/)** | CJK, Arabic, emoji, bidi, long strings — 9 multilingual samples with line-level inspection. |
+| **[DOM vs Pretext](https://pretext.xergioalex.com/demos/dom-vs-pretext/)** | Side-by-side architecture comparison with live timing. See the speedup in your browser. |
 
-All demos start in **auto-play mode** so you can see them in action immediately.
+### Practical (7)
+
+| Demo | What it shows |
+|------|--------------|
+| **[Masonry Cards](https://pretext.xergioalex.com/demos/masonry-cards/)** | Cards pack into a masonry grid using predicted text heights. Zero layout shift. |
+| **[Chat Bubbles](https://pretext.xergioalex.com/demos/chat-bubbles/)** | Every bubble sized with Pretext. Resize the container, watch instant relayout. |
+| **[Canvas Layout](https://pretext.xergioalex.com/demos/canvas-layout/)** | Pretext computes line breaks, Canvas 2D renders them. Three color modes. |
+| **[i18n Stress Test](https://pretext.xergioalex.com/demos/i18n-stress/)** | CJK, Arabic, emoji, bidi — 9 multilingual samples with line-level inspection. |
+| **[Streaming Text](https://pretext.xergioalex.com/demos/streaming-text/)** | Simulates LLM streaming with real-time height prediction as tokens arrive. |
+| **[Subtitle Composer](https://pretext.xergioalex.com/demos/subtitle-composer/)** | Cinematic subtitles with safe zones, speaker separation, and timing-aware wrapping. |
+| **[Incremental Layout Profiler](https://pretext.xergioalex.com/demos/incremental-layout-profiler/)** | Devtool-style profiler showing prepare work vs cheap relayout. |
+
+### Advanced (10)
+
+| Demo | What it shows |
+|------|--------------|
+| **[Flow Around Obstacle](https://pretext.xergioalex.com/demos/flow-around-obstacle/)** | Drag a shape (or watch it auto-orbit) while text parts around it in real time. |
+| **[Rich Text Lines](https://pretext.xergioalex.com/demos/rich-text-lines/)** | Mixed inline styles (bold, code, badges) with Pretext-computed line breaks. |
+| **[Editorial Engine](https://pretext.xergioalex.com/demos/editorial-engine/)** | Floating orbs bounce around an editorial layout. Text reflows with drop caps. |
+| **[Text Silhouette](https://pretext.xergioalex.com/demos/text-silhouette/)** | Text fills arbitrary shapes — heart, star, circle — matching the silhouette boundary. |
+| **[Multi-Column Magazine](https://pretext.xergioalex.com/demos/multi-column/)** | Text flows across multiple columns with pull quotes — InDesign-like editorial layout. |
+| **[Text Terrain](https://pretext.xergioalex.com/demos/text-terrain/)** | Sweep width from min to max and plot text height as a topographic landscape. |
+| **[Typographic Heatmap](https://pretext.xergioalex.com/demos/typographic-heatmap/)** | Lines color-coded by character density — reveals rivers of whitespace. |
+| **[Living Document](https://pretext.xergioalex.com/demos/living-document/)** | Autonomous editorial surface that reprioritizes cards and reflows text blocks. |
+| **[PDF Reflow Engine](https://pretext.xergioalex.com/demos/pdf-reflow-engine/)** | Same article re-composed into phone, tablet, poster, and editorial spreads. |
+| **[Topology Morph](https://pretext.xergioalex.com/demos/topology-morph/)** | One document migrates across radically different region topologies. |
+
+### Spectacular (18)
+
+| Demo | What it shows |
+|------|--------------|
+| **[Dragon Chase](https://pretext.xergioalex.com/demos/dragon-chase/)** | A chain of 40 glowing spheres chases your cursor. Text reflows around every orb at 60fps. |
+| **[Wave Distortion](https://pretext.xergioalex.com/demos/wave-distortion/)** | A sine wave continuously warps line widths. Every line updated every frame. |
+| **[Text Breakout](https://pretext.xergioalex.com/demos/text-breakout/)** | Classic Breakout, but the bricks are words. Smash them and watch text reflow live. |
+| **[Gravity Letters](https://pretext.xergioalex.com/demos/gravity-letters/)** | Letters fall, bounce, and explode with physics — then reassemble into text. |
+| **[Text Vortex](https://pretext.xergioalex.com/demos/text-vortex/)** | Characters spin in a colorful vortex, then smoothly reassemble into readable text. |
+| **[Text Waterfall](https://pretext.xergioalex.com/demos/text-waterfall/)** | Text cascades down shelves of decreasing width — a typographic waterfall. |
+| **[Text Hourglass](https://pretext.xergioalex.com/demos/text-hourglass/)** | A functional hourglass timer — text shaped as an hourglass with sand trickling. |
+| **[Audio-Reactive](https://pretext.xergioalex.com/demos/audio-reactive/)** | Music drives text width, line height, and font size — text breathes with sound. |
+| **[Voronoi Text](https://pretext.xergioalex.com/demos/voronoi-text/)** | Drag seed points and watch text reflow inside shifting Voronoi cells. |
+| **[Text Rain](https://pretext.xergioalex.com/demos/text-rain/)** | Letters fall like rain, land on your cursor, and accumulate into phrases. |
+| **[Text Collision](https://pretext.xergioalex.com/demos/text-collision/)** | Text blocks as physics objects — drag, collide, stack, and watch them reflow. |
+| **[Text Earthquake](https://pretext.xergioalex.com/demos/text-earthquake/)** | Click to crack a paragraph along a fault line — both halves reflow. |
+| **[Text Fluid](https://pretext.xergioalex.com/demos/text-fluid/)** | A paragraph bends through a simulated velocity field. |
+| **[Text Origami](https://pretext.xergioalex.com/demos/text-origami/)** | Text flows across foldable paper panels whose geometry changes with each crease. |
+| **[Text Black Hole](https://pretext.xergioalex.com/demos/text-black-hole/)** | Words orbit, compress, and lens around a singularity with radial line-width control. |
+| **[Text Regatta](https://pretext.xergioalex.com/demos/text-regatta/)** | A sailboat cuts through a sea made of text, with swell, wake, and current-driven reflow. |
+| **[Text Particle Pool](https://pretext.xergioalex.com/demos/text-particle-pool/)** | Characters rain down, pile up with physics, and accumulate into a pool. |
+| **[Text Ocean SPH](https://pretext.xergioalex.com/demos/text-ocean-sph/)** | Thousands of character particles form a fluid ocean via SPH — a boat floats on letter waves. |
 
 ## Architecture
 
