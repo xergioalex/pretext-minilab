@@ -44,30 +44,37 @@
     tempCtx.font = font;
 
     letters = [];
-    // Place letters densely to fill the "ocean" area (bottom 65% of canvas)
-    const oceanTop = canvasHeight * 0.35;
-
-    for (let li = 0; li < result.lines.length; li++) {
-      const line = result.lines[li];
-      let x = 20;
-      // Stack letters in rows filling the ocean zone
-      const row = li;
-      const baseY = oceanTop + (row % 18) * (fontSize + 2) + Math.random() * 4;
-
+    // Fill the ENTIRE ocean zone densely with letters — no gaps
+    // Create a grid of letters that covers from wave surface to canvas bottom
+    const allChars: string[] = [];
+    for (const line of result.lines) {
       for (const char of line.text) {
-        if (char === ' ') { x += fontSize * 0.3; continue; }
+        if (char !== ' ') allChars.push(char);
+      }
+    }
+
+    const cols = Math.floor(canvasWidth / (fontSize * 0.7));
+    const rows = Math.floor((canvasHeight * 0.65) / (fontSize * 0.9));
+    let charIdx = 0;
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const char = allChars[charIdx % allChars.length];
+        charIdx++;
         const charW = tempCtx.measureText(char).width;
+        const baseX = col * (fontSize * 0.7) + (row % 2) * (fontSize * 0.35); // stagger rows
+        const baseY = canvasHeight * 0.36 + row * (fontSize * 0.9);
+
         letters.push({
           char,
-          x: x + (Math.random() - 0.5) * 6,
-          y: baseY + Math.random() * 20,
+          x: baseX + (Math.random() - 0.5) * 3,
+          y: baseY + (Math.random() - 0.5) * 4,
           targetY: baseY,
           vy: 0,
           width: charW,
-          baseX: x,
-          hue: 190 + Math.random() * 40, // ocean blues
+          baseX,
+          hue: 190 + Math.random() * 35,
         });
-        x += charW + 0.5;
       }
     }
     letterCount = letters.length;
@@ -87,30 +94,22 @@
   function tick() {
     phase += 0.02 * waveSpeed;
 
-    // Update letter positions — they follow the wave surface
+    // Update letter positions — each row follows the wave surface offset
     for (const l of letters) {
       const surface = getWaveSurface(l.x);
-      // Letters settle into rows below the wave surface
-      const depth = (l.y - surface);
-      if (depth < 0) {
-        // Above surface: push down
-        l.vy += 0.8;
-      } else {
-        // Below surface: damped spring toward a layered target
-        const layerOffset = ((l.baseX * 7.3) % (fontSize * 12));
-        l.targetY = surface + (layerOffset % (canvasHeight * 0.55));
-        l.vy += (l.targetY - l.y) * 0.03;
-      }
-      l.vy *= 0.92; // damping
+      // Target: stay at the same depth below the wave surface
+      const rowDepth = l.targetY - canvasHeight * 0.36; // how deep this row is
+      const newTarget = surface + rowDepth;
+      l.vy += (newTarget - l.y) * 0.08;
+      l.vy *= 0.85;
       l.y += l.vy;
 
-      // Gentle horizontal sway from wind
-      l.x += Math.sin(phase + l.baseX * 0.01) * wind * 0.005;
+      // Gentle sway
+      l.x += Math.sin(phase * 0.8 + l.baseX * 0.008) * wind * 0.004;
 
-      // Keep in bounds
-      if (l.y > canvasHeight + 10) l.y = canvasHeight;
-      if (l.x < -20) l.x = canvasWidth + 10;
-      if (l.x > canvasWidth + 20) l.x = -10;
+      // Wrap horizontally
+      if (l.x < -fontSize) l.x += canvasWidth + fontSize;
+      if (l.x > canvasWidth + fontSize) l.x -= canvasWidth + fontSize;
     }
 
     // Boat follows wave surface
@@ -147,43 +146,11 @@
 
     const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
 
-    // Sky gradient
-    const skyGrad = ctx.createLinearGradient(0, 0, 0, canvasHeight * 0.4);
-    if (isDark) {
-      skyGrad.addColorStop(0, '#0a1628');
-      skyGrad.addColorStop(1, '#0f2440');
-    } else {
-      skyGrad.addColorStop(0, '#87CEEB');
-      skyGrad.addColorStop(1, '#b0d8f0');
-    }
-    ctx.fillStyle = skyGrad;
+    // Clean background — no ocean gradient, letters ARE the ocean
+    ctx.fillStyle = isDark ? '#0a0a12' : '#f0f2f8';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    // Ocean background below wave surface
-    const oceanGrad = ctx.createLinearGradient(0, canvasHeight * 0.35, 0, canvasHeight);
-    if (isDark) {
-      oceanGrad.addColorStop(0, '#0c2a4a');
-      oceanGrad.addColorStop(0.5, '#081c34');
-      oceanGrad.addColorStop(1, '#05111f');
-    } else {
-      oceanGrad.addColorStop(0, '#4a9fd4');
-      oceanGrad.addColorStop(0.5, '#3080b8');
-      oceanGrad.addColorStop(1, '#1a5a8a');
-    }
-    ctx.fillStyle = oceanGrad;
-    ctx.fillRect(0, canvasHeight * 0.32, canvasWidth, canvasHeight * 0.68);
-
-    // Draw wave surface line
-    ctx.beginPath();
-    ctx.moveTo(0, getWaveSurface(0));
-    for (let x = 4; x <= canvasWidth; x += 4) {
-      ctx.lineTo(x, getWaveSurface(x));
-    }
-    ctx.strokeStyle = isDark ? 'rgba(120, 200, 255, 0.3)' : 'rgba(255, 255, 255, 0.5)';
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-
-    // Draw all letters (the ocean body)
+    // Draw all letters — THEY are the ocean, no background needed
     const font = buildFont(fontSize, 'Inter, sans-serif');
     ctx.font = font;
     ctx.textBaseline = 'top';
@@ -191,34 +158,30 @@
     for (const l of letters) {
       const surface = getWaveSurface(l.x);
       const depth = l.y - surface;
-      const aboveSurface = depth < 0;
 
-      if (aboveSurface) {
-        // Spray/splash letters above surface — brighter, smaller opacity
-        const alpha = Math.max(0.1, 0.6 - Math.abs(depth) * 0.015);
-        ctx.fillStyle = isDark
-          ? `hsla(${l.hue}, 80%, 80%, ${alpha})`
-          : `hsla(${l.hue}, 70%, 40%, ${alpha})`;
+      // Surface letters (row 0-2) are brightest — they define the wave edge
+      // Deeper letters get progressively darker/more transparent
+      const depthNorm = Math.max(0, depth) / (canvasHeight * 0.6);
+      const surfaceProximity = Math.max(0, 1 - Math.abs(depth) / (fontSize * 3));
+
+      if (isDark) {
+        // Dark mode: bright blues at surface, dark blues at depth
+        const lightness = 75 - depthNorm * 40;
+        const saturation = 80 - depthNorm * 20;
+        const alpha = depth < -fontSize ? 0 : Math.max(0.25, 1 - depthNorm * 0.7);
+        ctx.fillStyle = `hsla(${l.hue}, ${saturation}%, ${lightness}%, ${alpha})`;
       } else {
-        // Submerged letters — fade with depth
-        const depthFade = Math.max(0.15, 1 - depth * 0.003);
-        const lightness = isDark ? 65 + depth * 0.02 : 35 - depth * 0.01;
-        ctx.fillStyle = isDark
-          ? `hsla(${l.hue}, 75%, ${Math.min(80, lightness)}%, ${depthFade})`
-          : `hsla(${l.hue}, 60%, ${Math.max(20, lightness)}%, ${depthFade})`;
+        // Light mode: vivid blues at surface, muted at depth
+        const lightness = 30 + depthNorm * 15;
+        const saturation = 75 - depthNorm * 20;
+        const alpha = depth < -fontSize ? 0 : Math.max(0.3, 1 - depthNorm * 0.6);
+        ctx.fillStyle = `hsla(${l.hue}, ${saturation}%, ${lightness}%, ${alpha})`;
       }
+
+      // Don't draw letters above the wave surface (they're "air")
+      if (depth < -fontSize * 0.5) continue;
 
       ctx.fillText(l.char, l.x, l.y);
-    }
-
-    // Draw foam at wave crests
-    ctx.fillStyle = isDark ? 'rgba(200, 240, 255, 0.15)' : 'rgba(255, 255, 255, 0.3)';
-    for (let x = 0; x < canvasWidth; x += 8) {
-      const s = getWaveSurface(x);
-      const next = getWaveSurface(x + 8);
-      if (s < next) { // crest
-        ctx.fillRect(x, s - 1, 8, 2);
-      }
     }
 
     // Draw boat ON TOP
