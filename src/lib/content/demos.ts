@@ -380,6 +380,16 @@ export const demos: DemoMeta[] = [
     apis: ['prepareWithSegments()', 'layoutNextLine()'],
     difficulty: 'Flagship',
   },
+  {
+    slug: 'text-ocean-sph',
+    title: 'Text Ocean SPH',
+    summary: 'Thousands of character particles form a fluid ocean via SPH simulation — a boat floats on the letter waves.',
+    category: 'spectacular',
+    featured: true,
+    flagship: true,
+    apis: ['prepareWithSegments()', 'layoutWithLines()'],
+    difficulty: 'Flagship',
+  },
 ];
 
 export function getFeaturedDemos(): DemoMeta[] {

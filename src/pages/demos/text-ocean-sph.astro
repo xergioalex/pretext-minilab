@@ -1,0 +1,63 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import TextOceanSphIsland from '../../islands/demos/TextOceanSph.svelte';
+---
+
+<DemoLayout
+  slug="text-ocean-sph"
+  title="Text Ocean SPH"
+  summary="Thousands of character particles simulate a fluid ocean via SPH — a boat floats on the letter waves."
+  context="Each character is a physics particle in a Smoothed Particle Hydrodynamics simulation. Gravity, pressure, and viscosity make the letters behave like water. Wave forces create swells that push the boat. The spatial hash grid enables efficient neighbor lookups for 2500+ particles at 60fps."
+  apis={['prepareWithSegments()', 'layoutWithLines()']}
+  difficulty="Flagship"
+  snippet={`import { prepareWithSegments, layoutWithLines } from '@chenglou/pretext';
+
+// Extract characters from text layout
+const prepared = prepareWithSegments(text, '10px Inter');
+const result = layoutWithLines(prepared, width, 14);
+const chars = result.lines.flatMap(l => [...l.text].filter(c => c !== ' '));
+
+// Each character becomes an SPH particle
+const particles = chars.map((char, i) => ({
+  char, x: ..., y: ..., vx: 0, vy: 0, density: 0
+}));
+
+// SPH simulation loop (each frame):
+// 1. Build spatial hash grid for O(n) neighbor search
+// 2. Compute density per particle from neighbors within radius H
+// 3. Apply forces: gravity + pressure + viscosity + wave
+// 4. Boat repels nearby particles (hull collision)
+// 5. Integrate velocities → positions
+// 6. Boat Y tracks average particle surface (buoyancy)
+// 7. Render each particle as its character on canvas`}
+>
+  <div class="demo-area" slot="demo">
+    <TextOceanSphIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        A full SPH fluid simulation where every particle is a visible character extracted via Pretext's
+        <code>layoutWithLines()</code>. The letters collectively behave as water — they have density,
+        pressure, viscosity, and respond to gravity and wave forces. The boat floats on the particle surface.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments(text, font)</code> — extract characters from text</li>
+        <li><code>layoutWithLines(prepared, width, lh)</code> — get line data for character extraction</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Why this is impressive</h3>
+      <p>
+        2500 character particles running SPH physics at 60fps. Each particle is a letter from a real paragraph.
+        The spatial hash grid makes neighbor searches O(n) instead of O(n&sup2;). The boat's buoyancy,
+        tilt, and wake all emerge from the particle interactions — no pre-scripted animation.
+      </p>
+    </div>
+  </div>
+</DemoLayout>
