@@ -2,39 +2,15 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import DemoSwitcherIsland from '../islands/DemoSwitcher.svelte';
 import { demos } from '../lib/content/demos';
+import { categoryColors, demoIcons } from '../lib/content/demoVisuals';
 
 const base = import.meta.env.BASE_URL;
-
-const categoryColors: Record<string, string> = {
-  foundational: '#3ecf8e',
-  practical: '#f5a623',
-  advanced: '#ef4444',
-  spectacular: '#d946ef',
-};
-
-const demoIcons: Record<string, string> = {
-  'measure-height': '📐',
-  'resize-relayout': '↔️',
-  'shrink-wrap': '📦',
-  'dom-vs-pretext': '⚡',
-  'masonry-cards': '🧱',
-  'chat-bubbles': '💬',
-  'canvas-layout': '🎨',
-  'i18n-stress': '🌍',
-  'flow-around-obstacle': '🌊',
-  'rich-text-lines': '✨',
-  'editorial-engine': '📰',
-  'dragon-chase': '🐉',
-  'wave-distortion': '🌊',
-  'text-breakout': '🎮',
-  'gravity-letters': '🪨',
-  'text-vortex': '🌀',
-};
+const demoCount = demos.length;
 ---
 
 <BaseLayout
   title="Pretext Lab — Programmable Text Layout for the Web"
-  description="28 interactive demos exploring programmable text layout with @chenglou/pretext. Prepare text once, layout at any width instantly — no DOM reflow needed."
+  description={`${demoCount} interactive demos exploring programmable text layout with @chenglou/pretext. Prepare text once, layout at any width instantly — no DOM reflow needed.`}
   jsonLd={{
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
@@ -42,7 +18,7 @@ const demoIcons: Record<string, string> = {
     applicationCategory: 'DeveloperApplication',
     operatingSystem: 'Web',
     url: 'https://pretext.xergioalex.com',
-    description: '28 interactive demos for programmable text layout with @chenglou/pretext — from basic measurement to physics simulations, all running at 60fps without DOM reflow.',
+    description: `${demoCount} interactive demos for programmable text layout with @chenglou/pretext — from basic measurement to physics simulations, all running at 60fps without DOM reflow.`,
     author: { '@type': 'Person', name: 'Sergio Alexander Florez Galeano', url: 'https://xergioalex.com' },
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     isAccessibleForFree: true,
@@ -72,7 +48,7 @@ const demoIcons: Record<string, string> = {
   <section class="demos-section">
     <div class="container">
       <div class="demos-header">
-        <h2 class="demos-title">All Demos</h2>
+        <h2 class="demos-title">All {demoCount} Demos</h2>
         <button class="search-demos-btn" id="search-demos-btn">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
           <span>Search demos...</span>

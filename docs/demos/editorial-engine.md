@@ -9,7 +9,7 @@
 
 ## Overview
 
-This is the flagship demo of the Pretext Mini-Lab -- a sophisticated editorial layout engine with multiple floating orbs that text flows around, a drop cap, three switchable themes (dark, cream, newspaper), an optional line guides overlay, and animated bouncing orbs. It combines per-line width control, obstacle avoidance, typographic ornamentation, and dynamic relayout into a single cohesive demonstration.
+This is the flagship demo of Pretext Lab -- a sophisticated editorial layout engine with multiple floating orbs that text flows around, a drop cap, three switchable themes (dark, cream, newspaper), an optional line guides overlay, and animated bouncing orbs. It combines per-line width control, obstacle avoidance, typographic ornamentation, and dynamic relayout into a single cohesive demonstration.
 
 This matters because it recreates editorial patterns that have existed in print for centuries -- text flowing around images, decorative drop capitals, multi-column themes -- but that have been impractical on the web. CSS offers limited float-based wrapping and no programmatic control over per-line layout. Pretext makes all of these patterns composable: each line's width and position is computed individually based on the current obstacle positions, and the entire layout is recomputed every animation frame without perceptible lag.
 

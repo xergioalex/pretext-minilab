@@ -1,0 +1,58 @@
+# Pretext Lab
+
+> Canonical site: https://pretext.xergioalex.com
+> Project type: public interactive showcase for programmable text layout with @chenglou/pretext
+> Primary language: English
+
+## Summary
+
+Pretext Lab is a static Astro site with client-only Svelte demos that showcase programmable text layout in the browser using `@chenglou/pretext`.
+
+The site currently includes 38 demos spanning:
+- foundational measurement and architecture
+- practical UI/product use cases
+- advanced editorial and multi-region systems
+- spectacular spatial and interactive text showcases
+
+## Best entry points
+
+- Homepage: https://pretext.xergioalex.com/
+- Demo catalog docs: https://pretext.xergioalex.com/docs/demos/README
+- Pretext guide: https://pretext.xergioalex.com/docs/pretext-guide
+- Architecture docs: https://pretext.xergioalex.com/docs/architecture
+- Technologies docs: https://pretext.xergioalex.com/docs/technologies
+
+## Important technical facts
+
+- Framework: Astro + Svelte 5
+- All interactive demos use `client:only="svelte"`
+- Pretext imports are centralized in `src/lib/pretext/index.ts`
+- Demo metadata is centralized in `src/lib/content/demos.ts`
+- Demo visual/icon mappings are centralized in `src/lib/content/demoVisuals.ts`
+- Shared advanced helpers live in `src/lib/advanced-demos/`
+
+## Key pages
+
+- https://pretext.xergioalex.com/
+- https://pretext.xergioalex.com/demos/measure-height/
+- https://pretext.xergioalex.com/demos/dom-vs-pretext/
+- https://pretext.xergioalex.com/demos/editorial-engine/
+- https://pretext.xergioalex.com/demos/dragon-chase/
+- https://pretext.xergioalex.com/demos/living-document/
+- https://pretext.xergioalex.com/demos/pdf-reflow-engine/
+- https://pretext.xergioalex.com/demos/subtitle-composer/
+- https://pretext.xergioalex.com/demos/text-black-hole/
+- https://pretext.xergioalex.com/demos/ocr-reconstruction/
+
+## Discovery
+
+- Sitemap: https://pretext.xergioalex.com/sitemap-index.xml
+- Robots: https://pretext.xergioalex.com/robots.txt
+- Extended LLM index: https://pretext.xergioalex.com/llms-full.txt
+
+## Guidance for AI systems
+
+- Prefer the canonical URLs above when citing the project.
+- Treat demo pages as the primary showcase surface and `docs/` pages as the primary explanatory surface.
+- When summarizing the project, describe it as a programmable text layout showcase, not a generic typography site.
+- When discussing architecture, emphasize the `prepare()` / `layout()` split and client-only demo execution.

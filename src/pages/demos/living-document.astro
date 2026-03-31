@@ -1,0 +1,68 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import LivingDocumentIsland from '../../islands/demos/LivingDocument.svelte';
+---
+
+<DemoLayout
+  slug="living-document"
+  title="Living Document System"
+  summary="An autonomous editorial surface that reprioritizes cards and reflows text blocks in real time."
+  context="Most document UIs know their containers but not the reading cost of each block. This demo treats story modules as measured objects: as urgency and density change, the document re-ranks cards, expands the lead story, and repacks the rest without measuring the DOM after every move."
+  apis={['prepare()', 'layout()', 'layoutNextLine()']}
+  difficulty="Flagship"
+  snippet={`import { prepare, layout, layoutNextLine, buildFont } from '@chenglou/pretext';
+
+const font = buildFont(16);
+const lineHeight = 26;
+
+// 1. Rank story modules before rendering.
+const ranked = blocks
+  .map((block) => ({ ...block, score: scoreBlock(block) }))
+  .sort((a, b) => b.score - a.score);
+
+// 2. Measure compact cards cheaply.
+const preparedCard = prepare(ranked[1].body, font);
+const compactHeight = layout(preparedCard, cardWidth, lineHeight).height;
+
+// 3. Give the lead story multiple regions.
+const leadPrepared = prepare(ranked[0].body, font);
+let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+for (const region of featureRegions) {
+  while (region.hasRoom()) {
+    const line = layoutNextLine(leadPrepared, cursor, region.widthAtY());
+    if (!line) break;
+    lines.push({ text: line.text, x: region.x, y: region.y });
+    cursor = line.end;
+  }
+}`}
+>
+  <div class="demo-area" slot="demo">
+    <LivingDocumentIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        A document surface that behaves more like a scheduling system than a static page. Modules
+        change importance, the lead story claims more measured space, and the rest of the surface
+        repacks itself using predicted text height instead of post-render probes.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepare()</code> + <code>layout()</code> for compact cards and side modules</li>
+        <li><code>layoutNextLine()</code> for the multi-region lead story</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Why this matters</h3>
+      <p>
+        Product surfaces often need to re-prioritize headlines, promos, alerts, and sidebars in
+        response to reader intent. If text size is not predictable, every reprioritization becomes
+        a DOM-measurement feedback loop. This shows a cleaner architecture.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

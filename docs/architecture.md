@@ -1,12 +1,12 @@
 # Architecture
 
-This document explains the project architecture, directory structure, design decisions, and patterns used throughout Pretext Mini-Lab.
+This document explains the project architecture, directory structure, design decisions, and patterns used throughout Pretext Lab.
 
 ---
 
 ## Overview
 
-Pretext Mini-Lab is a **static Astro site** with **Svelte interactive islands**. The architecture is intentional: a static, content-first shell (Astro) with client-only interactive demos (Svelte 5). This separation provides fast initial page loads, SEO-friendly content, and rich interactivity where needed.
+Pretext Lab is a **static Astro site** with **Svelte interactive islands**. The architecture is intentional: a static, content-first shell (Astro) with client-only interactive demos (Svelte 5). This separation provides fast initial page loads, SEO-friendly content, and rich interactivity where needed.
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -46,7 +46,8 @@ pretext-minilab/
 ├── public/
 │   ├── CNAME                       # Custom domain: pretext.xergioalex.com
 │   ├── favicon.ico
-│   └── favicon.svg
+│   ├── favicon.png
+│   └── logos/                      # Dark/light logos + isologo
 ├── src/
 │   ├── components/
 │   │   ├── Nav.astro               # Sticky nav with dropdown, theme toggle, mobile menu
@@ -56,26 +57,36 @@ pretext-minilab/
 │   │       ├── AudioReactive.svelte
 │   │       ├── CanvasLayout.svelte
 │   │       ├── ChatBubbles.svelte
+│   │       ├── ComicSpeechLayout.svelte
 │   │       ├── DomVsPretext.svelte
 │   │       ├── DragonChase.svelte
 │   │       ├── EditorialEngine.svelte
 │   │       ├── FlowAroundObstacle.svelte
 │   │       ├── GravityLetters.svelte
 │   │       ├── I18nStress.svelte
+│   │       ├── IncrementalLayoutProfiler.svelte
+│   │       ├── LivingDocument.svelte
 │   │       ├── MasonryCards.svelte
 │   │       ├── MeasureHeight.svelte
 │   │       ├── MultiColumn.svelte
+│   │       ├── OcrReconstruction.svelte
+│   │       ├── PdfReflowEngine.svelte
 │   │       ├── ResizeRelayout.svelte
 │   │       ├── RichTextLines.svelte
 │   │       ├── ShrinkWrap.svelte
 │   │       ├── StreamingText.svelte
+│   │       ├── SubtitleComposer.svelte
+│   │       ├── TextBlackHole.svelte
 │   │       ├── TextBreakout.svelte
 │   │       ├── TextCollision.svelte
 │   │       ├── TextEarthquake.svelte
+│   │       ├── TextFluid.svelte
 │   │       ├── TextHourglass.svelte
+│   │       ├── TextOrigami.svelte
 │   │       ├── TextRain.svelte
 │   │       ├── TextSilhouette.svelte
 │   │       ├── TextTerrain.svelte
+│   │       ├── TopologyMorph.svelte
 │   │       ├── TextVortex.svelte
 │   │       ├── TextWaterfall.svelte
 │   │       ├── TypographicHeatmap.svelte
@@ -85,6 +96,9 @@ pretext-minilab/
 │   │   ├── BaseLayout.astro        # Root HTML shell with meta tags, fonts, theme init
 │   │   └── DemoLayout.astro        # Demo wrapper with fullscreen mode, metadata display
 │   ├── lib/
+│   │   ├── advanced-demos/
+│   │   │   ├── fixtures.ts         # Shared content fixtures for advanced demos
+│   │   │   └── layout.ts           # Shared region/flow helpers for new demo waves
 │   │   ├── pretext/
 │   │   │   └── index.ts            # Centralized Pretext re-exports + helpers
 │   │   └── content/
@@ -92,7 +106,7 @@ pretext-minilab/
 │   ├── pages/
 │   │   ├── index.astro             # Homepage with hero section + demo grid
 │   │   └── demos/
-│   │       └── [28 demo pages].astro
+│   │       └── [38 demo pages].astro
 │   └── styles/
 │       └── global.css              # Design tokens, utilities, dark/light themes
 ├── CLAUDE.md                       # AI agent guidance
@@ -140,7 +154,7 @@ import { prepare, layout } from '@chenglou/pretext';
 `src/lib/content/demos.ts` contains a `DemoMeta[]` array that drives:
 
 - The homepage demo grid
-- The navigation dropdown
+- The shared demo switcher and homepage discovery surfaces
 - Demo page metadata (title, summary, APIs, difficulty, category)
 
 ```typescript
@@ -317,7 +331,7 @@ Global utility classes are available in all components:
 `Nav.astro` provides:
 
 - **Logo** with link to homepage
-- **Demos dropdown** listing all 28 demos (hardcoded for performance)
+- **Demos trigger** opening the shared searchable demo switcher
 - **Theme toggle** (sun/moon icons)
 - **GitHub link** to the repository
 - **Mobile hamburger menu** with all links and theme toggle

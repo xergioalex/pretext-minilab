@@ -2,7 +2,7 @@
 
 ## Overview
 
-Dragon Chase is the flagship demo of Pretext Mini-Lab. A 40-segment dragon follows the mouse cursor while text reflows around every segment in real time at 60fps. Each segment is a circle with a radius that decreases linearly from head to tail, creating a serpentine body that carves dynamic exclusion zones through the text. The demo proves that Pretext can handle hundreds of variable-width layout calls per frame without dropping below 60fps -- something impossible with DOM-based text measurement.
+Dragon Chase is the flagship demo of Pretext Lab. A 40-segment dragon follows the mouse cursor while text reflows around every segment in real time at 60fps. Each segment is a circle with a radius that decreases linearly from head to tail, creating a serpentine body that carves dynamic exclusion zones through the text. The demo proves that Pretext can handle hundreds of variable-width layout calls per frame without dropping below 60fps -- something impossible with DOM-based text measurement.
 
 This matters because it demonstrates the most extreme use case for programmatic text layout: an arbitrary, continuously moving shape that the text must flow around, recomputed every single animation frame.
 

@@ -1,0 +1,59 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import TextFluidIsland from '../../islands/demos/TextFluid.svelte';
+---
+
+<DemoLayout
+  slug="text-fluid"
+  title="Text Fluid Field"
+  summary="A paragraph bends through a simulated velocity field instead of a fixed container shape."
+  context="Unlike a wave demo with one predefined function, this demo drives text from a full 2D field made of vortices and a cursor attractor. Each line asks the field how much room it has and how far it should drift, turning the paragraph into something closer to flowing matter than a static block."
+  apis={['prepareWithSegments()', 'layoutNextLine()']}
+  difficulty="Spectacular"
+  snippet={`import { prepareWithSegments, layoutNextLine, buildFont } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, buildFont(15));
+let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+let y = 0;
+
+while (y < fieldHeight) {
+  const field = sampleVelocityField(0.5, y / fieldHeight);
+  const width = baseWidth - field.magnitude * 140;
+  const x = margin + field.vx * 48;
+  const line = layoutNextLine(prepared, cursor, width);
+  if (!line) break;
+  lines.push({ text: line.text, x, y });
+  cursor = line.end;
+  y += lineHeight;
+}`}
+>
+  <div class="demo-area" slot="demo">
+    <TextFluidIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        A paragraph controlled by a velocity field instead of a single width function. Each line is
+        displaced and compressed by the local field sample, so the text behaves like a fluid passing
+        through vortices rather than a block reacting to one obstacle.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments()</code> to prepare the paragraph once</li>
+        <li><code>layoutNextLine()</code> to query one field-dependent line at a time</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Why this matters</h3>
+      <p>
+        This is the kind of effect that is awkward in CSS because every line has a different width
+        and a different x-offset. Pretext makes that per-line control cheap enough to drive from a
+        live simulation instead of a static shape.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

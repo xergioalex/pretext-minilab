@@ -1,0 +1,63 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import OcrReconstructionIsland from '../../islands/demos/OcrReconstruction.svelte';
+---
+
+<DemoLayout
+  slug="ocr-reconstruction"
+  title="OCR Reconstruction"
+  summary="Messy OCR blocks are reordered into readable columns, captions, and paragraphs with editable layout."
+  context="OCR systems usually return disconnected rectangles, not a coherent reading surface. This demo starts from that messy capture and reconstructs a document with reading order, role inference, and measured body columns. It is less about visual spectacle and more about showing Pretext as a reconstruction layer for real products."
+  apis={['prepare()', 'layout()', 'layoutNextLine()']}
+  difficulty="Advanced"
+  snippet={`import { prepare, layout, layoutNextLine, buildFont } from '@chenglou/pretext';
+
+const bodyText = sortBlocksByReadingOrder(ocrBlocks)
+  .filter((block) => block.role === 'body')
+  .map((block) => block.text)
+  .join(' ');
+
+const font = buildFont(15, 'Georgia, serif');
+const prepared = prepare(bodyText, font);
+const captionHeight = layout(prepare(caption, font), 210, 22).height;
+
+let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+for (const column of reconstructedColumns) {
+  while (column.hasRoom()) {
+    const line = layoutNextLine(preparedBody, cursor, column.width);
+    if (!line) break;
+    drawLine(line.text, column.x, column.y);
+    cursor = line.end;
+  }
+}`}
+>
+  <div class="demo-area" slot="demo">
+    <OcrReconstructionIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        Reconstruction of a readable document from noisy OCR boxes. The raw blocks preserve rough
+        geometry, but the rebuilt document infers headline, caption, note, and body roles before
+        measuring the clean reading flow.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepare()</code> + <code>layout()</code> for compact role-specific blocks</li>
+        <li><code>layoutNextLine()</code> for the reconstructed body columns</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Why this matters</h3>
+      <p>
+        This is the sort of product problem where DOM measurement is too late in the pipeline. A
+        reconstruction layer needs to estimate the cleaned document before export, not after a full
+        HTML rendering pass.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

@@ -1,0 +1,58 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import TextBlackHoleIsland from '../../islands/demos/TextBlackHole.svelte';
+---
+
+<DemoLayout
+  slug="text-black-hole"
+  title="Text Black Hole"
+  summary="Words orbit, compress, and lens around a singularity with radial line-width control."
+  context="This demo is not just a vortex animation. The singularity creates a radial width field: lines near the event horizon become narrower, while lensing shifts them laterally as if the reading path were bending in curved spacetime. The same paragraph effectively falls through a changing gravitational geometry."
+  apis={['prepareWithSegments()', 'layoutNextLine()']}
+  difficulty="Flagship"
+  snippet={`import { prepareWithSegments, layoutNextLine, buildFont } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, buildFont(15));
+let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+
+for (let y = 0; y < height; y += lineHeight) {
+  const dy = y / height - singularityY;
+  const compression = Math.exp(-(dy * dy) / 0.02);
+  const width = baseWidth - compression * gravity * 6.4;
+  const x = margin + lensingOffset(dy);
+  const line = layoutNextLine(prepared, cursor, width);
+  if (!line) break;
+  lines.push({ text: line.text, x, y });
+  cursor = line.end;
+}`}
+>
+  <div class="demo-area" slot="demo">
+    <TextBlackHoleIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        Radial text composition around a singularity. Near the center, the available width collapses;
+        farther away, lines recover. Lensing offsets make the reading path curve instead of merely
+        shrinking in place.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments()</code> for one-time preparation of the source text</li>
+        <li><code>layoutNextLine()</code> for per-line widths sampled from a radial field</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Why this matters</h3>
+      <p>
+        It proves that line width can be driven by a more complex system than a shape outline. Once
+        text measurement is programmable, even a fictional spacetime model can become a viable layout
+        input without falling back to trial-and-error DOM measurement.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

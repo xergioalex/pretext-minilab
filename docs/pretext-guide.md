@@ -657,5 +657,5 @@ Pretext represents a philosophical shift: **text layout as a programmable primit
 ## Further Reading
 
 - **Pretext Repository**: [github.com/chenglou/pretext](https://github.com/chenglou/pretext)
-- **Demo Catalog**: See [demos/README.md](./demos/README.md) for detailed breakdowns of all 16 demos
+- **Demo Catalog**: See [demos/README.md](./demos/README.md) for detailed breakdowns of all 38 demos
 - **Architecture**: See [architecture.md](./architecture.md) for how Pretext is integrated into this project

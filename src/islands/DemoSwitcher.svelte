@@ -1,5 +1,6 @@
 <script lang="ts">
   import { demos } from '../lib/content/demos';
+  import { categoryColors, demoIcons } from '../lib/content/demoVisuals';
   import { onMount } from 'svelte';
 
   interface Props {
@@ -12,44 +13,6 @@
   let isOpen = $state(false);
   let search = $state('');
   let searchInput: HTMLInputElement | undefined = $state();
-
-  const demoIcons: Record<string, string> = {
-    'measure-height': '📐',
-    'resize-relayout': '↔️',
-    'shrink-wrap': '📦',
-    'dom-vs-pretext': '⚡',
-    'masonry-cards': '🧱',
-    'chat-bubbles': '💬',
-    'canvas-layout': '🎨',
-    'i18n-stress': '🌍',
-    'flow-around-obstacle': '🌊',
-    'rich-text-lines': '✨',
-    'editorial-engine': '📰',
-    'dragon-chase': '🐉',
-    'wave-distortion': '🌊',
-    'text-breakout': '🎮',
-    'gravity-letters': '🪨',
-    'text-vortex': '🌀',
-    'text-silhouette': '🖤',
-    'multi-column': '📰',
-    'text-waterfall': '💧',
-    'text-hourglass': '⏳',
-    'audio-reactive': '🎵',
-    'text-terrain': '🗺️',
-    'typographic-heatmap': '🌡️',
-    'voronoi-text': '🔷',
-    'text-rain': '🌧️',
-    'text-collision': '💥',
-    'text-earthquake': '🌋',
-    'streaming-text': '⚡',
-  };
-
-  const categoryColors: Record<string, string> = {
-    foundational: '#3ecf8e',
-    practical: '#f5a623',
-    advanced: '#ef4444',
-    spectacular: '#d946ef',
-  };
 
   let filtered = $derived(
     search.trim() === ''

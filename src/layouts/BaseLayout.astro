@@ -2,6 +2,7 @@
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
+import { demos } from '../lib/content/demos';
 
 interface Props {
   title: string;
@@ -12,7 +13,7 @@ interface Props {
 
 const {
   title,
-  description = 'An interactive exploration of programmable text layout with Pretext — 28 demos showcasing prepare-once, layout-anywhere text measurement. Built with Astro + Svelte.',
+  description = `An interactive exploration of programmable text layout with Pretext — ${demos.length} demos showcasing prepare-once, layout-anywhere text measurement. Built with Astro + Svelte.`,
   ogType = 'website',
   jsonLd,
 } = Astro.props;
@@ -29,7 +30,7 @@ const websiteSchema = {
   name: 'Pretext Lab',
   alternateName: 'Pretext Mini-Lab',
   url: 'https://pretext.xergioalex.com',
-  description: 'Interactive demo lab for programmable text layout with @chenglou/pretext — 28 demos from basic measurement to physics simulations.',
+  description: `Interactive demo lab for programmable text layout with @chenglou/pretext — ${demos.length} demos from basic measurement to flagship editorial and spatial systems.`,
   author: {
     '@type': 'Person',
     name: 'Sergio Alexander Florez Galeano',
@@ -69,6 +70,7 @@ const websiteSchema = {
   <meta property="og:type" content={ogType} />
   <meta property="og:url" content={canonicalURL} />
   <meta property="og:image" content={ogImageURL} />
+  <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Pretext Lab — Programmable Text Layout for the Web" />
@@ -99,9 +101,9 @@ const websiteSchema = {
   <title>{title}</title>
 
   <!-- JSON-LD Structured Data -->
-  <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(websiteSchema)} />
   {jsonLd && (
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
   )}
 
   {/* Umami Analytics */}

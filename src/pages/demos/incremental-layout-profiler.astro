@@ -1,0 +1,60 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import IncrementalLayoutProfilerIsland from '../../islands/demos/IncrementalLayoutProfiler.svelte';
+---
+
+<DemoLayout
+  slug="incremental-layout-profiler"
+  title="Incremental Layout Profiler"
+  summary="Inspect what changes trigger prepare work versus cheap relayout in a devtool-style profiler."
+  context="The architectural promise of Pretext is not just that layout is fast. It is that the expensive work and the cheap work are separable. This profiler makes that invisible distinction visible by logging width-only changes, text edits, and font changes as separate trace events."
+  apis={['prepare()', 'layout()', 'profilePrepare()']}
+  difficulty="Advanced"
+  snippet={`import { prepare, layout, profilePrepare, buildFont } from '@chenglou/pretext';
+
+const font = buildFont(16);
+
+// Width-only changes reuse prepared text.
+const prepared = prepare(text, font);
+const hotLayout = layout(prepared, width, lineHeight);
+
+// Text or font changes must invalidate preparation.
+const profile = profilePrepare(text, font);
+const newPrepared = prepare(text, font);
+const coldLayout = layout(newPrepared, width, lineHeight);
+
+trace.push({
+  kind: 'edit',
+  prepareMs: profile.totalMs,
+  layoutUs: measureLayoutUs(newPrepared)
+});`}
+>
+  <div class="demo-area" slot="demo">
+    <IncrementalLayoutProfilerIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        A devtool-like trace of incremental layout behavior. Width-only changes stay on the hot
+        path, while edits and font changes invalidate preparation and re-enter the expensive phase.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>profilePrepare()</code> for timing the expensive phase</li>
+        <li><code>prepare()</code> and <code>layout()</code> to compare cold path versus hot path work</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Why this matters</h3>
+      <p>
+        Teams often hear that Pretext is fast, but the more useful mental model is that some changes
+        are cheap and some are not. Once you can see invalidation clearly, you can design UIs that
+        maximize cache reuse instead of accidentally re-preparing text on every interaction.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

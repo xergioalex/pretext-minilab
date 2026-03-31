@@ -1,0 +1,59 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import TextOrigamiIsland from '../../islands/demos/TextOrigami.svelte';
+---
+
+<DemoLayout
+  slug="text-origami"
+  title="Text Origami Panels"
+  summary="Text flows across foldable paper panels whose geometry changes with each crease."
+  context="This demo treats a paragraph like a printed sheet being folded into an accordion. The content flows panel by panel with one continuous cursor, while each fold changes the effective line width inside its region. It is closer to packaging or print engineering than to ordinary web text layout."
+  apis={['prepareWithSegments()', 'layoutNextLine()']}
+  difficulty="Spectacular"
+  snippet={`import { prepareWithSegments, layoutNextLine, buildFont } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, buildFont(15, 'Georgia, serif'));
+let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+
+for (const panel of panels) {
+  let y = panel.top;
+  while (y < panel.bottom) {
+    const width = panel.innerWidthAfterFold();
+    const line = layoutNextLine(prepared, cursor, width);
+    if (!line) break;
+    drawLine(line.text, panel.x, y);
+    cursor = line.end;
+    y += lineHeight;
+  }
+}`}
+>
+  <div class="demo-area" slot="demo">
+    <TextOrigamiIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        Text continuing across a foldable surface. Each panel has its own effective width after the
+        fold transform, but the reading cursor remains continuous, so the sheet still behaves like a
+        single authored document.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments()</code> for one-time preparation of the sheet content</li>
+        <li><code>layoutNextLine()</code> for panel-by-panel line flow with changing widths</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Why this matters</h3>
+      <p>
+        This is a useful mental model for foldables, packaging, accordions, and multi-surface print
+        previews. The challenge is not rendering the folds; it is preserving reading continuity while
+        each region becomes narrower or wider under transformation.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

@@ -1,0 +1,60 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import SubtitleComposerIsland from '../../islands/demos/SubtitleComposer.svelte';
+---
+
+<DemoLayout
+  slug="subtitle-composer"
+  title="Subtitle Composer"
+  summary="A cinematic subtitle engine with safe zones, speaker separation, emphasis, and timing-aware wrapping."
+  context="Subtitles are one of the clearest examples of text layout as product logic. You do not just need line breaks; you need safe areas, reading rhythm, cue timing, speaker identity, and emphasis. This demo shows how Pretext can act as the measurement layer for a subtitle compositor."
+  apis={['prepareWithSegments()', 'layoutWithLines()']}
+  difficulty="Advanced"
+  snippet={`import { prepareWithSegments, layoutWithLines, buildFont } from '@chenglou/pretext';
+
+const cue = {
+  speaker: 'Narrator',
+  text: 'With Pretext, subtitles can be composed before paint.'
+};
+
+const font = buildFont(34);
+const safeWidth = frameWidth * 0.78 - 140;
+const prepared = prepareWithSegments(cue.text, font);
+const { lines } = layoutWithLines(prepared, safeWidth, 42);
+
+// Render the cue inside a subtitle safe zone.
+const renderedLines = lines.slice(0, 2).map((line, index) => ({
+  text: line.text,
+  y: safeZoneBottom + index * 42
+}));`}
+>
+  <div class="demo-area" slot="demo">
+    <SubtitleComposerIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        Subtitle layout as a first-class composition problem: wrapping inside a safe zone, handling
+        cue duration, showing speaker chips, and keeping emphasis readable without relying on a DOM
+        box that gets measured after the frame is already committed.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments()</code> to preserve emphasis and token boundaries</li>
+        <li><code>layoutWithLines()</code> to get the exact line text for subtitle rendering</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Why this matters</h3>
+      <p>
+        Subtitle systems need deterministic wrapping because timing, translation, and readability are
+        all tightly coupled. This is a stronger use case than a normal responsive box: the text must
+        fit a cinematic safe area before the UI frame is rendered.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

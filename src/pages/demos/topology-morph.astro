@@ -1,0 +1,58 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import TopologyMorphIsland from '../../islands/demos/TopologyMorph.svelte';
+---
+
+<DemoLayout
+  slug="topology-morph"
+  title="Topology Morph"
+  summary="One document migrates across radically different region topologies while keeping reading continuity."
+  context="Most layout systems assume one stable topology: a box, a shape, or a column set. This demo asks what happens when the topology itself changes. The same document morphs between columns, staircases, canyons, and ribbon-like paths, while the reading cursor remains continuous."
+  apis={['prepareWithSegments()', 'layoutNextLine()']}
+  difficulty="Advanced"
+  snippet={`import { prepareWithSegments, layoutNextLine, buildFont } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, buildFont(15));
+let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+
+for (let y = 0; y < height; y += lineHeight) {
+  const from = topologyGeometry('columns', y / height);
+  const to = topologyGeometry('ribbon', y / height);
+  const width = lerp(from.width, to.width, progress);
+  const x = lerp(from.xOffset, to.xOffset, progress);
+  const line = layoutNextLine(prepared, cursor, width);
+  if (!line) break;
+  drawLine(line.text, margin + x, y);
+  cursor = line.end;
+}`}
+>
+  <div class="demo-area" slot="demo">
+    <TopologyMorphIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        A document transitioning between different spatial logics instead of only changing width.
+        The morph is not a letter animation; it is a redefinition of the path through which lines
+        are generated.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments()</code> for one-time preparation</li>
+        <li><code>layoutNextLine()</code> for topology-dependent widths and x-offsets at each line</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Why this matters</h3>
+      <p>
+        This is a strong demonstration that layout is not tied to one container. If the topology can
+        change continuously, then responsive composition can become a smooth transformation problem
+        instead of a series of hard breakpoints.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

@@ -1,0 +1,56 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import ComicSpeechLayoutIsland from '../../islands/demos/ComicSpeechLayout.svelte';
+---
+
+<DemoLayout
+  slug="comic-speech-layout"
+  title="Comic Speech Layout"
+  summary="Speech balloons, panel rhythm, and emphatic word styling composed without trial-and-error sizing."
+  context="Comic lettering is a layout problem, not just a drawing problem. Balloons need to fit the dialogue before they are drawn, tails need to stay credible relative to speakers, and the emphasis words must hit hard without breaking the rhythm of the panel. This demo treats balloons as measured composition objects."
+  apis={['prepareWithSegments()', 'layoutWithLines()']}
+  difficulty="Advanced"
+  snippet={`import { prepareWithSegments, layoutWithLines, buildFont } from '@chenglou/pretext';
+
+const font = buildFont(20);
+const prepared = prepareWithSegments(dialogue, font);
+const result = layoutWithLines(prepared, bubbleMaxWidth, 27);
+
+const widestLine = Math.max(...result.lines.map((line) => line.width));
+const bubbleWidth = widestLine + 44;
+const bubbleHeight = result.lines.length * 27 + 34;
+
+// The balloon can be drawn confidently because its reading cost is already known.
+drawBubble(bubbleX, bubbleY, bubbleWidth, bubbleHeight);
+drawTail(anchorX, anchorY);`}
+>
+  <div class="demo-area" slot="demo">
+    <ComicSpeechLayoutIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        Balloon sizing and panel-aware speech composition. The text is measured before the balloon is
+        drawn, so each speech shape is based on the real line breaks instead of trial-and-error CSS
+        tweaking.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments()</code> for emphasis-aware dialogue preparation</li>
+        <li><code>layoutWithLines()</code> to size balloons from actual wrapped lines</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Why this matters</h3>
+      <p>
+        This is a stronger narrative-layout use case than simple chat bubbles. Balloons must fit the
+        panel composition, preserve emphasis, and connect to speakers, so predictable text metrics
+        become part of the storytelling system.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

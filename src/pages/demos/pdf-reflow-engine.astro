@@ -1,0 +1,63 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import PdfReflowEngineIsland from '../../islands/demos/PdfReflowEngine.svelte';
+---
+
+<DemoLayout
+  slug="pdf-reflow-engine"
+  title="PDF Reflow Engine"
+  summary="The same article is re-composed into phone, tablet, poster, and editorial spreads instantly."
+  context="This demo treats one article as a reusable source document and asks a harder question than responsive design: how should this same story be composed for radically different reading surfaces? The answer comes from measured text blocks, multi-region flow, and preset-aware hierarchy rather than CSS guesswork."
+  apis={['prepare()', 'layout()', 'layoutNextLine()']}
+  difficulty="Advanced"
+  snippet={`import { prepare, layout, layoutNextLine, buildFont } from '@chenglou/pretext';
+
+const preset = { width: 920, columns: 3, bodyFont: 16, headlineFont: 40 };
+const titleFont = buildFont(preset.headlineFont, 'Georgia, serif');
+const bodyFont = buildFont(preset.bodyFont, 'Georgia, serif');
+
+// Headline and byline are measured first.
+const titlePrepared = prepare(title, titleFont);
+const titleHeight = layout(titlePrepared, preset.width - 60, 44).height;
+
+// The body then flows through explicit regions.
+let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+for (const region of regionsForPreset(preset)) {
+  while (region.hasRoom()) {
+    const line = layoutNextLine(preparedBody, cursor, region.widthAtY());
+    if (!line) break;
+    drawLine(line.text, region.x, region.y);
+    cursor = line.end;
+  }
+}`}
+>
+  <div class="demo-area" slot="demo">
+    <PdfReflowEngineIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        One source article can be measured and recomposed into very different publication formats:
+        phone article, tablet story, editorial spread, or poster-like promo. The geometry changes,
+        but the content remains the same prepared document.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepare()</code> + <code>layout()</code> for headline and single-block metrics</li>
+        <li><code>layoutNextLine()</code> for flowing the body through multiple preset regions</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Why this matters</h3>
+      <p>
+        Most responsive systems resize components after the fact. A true reflow engine needs to know
+        the reading consequences before paint, so it can decide whether an article becomes a single
+        column, a spread, or a poster teaser without DOM measurement loops.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

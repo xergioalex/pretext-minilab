@@ -9,7 +9,7 @@
 
 ## Overview
 
-This is the simplest and most fundamental demo in the Pretext Mini-Lab. It showcases the core two-phase workflow that underpins every other demo: **prepare once, layout at any width instantly**. The user types text into an editable textarea, adjusts width, font size, and line height via sliders, and sees real-time measurements -- height in pixels, line count, prepare time in milliseconds, and layout time in microseconds. An auto-play mode continuously animates the width slider back and forth to demonstrate that relayout is essentially free.
+This is the simplest and most fundamental demo in Pretext Lab. It showcases the core two-phase workflow that underpins every other demo: **prepare once, layout at any width instantly**. The user types text into an editable textarea, adjusts width, font size, and line height via sliders, and sees real-time measurements -- height in pixels, line count, prepare time in milliseconds, and layout time in microseconds. An auto-play mode continuously animates the width slider back and forth to demonstrate that relayout is essentially free.
 
 This demo matters because it makes the prepare/layout split tangible. Users can see that `prepare()` runs in milliseconds (doing the heavy work of Unicode segmentation, word boundary detection, and font measurement), while `layout()` runs in microseconds (pure arithmetic). The counter display reinforces this: prepare count stays low while layout count climbs rapidly.
 

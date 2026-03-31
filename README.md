@@ -1,4 +1,4 @@
-# Pretext Mini-Lab
+# Pretext Lab
 
 > **Programmable text layout, visualized.** An interactive demo lab exploring what becomes possible when text measurement is no longer coupled to the DOM.
 
@@ -8,7 +8,7 @@
 
 ## What is this?
 
-A collection of **13 interactive demos** that show what [@chenglou/pretext](https://github.com/chenglou/pretext) — a JavaScript library for programmable text layout — actually enables in practice.
+A collection of **38 interactive demos** that show what [@chenglou/pretext](https://github.com/chenglou/pretext) — a JavaScript library for programmable text layout — actually enables in practice.
 
 Pretext separates text analysis from layout computation:
 
@@ -50,7 +50,7 @@ The site itself makes an architectural point: **Pretext is exciting for interact
 
 ```
 src/
-  pages/index.astro              # Homepage — grid of all 13 demos
+  pages/index.astro              # Homepage — grid of all 38 demos
   pages/demos/*.astro             # Demo pages (static shell + Svelte island)
   islands/demos/*.svelte          # Interactive demo components (client-only)
   components/Nav.astro            # Navigation with theme toggle
