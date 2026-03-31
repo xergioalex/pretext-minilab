@@ -14,6 +14,7 @@
     invalidated: boolean;
   }
 
+  let wrapperWidth = $state(0);
   let text = $state(`${SAMPLE_TEXTS.medium}\n\n${profilerParagraph}`);
   let fontSize = $state(16);
   let width = $state(460);
@@ -84,7 +85,7 @@
   });
 </script>
 
-<div class="profiler-demo">
+<div class="profiler-demo" bind:clientWidth={wrapperWidth}>
   <div class="controls-bar">
     <div class="ctrl flex">
       <label>Document</label>
@@ -115,7 +116,7 @@
   <div class="profiler-grid">
     <section class="preview-card">
       <h3>Rendered preview</h3>
-      <div class="preview-box" style={`width:${width}px;font-size:${fontSize}px;line-height:${lineHeight}px;`}>
+    <div class="preview-box" style={`width:${wrapperWidth > 0 ? Math.min(width, wrapperWidth - 80) : width}px;font-size:${fontSize}px;line-height:${lineHeight}px;`}>
         {text}
       </div>
     </section>
@@ -221,6 +222,13 @@
   .bg-layout { background: linear-gradient(90deg, #22d3ee, #0ea5e9); }
 
   @media (max-width: 900px) {
+    .profiler-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .ctrl { min-width: 70px; }
+    .ctrl.flex { min-width: 180px; }
+    .controls-bar { gap: var(--space-sm); }
     .profiler-grid { grid-template-columns: 1fr; }
   }
 </style>

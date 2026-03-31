@@ -2,7 +2,7 @@
   import { buildFont } from '../../lib/pretext';
   import { clamp, flowTextThroughRegions, lerp } from '../../lib/advanced-demos/layout';
   import { topologyText } from '../../lib/advanced-demos/fixtures';
-  import { onMount } from 'svelte';
+  import { onMount, untrack } from 'svelte';
 
   type TopologyId = 'columns' | 'stair' | 'canyon' | 'ribbon';
 
@@ -40,7 +40,7 @@
   }
 
   function recompute() {
-    const width = Math.max(540, Math.min(wrapperWidth || 880, 940));
+    const width = Math.max(320, Math.min(wrapperWidth || 880, 940));
     const height = 420;
     const margin = 32;
     const usableWidth = width - margin * 2;
@@ -102,7 +102,7 @@
     progress;
     autoplay;
     showGuides;
-    recompute();
+    untrack(() => recompute());
   });
 </script>
 
@@ -184,5 +184,11 @@
   .morph-line {
     position: absolute; white-space: nowrap;
     font-size: 15px; line-height: 24px; color: var(--text-primary);
+  }
+
+  @media (max-width: 600px) {
+    .ctrl { min-width: 70px; }
+    .controls-bar { gap: var(--space-sm); }
+    .toggle-group button { padding: 5px 8px; font-size: 0.68rem; }
   }
 </style>

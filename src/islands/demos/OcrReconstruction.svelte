@@ -3,6 +3,7 @@
   import { flowTextThroughRegions } from '../../lib/advanced-demos/layout';
   import { ocrBlocks } from '../../lib/advanced-demos/fixtures';
 
+  let wrapperWidth = $state(0);
   let reconstruction = $state<'split' | 'clean'>('split');
   let showOrder = $state(true);
   let density = $state(62);
@@ -19,20 +20,24 @@
   let lines = $state<Array<{ text: string; x: number; y: number; regionId: string }>>([]);
 
   function recompute() {
-    const bodyWidth = reconstruction === 'clean' ? 270 : 220;
+    const availableClean = wrapperWidth > 0 ? Math.max(280, Math.floor(wrapperWidth * 0.55)) : 560;
+    const bodyWidth = reconstruction === 'clean'
+      ? Math.min(270, Math.floor((availableClean - 74) / 2))
+      : Math.min(220, Math.floor((availableClean - 74) / 2));
+    const colStartX = 24;
     const lineHeight = 24;
     const font = buildFont(15);
     const flowed = flowTextThroughRegions(bodyText, font, lineHeight, [
       {
         id: 'col-0',
-        x: 390,
+        x: colStartX,
         y: 148,
         height: 210,
         widthAtY: () => bodyWidth,
       },
       {
         id: 'col-1',
-        x: 390 + bodyWidth + 26,
+        x: colStartX + bodyWidth + 26,
         y: 148,
         height: 210,
         widthAtY: () => bodyWidth,
@@ -47,6 +52,7 @@
   }
 
   $effect(() => {
+    wrapperWidth;
     reconstruction;
     showOrder;
     density;
@@ -54,7 +60,7 @@
   });
 </script>
 
-<div class="ocr-demo">
+<div class="ocr-demo" bind:clientWidth={wrapperWidth}>
   <div class="controls-bar">
     <div class="toggle-group">
       {#each (['split', 'clean'] as const) as mode}
@@ -100,7 +106,7 @@
         <div class="clean-note">{note.text}</div>
 
         {#each lines as line}
-          <div class="clean-line" style={`left:${line.x - 390 + 24}px;top:${line.y - 148 + 136}px;`}>
+          <div class="clean-line" style={`left:${line.x}px;top:${line.y - 148 + 136}px;`}>
             {line.text}
           </div>
         {/each}
@@ -174,6 +180,12 @@
   }
 
   @media (max-width: 900px) {
+    .ocr-stage { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .ctrl { min-width: 70px; }
+    .controls-bar { gap: var(--space-sm); }
     .ocr-stage { grid-template-columns: 1fr; }
   }
 </style>

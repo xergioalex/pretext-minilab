@@ -32,7 +32,7 @@
   const surfaceWidths: Record<SurfaceMode, number> = {
     desktop: 1080,
     tablet: 820,
-    mobile: 560,
+    mobile: 340,
   };
 
   function scoreBlock(index: number, basePriority: number, kind: string) {
@@ -191,7 +191,7 @@
 <style>
   .living-demo { display: flex; flex-direction: column; gap: var(--space-md); }
   .controls-bar { display: flex; flex-wrap: wrap; gap: var(--space-md); align-items: end; }
-  .ctrl { display: flex; flex-direction: column; gap: 4px; min-width: 120px; }
+  .ctrl { display: flex; flex-direction: column; gap: 4px; min-width: 90px; }
   .ctrl label {
     font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
     letter-spacing: 0.06em; color: var(--text-muted);
@@ -291,5 +291,10 @@
 
   @media (max-width: 720px) {
     .feature-top { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (max-width: 600px) {
+    .ctrl { min-width: 70px; }
+    .controls-bar { gap: var(--space-sm); }
   }
 </style>

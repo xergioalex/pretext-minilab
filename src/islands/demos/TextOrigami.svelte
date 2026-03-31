@@ -13,7 +13,7 @@
   const text = `${SAMPLE_TEXTS.editorial} ${SAMPLE_TEXTS.long} ${SAMPLE_TEXTS.medium} ${SAMPLE_TEXTS.editorial} ${SAMPLE_TEXTS.long}`;
 
   function recompute() {
-    const width = Math.max(560, Math.min(wrapperWidth || 980, 1020));
+    const width = Math.max(320, Math.min(wrapperWidth || 980, 1020));
     const panelGap = 12;
     const margin = 28;
     const height = 440;
@@ -158,5 +158,10 @@
     position: absolute; white-space: nowrap;
     font-size: 15px; line-height: 24px; color: #1b1a1f;
     font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  @media (max-width: 600px) {
+    .ctrl { min-width: 70px; }
+    .controls-bar { gap: var(--space-sm); }
   }
 </style>

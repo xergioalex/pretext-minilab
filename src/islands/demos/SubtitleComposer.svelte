@@ -3,6 +3,7 @@
   import { subtitleCues } from '../../lib/advanced-demos/fixtures';
   import { onMount } from 'svelte';
 
+  let wrapperWidth = $state(0);
   let currentTime = $state(0);
   let playing = $state(false);
   let safeWidth = $state(78);
@@ -16,7 +17,8 @@
 
   let cueLines = $derived.by(() => {
     if (!activeCue) return [];
-    const maxWidth = 960 * (safeWidth / 100) - 140;
+    const stageWidth = wrapperWidth > 0 ? wrapperWidth : 960;
+    const maxWidth = stageWidth * (safeWidth / 100) - 140;
     const font = buildFont(34, 'Inter, sans-serif');
     const prepared = prepareWithSegments(activeCue.text, font);
     return layoutWithLines(prepared, maxWidth, 42).lines.slice(0, 2);
@@ -58,7 +60,7 @@
   });
 </script>
 
-<div class="subtitle-demo">
+<div class="subtitle-demo" bind:clientWidth={wrapperWidth}>
   <div class="controls-bar">
     <button class="play-btn" class:active={playing} onclick={togglePlayback}>
       {playing ? 'Pause playback' : 'Play sequence'}
@@ -179,7 +181,36 @@
   .scanline-top { top: 74px; }
   .scanline-bottom { bottom: 108px; }
 
+  :global([data-theme="light"]) .video-stage {
+    background:
+      radial-gradient(circle at 20% 30%, rgba(124, 108, 240, 0.14), transparent 26%),
+      radial-gradient(circle at 78% 22%, rgba(62, 207, 142, 0.08), transparent 20%),
+      linear-gradient(180deg, #d8d6e2 0%, #c8c5d6 45%, #e0dde8 100%);
+  }
+  :global([data-theme="light"]) .shot-meta {
+    color: #5a5e70;
+  }
+  :global([data-theme="light"]) .safe-zone {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.52));
+    border-color: rgba(0,0,0,0.18);
+  }
+  :global([data-theme="light"]) .subtitle-line {
+    color: #161319; text-shadow: 0 2px 12px rgba(255,255,255,0.5);
+  }
+  :global([data-theme="light"]) .speaker-chip {
+    color: #fff; background: #3a3550;
+  }
+  :global([data-theme="light"]) .scanline {
+    background: rgba(0,0,0,0.06);
+  }
+
   @media (max-width: 720px) {
     .safe-zone { min-height: 100px; }
+  }
+
+  @media (max-width: 600px) {
+    .ctrl { min-width: 70px; }
+    .ctrl.wide { min-width: 140px; }
+    .controls-bar { gap: var(--space-sm); }
   }
 </style>

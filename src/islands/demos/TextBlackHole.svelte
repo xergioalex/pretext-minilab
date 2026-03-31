@@ -17,7 +17,7 @@
   const text = `${SAMPLE_TEXTS.editorial} ${SAMPLE_TEXTS.long} ${SAMPLE_TEXTS.medium} ${SAMPLE_TEXTS.editorial} ${SAMPLE_TEXTS.long}`;
 
   function recompute() {
-    const width = Math.max(560, Math.min(wrapperWidth || 900, 980));
+    const width = Math.max(320, Math.min(wrapperWidth || 900, 980));
     const height = 440;
     const margin = 28;
     const usableWidth = width - margin * 2;
@@ -159,6 +159,12 @@
   :global([data-theme="light"]) .ring-a { border-color: rgba(124,108,240,0.25); }
   :global([data-theme="light"]) .ring-b { border-color: rgba(62,207,142,0.2); }
   :global([data-theme="light"]) .ring-c { border-color: rgba(0,0,0,0.1); }
+
+  @media (max-width: 600px) {
+    .ctrl { min-width: 70px; }
+    .controls-bar { gap: var(--space-sm); }
+  }
+
   .ring {
     position: absolute; border-radius: 50%; transform: translate(-50%, -50%);
     border: 1px solid rgba(124,108,240,0.18);

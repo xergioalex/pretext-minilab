@@ -1,7 +1,7 @@
 <script lang="ts">
   import { buildFont, SAMPLE_TEXTS } from '../../lib/pretext';
   import { clamp, flowTextThroughRegions, lerp, mapRange } from '../../lib/advanced-demos/layout';
-  import { onMount } from 'svelte';
+  import { onMount, untrack } from 'svelte';
 
   interface Vortex {
     x: number;
@@ -50,7 +50,7 @@
   }
 
   function recompute() {
-    const width = Math.max(480, Math.min(wrapperWidth || 880, 940));
+    const width = Math.max(320, Math.min(wrapperWidth || 880, 940));
     const height = 430;
     const lineHeight = 24;
     const font = buildFont(15);
@@ -121,7 +121,7 @@
     energy;
     showField;
     pinCursor;
-    recompute();
+    untrack(() => recompute());
   });
 </script>
 
@@ -223,5 +223,26 @@
   .fluid-line {
     position: absolute; white-space: nowrap; font-size: 15px; line-height: 24px;
     text-shadow: 0 0 18px rgba(124, 108, 240, 0.14);
+  }
+
+  :global([data-theme="light"]) .fluid-stage {
+    background:
+      radial-gradient(circle at 25% 25%, rgba(62, 207, 142, 0.10), transparent 24%),
+      radial-gradient(circle at 74% 64%, rgba(124, 108, 240, 0.12), transparent 28%),
+      linear-gradient(180deg, #e8e6f0, #dddbe8 40%, #f5f2fa);
+  }
+  :global([data-theme="light"]) .field-node {
+    background: linear-gradient(90deg, rgba(0,0,0,0.08), rgba(0,0,0,0.5));
+  }
+  :global([data-theme="light"]) .pointer-marker {
+    background: #2a2540; box-shadow: 0 0 20px rgba(0,0,0,0.18);
+  }
+  :global([data-theme="light"]) .fluid-line {
+    text-shadow: 0 0 18px rgba(124, 108, 240, 0.08);
+  }
+
+  @media (max-width: 600px) {
+    .ctrl { min-width: 70px; }
+    .controls-bar { gap: var(--space-sm); }
   }
 </style>

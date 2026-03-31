@@ -13,6 +13,7 @@
     speakerY: number;
   }
 
+  let wrapperWidth = $state(0);
   let dramatic = $state(52);
   let showTails = $state(true);
   let panelTightness = $state(68);
@@ -23,10 +24,11 @@
     const fontSize = Math.round(18 + dramatic * 0.05);
     const font = buildFont(fontSize, 'Inter, sans-serif');
     const lineHeight = Math.round(fontSize * 1.28);
+    const w = wrapperWidth || 900;
     const anchors = [
-      { x: 130, y: 290 },
-      { x: 420, y: 272 },
-      { x: 700, y: 292 },
+      { x: Math.round(w * 0.15), y: 290 },
+      { x: Math.round(w * 0.47), y: 272 },
+      { x: Math.round(w * 0.78), y: 292 },
     ];
 
     bubbles = comicDialogue.map((text, index) => {
@@ -47,6 +49,7 @@
   }
 
   $effect(() => {
+    wrapperWidth;
     dramatic;
     showTails;
     panelTightness;
@@ -54,7 +57,7 @@
   });
 </script>
 
-<div class="comic-demo">
+<div class="comic-demo" bind:clientWidth={wrapperWidth}>
   <div class="controls-bar">
     <div class="ctrl">
       <label>Dramatic emphasis <span>{dramatic}%</span></label>
@@ -150,5 +153,28 @@
   }
   .tail path {
     fill: none; stroke: #18151b; stroke-width: 3; stroke-linecap: round;
+  }
+
+  :global([data-theme="dark"]) .comic-stage {
+    background: #1a1726;
+  }
+  :global([data-theme="dark"]) .panel {
+    border-right-color: rgba(255, 255, 255, 0.06);
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent 60%);
+  }
+  :global([data-theme="dark"]) .bubble {
+    background: #2a2540; border-color: rgba(255,255,255,0.14);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+  }
+  :global([data-theme="dark"]) .bubble-line {
+    color: #e8e8ed;
+  }
+  :global([data-theme="dark"]) .tail path {
+    stroke: rgba(255,255,255,0.14);
+  }
+
+  @media (max-width: 600px) {
+    .ctrl { min-width: 70px; }
+    .controls-bar { gap: var(--space-sm); }
   }
 </style>

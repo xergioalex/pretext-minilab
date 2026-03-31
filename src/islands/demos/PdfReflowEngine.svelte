@@ -23,6 +23,7 @@
     { id: 'poster', label: 'Poster', width: 1040, height: 780, columns: 2, bodyFont: 18, headlineFont: 52 },
   ];
 
+  let wrapperWidth = $state(0);
   let presetId = $state<PresetId>('spread');
   let emphasizeHeadline = $state(70);
   let reserveQuote = $state(true);
@@ -100,6 +101,7 @@
   }
 
   $effect(() => {
+    wrapperWidth;
     presetId;
     emphasizeHeadline;
     reserveQuote;
@@ -107,7 +109,7 @@
   });
 </script>
 
-<div class="reflow-demo">
+<div class="reflow-demo" bind:clientWidth={wrapperWidth}>
   <div class="controls-bar">
     <div class="toggle-group">
       {#each presets as preset}
@@ -133,7 +135,8 @@
   </div>
 
   {#each presets.filter((entry) => entry.id === presetId) as preset}
-    <div class="page-frame" style={`width:${preset.width}px;height:${preset.height}px;`}>
+    {@const clampedWidth = wrapperWidth > 0 ? Math.min(preset.width, wrapperWidth - 32) : preset.width}
+    <div class="page-frame" style={`width:${clampedWidth}px;height:${preset.height}px;`}>
       <div class="frame-meta">
         <span>Reflow preset: {preset.label}</span>
         <span>{preset.columns} columns</span>
@@ -235,5 +238,11 @@
   .region-box {
     position: absolute; border: 1px dashed rgba(124, 108, 240, 0.4);
     border-radius: 10px; pointer-events: none;
+  }
+
+  @media (max-width: 600px) {
+    .ctrl { min-width: 70px; }
+    .controls-bar { gap: var(--space-sm); }
+    .toggle-group button { padding: 5px 8px; font-size: 0.68rem; }
   }
 </style>
