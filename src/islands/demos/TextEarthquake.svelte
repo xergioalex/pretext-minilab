@@ -1,7 +1,7 @@
 <script lang="ts">
   import { prepareWithSegments, layoutNextLine, buildFont, SAMPLE_TEXTS } from '../../lib/pretext';
   import type { LayoutCursor } from '../../lib/pretext';
-  import { onMount } from 'svelte';
+  import { onMount, untrack } from 'svelte';
 
   const fullText = SAMPLE_TEXTS.long;
 
@@ -181,8 +181,9 @@
   });
 
   $effect(() => {
+    // Track only explicit dependencies — NOT separation (which changes every frame via tick)
     fontSize; containerWidth; faultAngle; faultX; faultY; hasFault;
-    computeLayout();
+    untrack(() => computeLayout());
   });
 </script>
 
