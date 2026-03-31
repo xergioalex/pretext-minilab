@@ -142,15 +142,20 @@
       timerProgress = 0;
       computeLayout();
     } else {
-      timerActive = true;
-      timerProgress = 0;
-      timerStartTime = Date.now();
-      tick();
+      startTimer();
     }
+  }
+
+  function startTimer() {
+    timerActive = true;
+    timerProgress = 0;
+    timerStartTime = Date.now();
+    tick();
   }
 
   onMount(() => {
     computeLayout();
+    startTimer();
     return () => cancelAnimationFrame(animFrame);
   });
 

@@ -79,6 +79,8 @@
 
   onMount(() => {
     computeLayout();
+    autoPlay = true;
+    tick();
     return () => { autoPlay = false; cancelAnimationFrame(animFrame); };
   });
 

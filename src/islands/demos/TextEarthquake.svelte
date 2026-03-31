@@ -169,6 +169,14 @@
   onMount(() => {
     computeLayout();
     tick();
+    // Auto-trigger a fault on entry for immediate visual impact
+    setTimeout(() => {
+      faultX = containerWidth * 0.45;
+      faultY = totalHeight * 0.3;
+      hasFault = true;
+      targetSeparation = 80;
+      computeLayout();
+    }, 600);
     return () => cancelAnimationFrame(animFrame);
   });
 

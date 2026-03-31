@@ -79,6 +79,8 @@
 
   onMount(() => {
     animFrame = requestAnimationFrame(tick);
+    // Auto-start streaming on entry
+    setTimeout(() => startStream(), 500);
     return () => cancelAnimationFrame(animFrame);
   });
 </script>
