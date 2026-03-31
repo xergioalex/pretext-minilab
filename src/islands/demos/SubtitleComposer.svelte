@@ -18,10 +18,10 @@
   let cueLines = $derived.by(() => {
     if (!activeCue) return [];
     const stageWidth = wrapperWidth > 0 ? wrapperWidth : 960;
-    const maxWidth = stageWidth * (safeWidth / 100) - 140;
-    const font = buildFont(34, 'Inter, sans-serif');
+    const maxWidth = stageWidth * (safeWidth / 100) - 60;
+    const font = buildFont(24, 'Inter, sans-serif');
     const prepared = prepareWithSegments(activeCue.text, font);
-    return layoutWithLines(prepared, maxWidth, 42).lines.slice(0, 2);
+    return layoutWithLines(prepared, Math.max(200, maxWidth), 32).lines.slice(0, 2);
   });
 
   let readingSpeed = $derived(activeCue ? Math.round(activeCue.text.length / Math.max(1, activeCue.end - activeCue.start)) : 0);
@@ -87,7 +87,7 @@
     <span class="stat-pill accent">{activeCue.speaker}</span>
     <span class="stat-pill">{cueLines.length} subtitle lines</span>
     <span class="stat-pill">{readingSpeed} chars/sec</span>
-    <span class="stat-pill">{activeCue.end - activeCue.start}s cue duration</span>
+    <span class="stat-pill">{(activeCue.end - activeCue.start).toFixed(1)}s cue duration</span>
   </div>
 
   <div class="video-stage">
@@ -146,9 +146,8 @@
   .stat-pill.accent { color: var(--accent); border-color: var(--border-accent); }
 
   .video-stage {
-    position: relative; height: clamp(260px, 42vh, 420px); overflow: hidden;
+    position: relative; height: clamp(300px, 50vh, 500px); overflow: hidden;
     border-radius: var(--radius-lg); border: 1px solid var(--border);
-    max-width: 55%; margin: 0 auto;
     background:
       radial-gradient(circle at 20% 30%, rgba(124, 108, 240, 0.18), transparent 26%),
       radial-gradient(circle at 78% 22%, rgba(62, 207, 142, 0.12), transparent 20%),
@@ -173,7 +172,7 @@
     display: flex; flex-direction: column; gap: 3px; align-items: center;
   }
   .subtitle-line {
-    text-align: center; color: #fff; font-size: clamp(1.1rem, 2.6vw, 2.1rem);
+    text-align: center; color: #fff; font-size: clamp(0.95rem, 2vw, 1.5rem);
     font-weight: 700; line-height: 1.15; text-shadow: 0 3px 18px rgba(0,0,0,0.6);
   }
   .subtitle-line :global(mark) {

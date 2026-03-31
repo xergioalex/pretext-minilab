@@ -6,7 +6,7 @@
 
   let canvas: HTMLCanvasElement;
   let wrapperWidth = $state(0);
-  let canvasWidth = $derived(wrapperWidth > 0 ? Math.floor(wrapperWidth * 0.55) : 500);
+  let canvasWidth = $derived(wrapperWidth > 0 ? Math.min(Math.floor(wrapperWidth), 500) : 500);
   const canvasHeight = 450;
 
   // Controls
@@ -365,7 +365,7 @@
   .stats-row { display: flex; flex-wrap: wrap; gap: 8px; }
   .stat-pill { font-size: 0.75rem; color: var(--text-muted); padding: 3px 10px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 9999px; }
   .stat-pill.accent { color: var(--accent); border-color: var(--border-accent); }
-  .canvas-wrap { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.25); margin: 0 auto; }
+  .canvas-wrap { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.25); margin: 0 auto; max-width: 500px; }
   canvas { display: block; width: 100%; }
   @media (max-width: 600px) { .ctrl { min-width: 60px; } .controls-bar { gap: var(--space-sm); } }
 </style>
