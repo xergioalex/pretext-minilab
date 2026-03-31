@@ -209,25 +209,20 @@
     ctx.font = font;
     ctx.textBaseline = 'top';
 
+    // Batch landed vs falling to minimize fillStyle changes
+    const landedColor = isDark ? 'rgba(232, 232, 237, 0.9)' : 'rgba(26, 26, 46, 0.9)';
+    const fallingColor = 'rgba(124, 108, 240, 0.6)';
+
+    ctx.fillStyle = fallingColor;
     for (const p of particles) {
-      if (p.delay > 0) continue;
-
-      ctx.save();
-      if (p.landed) {
-        // Landed: full color, at home position
-        ctx.fillStyle = isDark ? `rgba(232, 232, 237, ${p.opacity})` : `rgba(26, 26, 46, ${p.opacity})`;
-      } else {
-        // Falling: accent colored, semi-transparent
-        const speed = Math.abs(p.vy);
-        const alpha = 0.3 + Math.min(speed * 0.1, 0.5);
-        ctx.fillStyle = `rgba(124, 108, 240, ${alpha})`;
-        // Subtle motion blur
-        ctx.shadowColor = '#7c6cf0';
-        ctx.shadowBlur = Math.min(speed * 2, 8);
-      }
-
+      if (p.delay > 0 || p.landed) continue;
       ctx.fillText(p.char, p.x, p.y);
-      ctx.restore();
+    }
+
+    ctx.fillStyle = landedColor;
+    for (const p of particles) {
+      if (p.delay > 0 || !p.landed) continue;
+      ctx.fillText(p.char, p.x, p.y);
     }
   }
 

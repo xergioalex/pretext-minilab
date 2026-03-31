@@ -3,7 +3,7 @@
   import type { LayoutCursor } from '../../lib/pretext';
   import { onMount, untrack } from 'svelte';
 
-  let text = $state(`${SAMPLE_TEXTS.long} ${SAMPLE_TEXTS.editorial} ${SAMPLE_TEXTS.medium} ${SAMPLE_TEXTS.long} ${SAMPLE_TEXTS.editorial}`);
+  let text = $state(`${SAMPLE_TEXTS.long} ${SAMPLE_TEXTS.editorial} ${SAMPLE_TEXTS.medium} ${SAMPLE_TEXTS.long} ${SAMPLE_TEXTS.editorial} ${SAMPLE_TEXTS.long} ${SAMPLE_TEXTS.medium} ${SAMPLE_TEXTS.editorial}`);
   let fontSize = $state(16);
   let wrapperWidth = $state(0);
   let containerWidth = $derived(wrapperWidth > 0 ? wrapperWidth : 650);
