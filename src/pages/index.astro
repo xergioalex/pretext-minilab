@@ -36,7 +36,8 @@ const demoIcons: Record<string, string> = {
   <section class="hero">
     <div class="container hero-inner">
       <h1 class="hero-title">
-        <span class="gradient-text">Pretext</span> Mini-Lab
+        <img class="hero-logo hero-logo-dark" src={`${base}logos/logo-dark.png`} alt="Pretext Lab" />
+        <img class="hero-logo hero-logo-light" src={`${base}logos/logo-light.png`} alt="Pretext Lab" />
       </h1>
       <p class="hero-sub">
         Interactive demos exploring programmable text layout with
@@ -111,18 +112,20 @@ const demoIcons: Record<string, string> = {
   }
 
   .hero-title {
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 800;
-    letter-spacing: -0.04em;
     margin-bottom: var(--space-sm);
+    line-height: 1;
   }
 
-  .gradient-text {
-    background: linear-gradient(135deg, var(--accent) 0%, #a78bfa 50%, #c084fc 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .hero-logo {
+    height: clamp(48px, 8vw, 72px);
+    width: auto;
   }
+
+  .hero-logo-dark { display: none; }
+  .hero-logo-light { display: none; }
+
+  :global([data-theme="dark"]) .hero-logo-dark { display: inline; }
+  :global([data-theme="light"]) .hero-logo-light { display: inline; }
 
   .hero-sub {
     font-size: 1rem;

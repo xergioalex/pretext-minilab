@@ -6,13 +6,16 @@ const base = import.meta.env.BASE_URL;
   <div class="container footer-inner">
     <div class="footer-left">
       <a href={base} class="footer-logo">
-        <span class="logo-icon">P</span>
-        <span>Pretext Lab</span>
+        <img class="footer-logo-img footer-logo-dark" src={`${base}logos/logo-dark.png`} alt="Pretext Lab" />
+        <img class="footer-logo-img footer-logo-light" src={`${base}logos/logo-light.png`} alt="Pretext Lab" />
       </a>
       <p class="footer-desc">
         An interactive exploration of programmable text layout with
         <a href="https://github.com/chenglou/pretext" target="_blank" rel="noopener">@chenglou/pretext</a>.
         Built with Astro + Svelte.
+      </p>
+      <p class="footer-author">
+        by <a href="https://xergioalex.com" target="_blank" rel="noopener">Sergio Florez (XergioAleX)</a>
       </p>
     </div>
     <div class="footer-right">
@@ -65,31 +68,42 @@ const base = import.meta.env.BASE_URL;
   .footer-logo {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
     text-decoration: none;
-    color: var(--text-primary);
-    font-weight: 700;
-    font-size: 0.95rem;
     margin-bottom: var(--space-md);
   }
 
-  .logo-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    background: var(--accent);
-    color: #fff;
-    border-radius: var(--radius-sm);
-    font-weight: 800;
-    font-size: 0.85rem;
+  .footer-logo-img {
+    height: 36px;
+    width: auto;
   }
+
+  .footer-logo-dark { display: none; }
+  .footer-logo-light { display: none; }
+
+  :global([data-theme="dark"]) .footer-logo-dark { display: block; }
+  :global([data-theme="light"]) .footer-logo-light { display: block; }
 
   .footer-desc {
     color: var(--text-muted);
     font-size: 0.875rem;
     line-height: 1.6;
+  }
+
+  .footer-author {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: var(--space-xs);
+  }
+
+  .footer-author a {
+    color: var(--text-secondary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .footer-author a:hover {
+    color: var(--accent);
   }
 
   .footer-right {

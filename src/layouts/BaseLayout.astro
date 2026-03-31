@@ -11,6 +11,9 @@ interface Props {
 const { title, description = 'An interactive exploration of programmable text layout with Pretext. Built with Astro + Svelte.' } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || '';
+const umamiScriptUrl = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL || 'https://cloud.umami.is/script.js';
 ---
 
 <!doctype html>
@@ -32,7 +35,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <meta name="twitter:creator" content="@XergioAleX" />
 
   <link rel="canonical" href={canonicalURL} />
-  <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+  <link rel="icon" type="image/png" href={`${base}favicon.png`} />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -40,6 +43,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <title>{title}</title>
+
+  {/* Umami Analytics */}
+  {umamiWebsiteId && (
+    <script defer src={umamiScriptUrl} data-website-id={umamiWebsiteId} is:inline></script>
+  )}
 
   <!-- Theme: apply before render to prevent flash -->
   <script is:inline>

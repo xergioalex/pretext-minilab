@@ -5,8 +5,8 @@ const base = import.meta.env.BASE_URL;
 <nav class="nav">
   <div class="nav-inner container">
     <a href={base} class="nav-logo">
-      <span class="logo-icon">P</span>
-      <span class="logo-text">Pretext Lab</span>
+      <img class="logo-img logo-dark" src={`${base}logos/logo-dark.png`} alt="Pretext Lab" />
+      <img class="logo-img logo-light" src={`${base}logos/logo-light.png`} alt="Pretext Lab" />
     </a>
 
     <div class="nav-links">
@@ -64,25 +64,19 @@ const base = import.meta.env.BASE_URL;
   .nav-logo {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
     text-decoration: none;
-    color: var(--text-primary);
-    font-weight: 700;
-    font-size: 1rem;
   }
 
-  .logo-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    background: var(--accent);
-    color: #fff;
-    border-radius: var(--radius-sm);
-    font-weight: 800;
-    font-size: 1rem;
+  .logo-img {
+    height: 40px;
+    width: auto;
   }
+
+  .logo-dark { display: none; }
+  .logo-light { display: none; }
+
+  :global([data-theme="dark"]) .logo-dark { display: block; }
+  :global([data-theme="light"]) .logo-light { display: block; }
 
   .nav-links {
     display: flex;
