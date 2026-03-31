@@ -1,0 +1,73 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import TextRainIsland from '../../islands/demos/TextRain.svelte';
+---
+
+<DemoLayout
+  slug="text-rain"
+  title="Text Rain"
+  summary="Letters fall like rain, land on your cursor, and accumulate into readable phrases."
+  context="Inspired by Camille Utterback's 'Text Rain' art installation, this demo turns each character into a falling particle. Letters rain down from the top of the canvas. Move your mouse to create a horizontal 'shelf' that catches them. When letters land, they snap to their home X positions, forming readable text. Move the cursor away and they resume falling. The effect creates a playful interaction between physics and typography."
+  apis={['prepareWithSegments()', 'layoutWithLines()']}
+  difficulty="Spectacular"
+  snippet={`import { prepareWithSegments, layoutWithLines } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, '20px Inter');
+const result = layoutWithLines(prepared, maxWidth, lineHeight);
+
+// Each character becomes a particle
+for (const line of result.lines) {
+  for (const char of line.text) {
+    particles.push({
+      char, homeX, homeY,
+      x: homeX, y: -random() * 400,
+      vy: 0.5 + random() * 1.5,
+      landed: false,
+    });
+  }
+}
+
+// Each frame: apply gravity, check cursor collision
+function frame() {
+  for (const p of particles) {
+    if (!p.landed) {
+      p.vy += 0.15; // gravity
+      p.y += p.vy;
+      if (p.y >= mouseY && nearCursor(p)) {
+        p.landed = true;
+      }
+    }
+  }
+}`}
+>
+  <div class="demo-area" slot="demo">
+    <TextRainIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        Character-level layout extraction combined with particle physics. Pretext computes
+        the "home" position of every character, which particles snap to when they land. This
+        creates a bridge between freeform animation and structured text layout.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments(text, font)</code> — prepare text with segment info</li>
+        <li><code>layoutWithLines(prepared, maxWidth, lineHeight)</code> — extract per-line text for character position computation</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Art meets typography</h3>
+      <p>
+        This demo is inspired by Camille Utterback and Romy Achituv's "Text Rain" installation
+        (1999), where falling letters land on participants' silhouettes. Here, Pretext provides
+        the typographic intelligence — knowing exactly where each character belongs in a properly
+        laid-out paragraph.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

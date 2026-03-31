@@ -1,0 +1,58 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import TextHourglassIsland from '../../islands/demos/TextHourglass.svelte';
+---
+
+<DemoLayout
+  slug="text-hourglass"
+  title="Text Hourglass"
+  summary="A functional hourglass timer — text shaped as an hourglass with sand trickling through."
+  context="This demo shapes text into an hourglass silhouette using per-line variable width layout. The top half is an inverted triangle (wide to narrow) and the bottom is a regular triangle (narrow to wide). A timer mode animates text fading from top to bottom, simulating sand falling through the neck."
+  apis={['prepareWithSegments()', 'layoutNextLine()']}
+  difficulty="Spectacular"
+  snippet={`import { prepareWithSegments, layoutNextLine } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, '14px Inter');
+let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+let y = 0;
+
+while (y < halfHeight) {
+  // Hourglass width: wide at edges, narrow at center
+  const dist = Math.abs(y - midY) / midY;
+  const width = neckWidth + dist * (maxWidth - neckWidth);
+  const line = layoutNextLine(prepared, cursor, width);
+  if (!line) break;
+  cursor = line.end;
+  y += lineHeight;
+}`}
+>
+  <div class="demo-area" slot="demo">
+    <TextHourglassIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        Per-line variable-width layout shaped by a mathematical function. Each line's available
+        width is computed from its vertical position to create an hourglass silhouette. The timer
+        mode adds animation by fading characters between the two halves.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments(text, font)</code> — prepare text for each half</li>
+        <li><code>layoutNextLine(prepared, cursor, maxWidth)</code> — variable width per line based on Y position</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Hourglass geometry</h3>
+      <p>
+        The width at any Y position is: <code>neckWidth + |y - midY| / midY * (maxWidth - neckWidth)</code>.
+        This creates the characteristic pinch at the center. Each half uses its own prepared text
+        to fill its triangle independently.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

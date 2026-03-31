@@ -1,0 +1,59 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import MultiColumnIsland from '../../islands/demos/MultiColumn.svelte';
+---
+
+<DemoLayout
+  slug="multi-column"
+  title="Multi-Column Magazine"
+  summary="Text flows across multiple columns with pull quotes — an InDesign-like editorial layout."
+  context="This demo splits a container into 2 or 3 columns and uses layoutNextLine() to flow text sequentially across them. When one column fills up, the cursor carries forward to the next. A pull quote displaces text in the first column, and a drop cap adds editorial flair."
+  apis={['prepareWithSegments()', 'layoutNextLine()']}
+  difficulty="Advanced"
+  snippet={`import { prepareWithSegments, layoutNextLine } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, '14px Inter');
+const colWidth = (totalWidth - gaps) / columnCount;
+let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+
+for (let col = 0; col < columnCount; col++) {
+  let y = 0;
+  while (y < columnHeight) {
+    const line = layoutNextLine(prepared, cursor, colWidth);
+    if (!line) break;
+    drawLine(line.text, col * (colWidth + gap), y);
+    cursor = line.end;  // cursor carries forward!
+    y += lineHeight;
+  }
+}`}
+>
+  <div class="demo-area" slot="demo">
+    <MultiColumnIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        Multi-column text flow with cursor continuity. The same cursor object carries forward
+        from one column to the next, so text flows seamlessly across columns. Pull quotes
+        and drop caps show how editorial layouts compose with Pretext.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments(text, font)</code> — prepare once</li>
+        <li><code>layoutNextLine(prepared, cursor, maxWidth)</code> — cursor carries between columns</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Why this matters</h3>
+      <p>
+        CSS multi-column layout offers limited control over flow, pull quotes, and cross-column
+        elements. With Pretext, you control exactly how text flows between regions — enabling
+        magazine-style layouts, text-around-images, and complex editorial designs.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

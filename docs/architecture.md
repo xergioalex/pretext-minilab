@@ -53,22 +53,34 @@ pretext-minilab/
 │   │   └── Footer.astro            # Site footer with author/project links
 │   ├── islands/
 │   │   └── demos/
-│   │       ├── MeasureHeight.svelte
-│   │       ├── ResizeRelayout.svelte
-│   │       ├── ShrinkWrap.svelte
-│   │       ├── DomVsPretext.svelte
-│   │       ├── MasonryCards.svelte
-│   │       ├── ChatBubbles.svelte
+│   │       ├── AudioReactive.svelte
 │   │       ├── CanvasLayout.svelte
-│   │       ├── I18nStress.svelte
-│   │       ├── FlowAroundObstacle.svelte
-│   │       ├── RichTextLines.svelte
-│   │       ├── EditorialEngine.svelte
+│   │       ├── ChatBubbles.svelte
+│   │       ├── DomVsPretext.svelte
 │   │       ├── DragonChase.svelte
-│   │       ├── WaveDistortion.svelte
-│   │       ├── TextBreakout.svelte
+│   │       ├── EditorialEngine.svelte
+│   │       ├── FlowAroundObstacle.svelte
 │   │       ├── GravityLetters.svelte
-│   │       └── TextVortex.svelte
+│   │       ├── I18nStress.svelte
+│   │       ├── MasonryCards.svelte
+│   │       ├── MeasureHeight.svelte
+│   │       ├── MultiColumn.svelte
+│   │       ├── ResizeRelayout.svelte
+│   │       ├── RichTextLines.svelte
+│   │       ├── ShrinkWrap.svelte
+│   │       ├── StreamingText.svelte
+│   │       ├── TextBreakout.svelte
+│   │       ├── TextCollision.svelte
+│   │       ├── TextEarthquake.svelte
+│   │       ├── TextHourglass.svelte
+│   │       ├── TextRain.svelte
+│   │       ├── TextSilhouette.svelte
+│   │       ├── TextTerrain.svelte
+│   │       ├── TextVortex.svelte
+│   │       ├── TextWaterfall.svelte
+│   │       ├── TypographicHeatmap.svelte
+│   │       ├── VoronoiText.svelte
+│   │       └── WaveDistortion.svelte
 │   ├── layouts/
 │   │   ├── BaseLayout.astro        # Root HTML shell with meta tags, fonts, theme init
 │   │   └── DemoLayout.astro        # Demo wrapper with fullscreen mode, metadata display
@@ -80,7 +92,7 @@ pretext-minilab/
 │   ├── pages/
 │   │   ├── index.astro             # Homepage with hero section + demo grid
 │   │   └── demos/
-│   │       └── [16 demo pages].astro
+│   │       └── [28 demo pages].astro
 │   └── styles/
 │       └── global.css              # Design tokens, utilities, dark/light themes
 ├── CLAUDE.md                       # AI agent guidance
@@ -305,7 +317,7 @@ Global utility classes are available in all components:
 `Nav.astro` provides:
 
 - **Logo** with link to homepage
-- **Demos dropdown** listing all 16 demos (hardcoded for performance)
+- **Demos dropdown** listing all 28 demos (hardcoded for performance)
 - **Theme toggle** (sun/moon icons)
 - **GitHub link** to the repository
 - **Mobile hamburger menu** with all links and theme toggle

@@ -1,0 +1,55 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import StreamingTextIsland from '../../islands/demos/StreamingText.svelte';
+---
+
+<DemoLayout
+  slug="streaming-text"
+  title="Streaming Text Prediction"
+  summary="Simulates LLM streaming with real-time height prediction — smooth layout as tokens arrive."
+  context="When an LLM streams tokens, the container height is unknown until all text arrives. Without prediction, the container jumps on each new line. With Pretext, you can instantly compute the final height from the full text and show a 'ghost' container that smoothly converges to the actual height. This side-by-side comparison demonstrates the practical value of O(1) layout computation for streaming UIs."
+  apis={['prepare()', 'layout()']}
+  difficulty="Intermediate"
+  snippet={`import { prepare, layout, buildFont } from '@chenglou/pretext';
+
+// On each new token:
+const currentPrepared = prepare(currentText, font);
+const currentHeight = layout(currentPrepared, width, lh).height;
+
+// Predict final height (instant, even for full text):
+const finalPrepared = prepare(fullText, font);
+const predictedHeight = layout(finalPrepared, width, lh).height;
+
+// Ghost container shows predicted height
+// Actual container grows smoothly toward it`}
+>
+  <div class="demo-area" slot="demo">
+    <StreamingTextIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        Practical height prediction for streaming text. The left panel shows the "traditional"
+        approach where the container jumps on each new line. The right panel uses Pretext to
+        predict the final height upfront, creating a smooth, non-jumpy experience.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepare()</code> — analyze text (both partial and full)</li>
+        <li><code>layout()</code> — compute height at any width instantly</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Why this matters</h3>
+      <p>
+        LLM streaming UIs suffer from layout jank as new tokens arrive and create new lines.
+        Pretext solves this by computing the final layout dimensions before all text has arrived,
+        enabling pre-allocated containers that eliminate visual jumps.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

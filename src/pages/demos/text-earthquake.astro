@@ -1,0 +1,57 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import TextEarthquakeIsland from '../../islands/demos/TextEarthquake.svelte';
+---
+
+<DemoLayout
+  slug="text-earthquake"
+  title="Text Earthquake"
+  summary="Click to crack a paragraph along a fault line — both halves reflow to their broken shapes."
+  context="When you click, a diagonal fault line splits the paragraph. Each half reflows independently using layoutNextLine() with variable widths computed from the fault geometry. The left half gets narrower or wider depending on the fault angle, and the right half fills the remaining space. This demonstrates Pretext's ability to flow text into arbitrary, changing shapes."
+  apis={['prepareWithSegments()', 'layoutNextLine()']}
+  difficulty="Spectacular"
+  snippet={`import { prepareWithSegments, layoutNextLine } from '@chenglou/pretext';
+
+// Split text along a diagonal fault line
+const prepared = prepareWithSegments(text, font);
+
+// Left half: width = distance to fault at each y
+let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+while (true) {
+  const widthAtY = faultXAtY(y) - separation/2;
+  const line = layoutNextLine(prepared, cursor, widthAtY);
+  if (!line) break;
+  leftLines.push(line);
+  cursor = line.end;
+}`}
+>
+  <div class="demo-area" slot="demo">
+    <TextEarthquakeIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        Variable-width text flow driven by geometry. Each line's available width is determined
+        by a diagonal fault line, and both halves reflow independently as the separation
+        animates. This shows <code>layoutNextLine()</code> handling per-line width variation.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments()</code> — analyze the full paragraph once</li>
+        <li><code>layoutNextLine()</code> — lay out each line with its own available width</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>How to interact</h3>
+      <p>
+        Click anywhere on the text to create a fault line at that position. Adjust the angle
+        and separation sliders to reshape the crack. Hit "Aftershock" for dramatic screen
+        shake and increased separation.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

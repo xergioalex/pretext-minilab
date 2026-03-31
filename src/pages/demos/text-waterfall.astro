@@ -1,0 +1,59 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import TextWaterfallIsland from '../../islands/demos/TextWaterfall.svelte';
+---
+
+<DemoLayout
+  slug="text-waterfall"
+  title="Text Waterfall Cascade"
+  summary="Text cascades down shelves of decreasing width — a typographic waterfall."
+  context="This demo arranges text across multiple shelves, each narrower than the last. The cursor carries forward between shelves, so text flows continuously from the widest shelf down to the narrowest — like a waterfall cascading over ledges. Each shelf is centered with a slight offset to create the cascade effect."
+  apis={['prepareWithSegments()', 'layoutNextLine()']}
+  difficulty="Spectacular"
+  snippet={`import { prepareWithSegments, layoutNextLine } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, '14px Inter');
+let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+
+for (let s = 0; s < shelfCount; s++) {
+  const t = s / (shelfCount - 1);
+  const width = startWidth + (endWidth - startWidth) * t;
+  let y = 0;
+  while (y < shelfHeight) {
+    const line = layoutNextLine(prepared, cursor, width);
+    if (!line) break;
+    cursor = line.end;  // cursor carries to next shelf
+    y += lineHeight;
+  }
+}`}
+>
+  <div class="demo-area" slot="demo">
+    <TextWaterfallIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        Cursor continuity across regions of different widths. The same prepared text flows
+        through shelves that progressively narrow, with the cursor seamlessly carrying forward
+        from one shelf to the next.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments(text, font)</code> — prepare once</li>
+        <li><code>layoutNextLine(prepared, cursor, maxWidth)</code> — different width per shelf, cursor carries between them</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>The waterfall metaphor</h3>
+      <p>
+        Just as water flows over ledges of decreasing width, text cascades through
+        progressively narrower containers. This pattern is useful for funnel visualizations,
+        stepped layouts, and any design where content must flow through regions of varying width.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

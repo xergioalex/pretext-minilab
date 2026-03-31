@@ -1,0 +1,54 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import TextCollisionIsland from '../../islands/demos/TextCollision.svelte';
+---
+
+<DemoLayout
+  slug="text-collision"
+  title="Text Collision World"
+  summary="Text blocks as physics objects — drag, collide, stack, and watch them reflow on impact."
+  context="Each text block is a rigid body with Pretext-computed dimensions. Blocks fall under gravity, bounce off walls and each other, and can be grabbed and thrown. Every block's height comes from layout() — demonstrating that Pretext's instant measurement makes physics-driven text feasible at 60fps."
+  apis={['prepare()', 'layout()', 'layoutWithLines()']}
+  difficulty="Spectacular"
+  snippet={`import { prepareWithSegments, layoutWithLines, buildFont } from '@chenglou/pretext';
+
+// Each block: measure text height for its width
+const font = buildFont(13);
+const prepared = prepareWithSegments(blockText, font);
+const result = layoutWithLines(prepared, blockWidth, lineHeight);
+// result.height -> physics bounding box height
+
+// On collision: blocks exchange momentum,
+// text stays perfectly laid out inside each block`}
+>
+  <div class="demo-area" slot="demo">
+    <TextCollisionIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        Physics simulation where every rigid body contains laid-out text. Pretext computes
+        each block's height from its text and width, creating accurate bounding boxes for
+        collision detection. All measurements happen per-frame with zero DOM involvement.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments()</code> — analyze each text block once</li>
+        <li><code>layoutWithLines()</code> — compute height and lines for rendering</li>
+        <li><code>buildFont()</code> — construct font strings for measurement</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Interaction</h3>
+      <p>
+        Click and drag any block to grab it. Release to throw. Use "Drop" to add blocks,
+        "Shake" to apply random forces, and "Reset" to start over. Adjust font size to
+        see blocks resize dynamically.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

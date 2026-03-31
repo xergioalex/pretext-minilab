@@ -1,0 +1,58 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import TextTerrainIsland from '../../islands/demos/TextTerrain.svelte';
+---
+
+<DemoLayout
+  slug="text-terrain"
+  title="Text Terrain Map"
+  summary="Sweep width from min to max and plot text height as a topographic landscape."
+  context="This demo sweeps across a range of container widths and plots the resulting text height at each width, creating a topographic chart. The 'cliffs' in the terrain correspond to line-count changes — points where the text wraps to one fewer line. Hover to see exact values and a live text preview at that width."
+  apis={['prepare()', 'layout()']}
+  difficulty="Advanced"
+  snippet={`import { prepare, layout } from '@chenglou/pretext';
+
+const prepared = prepare(text, '16px Inter');
+const points = [];
+
+// Sweep width from 100px to 600px
+for (let w = 100; w <= 600; w += 3) &#123;
+  const result = layout(prepared, w, lineHeight);
+  points.push(&#123;
+    width: w,
+    height: result.height,
+    lineCount: result.lineCount,
+  &#125;);
+&#125;
+// Plot points as elevation on a canvas chart`}
+>
+  <div class="demo-area" slot="demo">
+    <TextTerrainIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        The relationship between container width and text height is not linear — it forms a
+        staircase curve with sharp drops ("cliffs") where line count decreases. This terrain map
+        visualizes that relationship across hundreds of width samples.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepare(text, font)</code> — prepare once</li>
+        <li><code>layout(prepared, width, lineHeight)</code> — called hundreds of times with different widths, near-instant</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Why cliffs matter</h3>
+      <p>
+        Each cliff marks a "critical width" — a container width where adding just one more pixel
+        causes a line break to disappear. These are the optimal widths for tightest layout.
+        With Pretext, finding all critical widths is trivial — just sweep and check.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

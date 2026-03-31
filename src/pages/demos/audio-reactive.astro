@@ -1,0 +1,58 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import AudioReactiveIsland from '../../islands/demos/AudioReactive.svelte';
+---
+
+<DemoLayout
+  slug="audio-reactive"
+  title="Audio-Reactive Typography"
+  summary="Music drives text width, line height, and font size in real time — text breathes with sound."
+  context="This demo connects the Web Audio API to Pretext's layout engine. Built-in audio sources (oscillator, noise, chord) generate frequency data that drives the text container width and line height. Bass frequencies control width, treble controls line height, and the text reflows every frame to match."
+  apis={['prepare()', 'layout()']}
+  difficulty="Spectacular"
+  snippet={`import { prepare, layout } from '@chenglou/pretext';
+
+const prepared = prepare(text, '16px Inter');
+
+// Each frame: read audio, adjust layout params
+function tick() &#123;
+  analyser.getByteFrequencyData(freqData);
+  const bass = computeBassEnergy(freqData);
+  const treble = computeTrebleEnergy(freqData);
+
+  const width = baseWidth + bass * sensitivity;
+  const lh = baseLH + treble * sensitivity * 0.5;
+  const result = layout(prepared, width, lh);
+  // result.lineCount, result.height update live
+&#125;`}
+>
+  <div class="demo-area" slot="demo">
+    <AudioReactiveIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        Real-time layout driven by external signals. The audio frequency spectrum is mapped to
+        layout parameters (width, line height), and Pretext relayouts every animation frame.
+        This shows how cheap relayout enables responsive, data-driven typography.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepare(text, font)</code> — prepare once at startup</li>
+        <li><code>layout(prepared, width, lineHeight)</code> — relayout every frame with audio-driven params</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Audio architecture</h3>
+      <p>
+        Uses the Web Audio API with <code>AnalyserNode</code> for frequency data. No external audio
+        files needed — the demo generates its own sound via oscillators and noise buffers.
+        Exponential moving average smooths the audio values for fluid transitions.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

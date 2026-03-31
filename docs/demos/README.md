@@ -1,6 +1,6 @@
 # Demo Catalog
 
-This directory contains detailed technical documentation for all 16 interactive demos in Pretext Mini-Lab. Each demo showcases different capabilities of the `@chenglou/pretext` library.
+This directory contains detailed technical documentation for all 28 interactive demos in Pretext Mini-Lab. Each demo showcases different capabilities of the `@chenglou/pretext` library.
 
 ---
 
@@ -27,6 +27,7 @@ Real-world UI patterns powered by Pretext.
 | [Chat & Feed Bubbles](./chat-bubbles.md) | `prepare()`, `layout()`, `layoutWithLines()` | Intermediate | Instant bubble sizing for chat interfaces |
 | [Canvas Text Layout](./canvas-layout.md) | `prepareWithSegments()`, `layoutWithLines()` | Intermediate | Line breaking for canvas rendering |
 | [Multilingual Stress Test](./i18n-stress.md) | `prepare()`, `layout()`, `setLocale()` | Advanced | Unicode edge cases: CJK, Arabic, emoji, bidi |
+| [Streaming Text Prediction](./streaming-text.md) | `prepare()`, `layout()` | Intermediate | LLM streaming simulation with height prediction |
 
 ### Advanced
 
@@ -37,6 +38,10 @@ Complex layout techniques using per-line control.
 | [Flow Around Obstacle](./flow-around-obstacle.md) | `prepareWithSegments()`, `layoutNextLine()` | Advanced | Text flows around a draggable shape |
 | [Rich Inline Segments](./rich-text-lines.md) | `prepareWithSegments()`, `layoutWithLines()` | Advanced | Mixed styles with segments mapping |
 | [Editorial Engine](./editorial-engine.md) | `prepareWithSegments()`, `layoutNextLine()`, `layoutWithLines()` | Flagship | Editorial layout with floating orbs |
+| [Text Silhouette Fill](./text-silhouette.md) | `prepareWithSegments()`, `layoutNextLine()` | Advanced | Text fills arbitrary shapes matching their boundaries |
+| [Multi-Column Magazine](./multi-column.md) | `prepareWithSegments()`, `layoutNextLine()` | Advanced | Text flows across columns with pull quotes |
+| [Text Terrain Map](./text-terrain.md) | `prepare()`, `layout()`, `walkLineRanges()` | Advanced | Topographic landscape of text height vs width |
+| [Typographic Heatmap](./typographic-heatmap.md) | `prepareWithSegments()`, `layoutWithLines()` | Advanced | Line density visualization and river detection |
 
 ### Spectacular
 
@@ -49,6 +54,13 @@ Visual showcases that push Pretext to its limits.
 | [Text Breakout](./text-breakout.md) | `prepareWithSegments()`, `layoutWithLines()` | Game | Classic Breakout with word bricks |
 | [Gravity Letters](./gravity-letters.md) | `prepareWithSegments()`, `layoutWithLines()` | Spectacular | Physics-based letter animation |
 | [Text Vortex](./text-vortex.md) | `prepareWithSegments()`, `layoutWithLines()` | Spectacular | Spinning character vortex with reassembly |
+| [Text Waterfall Cascade](./text-waterfall.md) | `prepareWithSegments()`, `layoutNextLine()` | Spectacular | Text cascades down shelves of decreasing width |
+| [Text Hourglass](./text-hourglass.md) | `prepareWithSegments()`, `layoutNextLine()` | Spectacular | Hourglass-shaped text with timer animation |
+| [Audio-Reactive Typography](./audio-reactive.md) | `prepare()`, `layout()` | Spectacular | Web Audio drives text layout in real time |
+| [Voronoi Text Cells](./voronoi-text.md) | `prepareWithSegments()`, `layoutNextLine()` | Spectacular | Drag seed points, text reflows in Voronoi cells |
+| [Text Rain](./text-rain.md) | `prepareWithSegments()`, `layoutWithLines()` | Spectacular | Letters fall like rain and accumulate into text |
+| [Text Collision World](./text-collision.md) | `prepare()`, `layout()` | Spectacular | Physics rigid bodies made of text blocks |
+| [Text Earthquake](./text-earthquake.md) | `prepareWithSegments()`, `layoutNextLine()` | Spectacular | Fault line splits paragraph into reflow halves |
 
 ---
 
@@ -73,9 +85,10 @@ $effect(() => {
 
 | Approach | Demos | Description |
 |----------|-------|-------------|
-| **DOM-based** | Chat Bubbles, Masonry Cards, Resize Relayout, Rich Text, i18n | Text displayed in HTML elements; Pretext provides dimensions |
-| **Canvas-based** | Canvas Layout, Gravity Letters, Text Breakout, Text Vortex | Pretext provides line breaks; Canvas handles rendering |
-| **Hybrid** | Dragon Chase, Editorial Engine, Flow Around Obstacle, Wave Distortion | Text as positioned divs; obstacles/effects as divs or Canvas |
+| **DOM-based** | Chat Bubbles, Masonry Cards, Resize Relayout, Rich Text, i18n, Streaming Text, Typographic Heatmap | Text displayed in HTML elements; Pretext provides dimensions |
+| **Canvas-based** | Canvas Layout, Gravity Letters, Text Breakout, Text Vortex, Text Rain, Text Collision, Voronoi Text, Text Terrain | Pretext provides line breaks; Canvas handles rendering |
+| **Hybrid** | Dragon Chase, Editorial Engine, Flow Around Obstacle, Wave Distortion, Text Silhouette, Text Waterfall, Text Hourglass, Text Earthquake, Multi-Column | Text as positioned divs; obstacles/effects as divs or Canvas |
+| **Web Audio** | Audio-Reactive | Sound-driven layout parameters |
 | **Visualization** | DOM vs Pretext, Shrink-Wrap, Measure Height | SVG, bars, and metrics showing layout data |
 
 ### Animation Loop Pattern

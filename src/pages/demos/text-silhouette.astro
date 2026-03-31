@@ -1,0 +1,58 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import TextSilhouetteIsland from '../../islands/demos/TextSilhouette.svelte';
+---
+
+<DemoLayout
+  slug="text-silhouette"
+  title="Text Silhouette Fill"
+  summary="Text fills arbitrary shapes — heart, star, circle — each line matching the silhouette boundary."
+  context="This demo computes the horizontal extent of a chosen shape at each y-position, then uses layoutNextLine() with that width to fill the shape with text. Each line is centered within the shape boundary, creating a striking silhouette effect."
+  apis={['prepareWithSegments()', 'layoutNextLine()']}
+  difficulty="Advanced"
+  snippet={`import { prepareWithSegments, layoutNextLine } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, '14px Inter');
+let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+let y = 0;
+
+while (y < shapeSize) {
+  const [left, right] = getShapeExtent(y);
+  const line = layoutNextLine(prepared, cursor, right - left);
+  if (!line) break;
+  // Center line within shape boundary
+  drawLine(line.text, left + (right - left - line.width) / 2, y);
+  cursor = line.end;
+  y += lineHeight;
+}`}
+>
+  <div class="demo-area" slot="demo">
+    <TextSilhouetteIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        Per-line variable-width layout driven by arbitrary shape geometry. Each line's available
+        width is computed from the shape's boundary at that y-position, and layoutNextLine()
+        fills exactly that width with text.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments(text, font)</code> — prepare once</li>
+        <li><code>layoutNextLine(prepared, cursor, maxWidth)</code> — variable width per line, matching shape boundary</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Shape-driven typography</h3>
+      <p>
+        CSS cannot vary container width per line. With Pretext, any mathematical function —
+        parametric curves, SVG paths, or procedural geometry — can define the text container,
+        enabling calligram-style layouts that were previously impossible on the web.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

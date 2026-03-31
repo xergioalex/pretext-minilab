@@ -1,0 +1,58 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import VoronoiTextIsland from '../../islands/demos/VoronoiText.svelte';
+---
+
+<DemoLayout
+  slug="voronoi-text"
+  title="Voronoi Text Cells"
+  summary="Drag seed points and watch text reflow inside shifting Voronoi cells."
+  context="This demo divides the canvas into Voronoi cells based on draggable seed points. Each cell contains text that reflows to fit the cell's irregular boundaries. As you drag seeds, cell shapes change and text adapts in real time. Seeds also slowly orbit their positions for a mesmerizing ambient effect."
+  apis={['prepareWithSegments()', 'layoutNextLine()']}
+  difficulty="Spectacular"
+  snippet={`import { prepareWithSegments, layoutNextLine } from '@chenglou/pretext';
+
+// For each Voronoi cell, at each line y:
+//   1. Find cell x-boundaries at that y
+//   2. Layout text within that width
+const prepared = prepareWithSegments(cellText, font);
+let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+
+for (let y = cellTop; y < cellBottom; y += lineHeight) {
+  const { left, right } = getCellBoundsAtY(seedIdx, y);
+  const line = layoutNextLine(prepared, cursor, right - left);
+  if (!line) break;
+  drawText(line.text, left, y);
+  cursor = line.end;
+}`}
+>
+  <div class="demo-area" slot="demo">
+    <VoronoiTextIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        Text flowing inside arbitrary non-rectangular regions. Each Voronoi cell has different
+        boundaries at each y-coordinate, and <code>layoutNextLine()</code> handles the variable
+        width per line. Dragging seeds reshapes all cells simultaneously.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments(text, font)</code> — prepare each cell's text</li>
+        <li><code>layoutNextLine(prepared, cursor, maxWidth)</code> — variable width per line based on cell geometry</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Why this is impressive</h3>
+      <p>
+        Traditional layout engines cannot flow text inside arbitrary polygons. With Pretext's
+        line-by-line layout, any shape boundary can determine text width. This opens doors to
+        magazine-style layouts, infographics, and creative typographic compositions.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

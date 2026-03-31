@@ -1,0 +1,53 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import TypographicHeatmapIsland from '../../islands/demos/TypographicHeatmap.svelte';
+---
+
+<DemoLayout
+  slug="typographic-heatmap"
+  title="Typographic Heatmap"
+  summary="Lines color-coded by character density — reveals rivers of whitespace in real time."
+  context="This demo visualizes text layout quality by color-coding each line based on character density (characters per pixel) or fill ratio (how much of the available width each line uses). Low-density lines appear warm/red, indicating loose spacing or rivers of whitespace. High-density lines appear cool/blue, showing tightly packed text. A sidebar bar chart provides a per-line comparison, and river detection highlights vertically aligned spaces across consecutive lines."
+  apis={['prepareWithSegments()', 'layoutWithLines()']}
+  difficulty="Advanced"
+  snippet={`import { prepareWithSegments, layoutWithLines } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, '16px Inter');
+const result = layoutWithLines(prepared, maxWidth, lineHeight);
+
+for (const line of result.lines) {
+  const density = line.text.length / measureWidth(line.text);
+  const color = densityToColor(density);
+  // Render line with heatmap background
+}`}
+>
+  <div class="demo-area" slot="demo">
+    <TypographicHeatmapIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        Quantitative analysis of text layout quality. By computing character density per line,
+        you can identify lines with excessive whitespace, detect typographic "rivers" (vertically
+        aligned spaces across lines), and evaluate the overall evenness of text distribution.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments(text, font)</code> — prepare text with segment data</li>
+        <li><code>layoutWithLines(prepared, maxWidth, lineHeight)</code> — get individual line content for analysis</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Practical applications</h3>
+      <p>
+        Typographic quality tools, automated layout scoring, identifying problematic text widths,
+        and debugging justification algorithms. The heatmap approach turns abstract layout metrics
+        into an intuitive visual representation.
+      </p>
+    </div>
+  </div>
+</DemoLayout>
