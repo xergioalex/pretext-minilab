@@ -9,12 +9,23 @@ import CanvasLayoutIsland from '../../islands/demos/CanvasLayout.svelte';
   context="Canvas does not have built-in multiline text rendering. Pretext provides the line-breaking logic, so you can render text to any target — Canvas 2D, WebGL, or any custom renderer."
   apis={['prepareWithSegments()', 'layoutWithLines()']}
   difficulty="Intermediate"
+  snippet={`import { prepareWithSegments, layoutWithLines } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, '18px Inter');
+const result = layoutWithLines(prepared, width, 28);
+
+// Render each line to canvas
+const ctx = canvas.getContext('2d');
+result.lines.forEach((line, i) => {
+  ctx.fillText(line.text, x, y + i * lineHeight);
+  // line.width gives exact pixel width
+});`}
 >
-  <div class="demo-area">
+  <div class="demo-area" slot="demo">
     <CanvasLayoutIsland client:only="svelte" />
   </div>
 
-  <div class="demo-info">
+  <div class="demo-info" slot="info">
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>

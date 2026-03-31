@@ -9,12 +9,28 @@ import FlowAroundObstacleIsland from '../../islands/demos/FlowAroundObstacle.sve
   context="This demo uses layoutNextLine() to lay out text one line at a time, with a different available width per line based on an obstacle's position. Drag the shape and watch text reflow in real time."
   apis={['prepareWithSegments()', 'layoutNextLine()']}
   difficulty="Advanced"
+  snippet={`import { prepareWithSegments, layoutNextLine } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, '16px Inter');
+let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+let y = 0;
+
+while (true) {
+  // Different width per line based on obstacle position
+  const width = getAvailableWidth(y, obstacle);
+  const line = layoutNextLine(prepared, cursor, width);
+  if (!line) break;
+
+  renderLine(line.text, x, y);
+  cursor = line.end;
+  y += lineHeight;
+}`}
 >
-  <div class="demo-area">
+  <div class="demo-area" slot="demo">
     <FlowAroundObstacleIsland client:only="svelte" />
   </div>
 
-  <div class="demo-info">
+  <div class="demo-info" slot="info">
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>

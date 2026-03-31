@@ -9,12 +9,29 @@ import TextBreakoutIsland from '../../islands/demos/TextBreakout.svelte';
   context="Every brick is a word from a paragraph, positioned using Pretext. When you destroy a word, the remaining text is re-layouted with layoutWithLines() and the bricks repack — a live demonstration of instant text relayout as a game mechanic."
   apis={['prepareWithSegments()', 'layoutWithLines()']}
   difficulty="Game"
+  snippet={`import { prepareWithSegments, layoutWithLines } from '@chenglou/pretext';
+
+// Layout paragraph to get word positions (bricks)
+const prepared = prepareWithSegments(paragraph, '14px Inter');
+const result = layoutWithLines(prepared, gameWidth, 22);
+
+// Each word becomes a breakable brick
+const bricks = extractWords(result.lines);
+
+// When a brick is destroyed, relayout surviving text
+function onBrickDestroyed(word: string) {
+  const remaining = survivingWords.join(' ');
+  const newLayout = layoutWithLines(
+    prepareWithSegments(remaining, font), gameWidth, 22
+  );
+  // Bricks repack instantly — no layout shift
+}`}
 >
-  <div class="demo-area">
+  <div class="demo-area" slot="demo">
     <TextBreakoutIsland client:only="svelte" />
   </div>
 
-  <div class="demo-info">
+  <div class="demo-info" slot="info">
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>

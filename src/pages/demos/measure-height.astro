@@ -9,12 +9,25 @@ import MeasureHeightIsland from '../../islands/demos/MeasureHeight.svelte';
   context="This demo shows the fundamental prepare/layout cycle. Type any text, adjust the width slider, and watch Pretext compute height and line count without touching the DOM. Notice how prepare() is called only when text or font changes, while layout() runs on every width adjustment."
   apis={['prepare()', 'layout()']}
   difficulty="Beginner"
+  snippet={`import { prepare, layout } from '@chenglou/pretext';
+
+// 1. Prepare text once (Unicode analysis, font metrics)
+const prepared = prepare('Your text here', '16px Inter, sans-serif');
+
+// 2. Layout at any width — pure arithmetic, no DOM
+const result = layout(prepared, 400, 24);
+console.log(result.height);    // e.g. 72
+console.log(result.lineCount); // e.g. 3
+
+// 3. Relayout at a different width — instant
+const narrow = layout(prepared, 200, 24);
+console.log(narrow.lineCount); // e.g. 6`}
 >
-  <div class="demo-area">
+  <div class="demo-area" slot="demo">
     <MeasureHeightIsland client:only="svelte" />
   </div>
 
-  <div class="demo-info">
+  <div class="demo-info" slot="info">
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>

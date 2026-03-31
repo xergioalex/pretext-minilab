@@ -9,12 +9,29 @@ import GravityLettersIsland from '../../islands/demos/GravityLetters.svelte';
   context="Pretext provides the exact home position of every character via layoutWithLines(). Each letter becomes a physics particle that can fall, bounce, and explode. Click Reset to watch them snap back to their computed text positions."
   apis={['prepareWithSegments()', 'layoutWithLines()']}
   difficulty="Spectacular"
+  snippet={`import { prepareWithSegments, layoutWithLines } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, '22px Inter');
+const result = layoutWithLines(prepared, width, 33);
+
+// Extract exact position of every character
+const letters = [];
+result.lines.forEach((line, li) => {
+  let x = 0;
+  for (const char of line.text) {
+    letters.push({ char, homeX: x, homeY: li * 33 });
+    x += measureChar(char);
+  }
+});
+
+// Now each letter can become a physics particle
+// Reset snaps them back to their homeX/homeY`}
 >
-  <div class="demo-area">
+  <div class="demo-area" slot="demo">
     <GravityLettersIsland client:only="svelte" />
   </div>
 
-  <div class="demo-info">
+  <div class="demo-info" slot="info">
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>

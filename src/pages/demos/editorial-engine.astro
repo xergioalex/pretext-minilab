@@ -9,12 +9,32 @@ import EditorialEngineIsland from '../../islands/demos/EditorialEngine.svelte';
   context="This is the most ambitious demo in the lab. It combines layoutNextLine() with obstacle avoidance to create an editorial layout where text flows around a pull quote block. The result looks like a print magazine layout, computed entirely in JavaScript."
   apis={['prepareWithSegments()', 'layoutNextLine()', 'layoutWithLines()']}
   difficulty="Flagship"
+  snippet={`import { prepareWithSegments, layoutNextLine } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(article, '17px Georgia');
+let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+let y = 0;
+
+while (true) {
+  // Check if line overlaps with floating orbs
+  let width = columnWidth;
+  for (const orb of orbs) {
+    if (overlaps(y, lineHeight, orb)) {
+      width = Math.min(width, orb.x - margin);
+    }
+  }
+
+  const line = layoutNextLine(prepared, cursor, width);
+  if (!line) break;
+  cursor = line.end;
+  y += lineHeight;
+}`}
 >
-  <div class="demo-area">
+  <div class="demo-area" slot="demo">
     <EditorialEngineIsland client:only="svelte" />
   </div>
 
-  <div class="demo-info">
+  <div class="demo-info" slot="info">
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>

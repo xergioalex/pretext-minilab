@@ -9,12 +9,28 @@ import MasonryCardsIsland from '../../islands/demos/MasonryCards.svelte';
   context="Masonry grids need to know card heights before positioning them. When cards contain text, that height depends on the content, font, and available width. Pretext makes this a computation instead of a measurement."
   apis={['prepare()', 'layout()']}
   difficulty="Intermediate"
+  snippet={`import { prepare, layout } from '@chenglou/pretext';
+
+// Predict card heights before rendering
+const cards = texts.map(text => {
+  const prepared = prepare(text, '14px Inter');
+  const { height } = layout(prepared, cardWidth, 22);
+  return { text, height: height + padding };
+});
+
+// Pack into columns (shortest column first)
+const columns = Array.from({ length: 3 }, () => []);
+cards.forEach(card => {
+  const shortest = columns.reduce((a, b) =>
+    a.totalH < b.totalH ? a : b);
+  shortest.push(card);
+});`}
 >
-  <div class="demo-area">
+  <div class="demo-area" slot="demo">
     <MasonryCardsIsland client:only="svelte" />
   </div>
 
-  <div class="demo-info">
+  <div class="demo-info" slot="info">
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>

@@ -7,62 +7,129 @@ interface Props {
   context: string;
   apis: string[];
   difficulty: string;
+  snippet?: string;
 }
 
-const { title, summary, context, apis, difficulty } = Astro.props;
+const { title, summary, context, apis, difficulty, snippet } = Astro.props;
 const base = import.meta.env.BASE_URL;
+
+const allDemos = [
+  { slug: 'measure-height', label: '📐 Measure Height' },
+  { slug: 'resize-relayout', label: '↔️ Resize Relayout' },
+  { slug: 'shrink-wrap', label: '📦 Shrink-Wrap' },
+  { slug: 'flow-around-obstacle', label: '🌊 Flow Around Obstacle' },
+  { slug: 'masonry-cards', label: '🧱 Masonry Cards' },
+  { slug: 'chat-bubbles', label: '💬 Chat Bubbles' },
+  { slug: 'rich-text-lines', label: '✨ Rich Text Lines' },
+  { slug: 'canvas-layout', label: '🎨 Canvas Layout' },
+  { slug: 'i18n-stress', label: '🌍 i18n Stress Test' },
+  { slug: 'dom-vs-pretext', label: '⚡ DOM vs Pretext' },
+  { slug: 'editorial-engine', label: '📰 Editorial Engine' },
+  { slug: 'dragon-chase', label: '🐉 Dragon Chase' },
+  { slug: 'wave-distortion', label: '🌊 Wave Distortion' },
+  { slug: 'text-breakout', label: '🎮 Text Breakout' },
+  { slug: 'gravity-letters', label: '🪨 Gravity Letters' },
+  { slug: 'text-vortex', label: '🌀 Text Vortex' },
+  { slug: 'text-silhouette', label: '🖤 Silhouette Fill' },
+  { slug: 'multi-column', label: '📰 Multi-Column Magazine' },
+  { slug: 'text-waterfall', label: '💧 Text Waterfall' },
+  { slug: 'text-hourglass', label: '⏳ Text Hourglass' },
+  { slug: 'audio-reactive', label: '🎵 Audio-Reactive' },
+  { slug: 'text-terrain', label: '🗺️ Text Terrain Map' },
+  { slug: 'typographic-heatmap', label: '🌡️ Typographic Heatmap' },
+  { slug: 'voronoi-text', label: '🔷 Voronoi Text Cells' },
+  { slug: 'text-rain', label: '🌧️ Text Rain' },
+  { slug: 'text-collision', label: '💥 Text Collision World' },
+  { slug: 'text-earthquake', label: '🌋 Text Earthquake' },
+  { slug: 'streaming-text', label: '⚡ Streaming Prediction' },
+];
 ---
 
-<BaseLayout title={`${title} — Pretext Mini-Lab`} description={summary}>
-  <!-- Fullscreen mode (default) -->
-  <div class="demo-fullscreen" id="demo-fullscreen">
+<BaseLayout title={`${title} — Pretext Lab`} description={summary}>
+  <!-- Always fullscreen -->
+  <div class="demo-fs">
     <div class="fs-topbar">
-      <a href={base} class="fs-back" title="Back to all demos">&larr;</a>
-      <span class="fs-title">{title}</span>
-      <div class="fs-actions">
-        <span class="fs-badge">{difficulty}</span>
-        <button class="fs-toggle-btn" id="fs-exit-btn" title="Exit fullscreen (Esc)">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/></svg>
-          <span>Exit fullscreen</span>
-        </button>
-      </div>
+      <a href={base} class="topbar-back" title="Back to all demos">&larr;</a>
+      <button class="topbar-title-btn" id="demos-dropdown-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        <span class="topbar-title">{title}</span>
+        <svg class="topbar-caret" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <span class="topbar-badge">{difficulty}</span>
+      <button class="topbar-btn" id="info-open-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        <span>How it works</span>
+      </button>
+      <button class="theme-toggle-fs" id="theme-toggle-fs" aria-label="Toggle theme" title="Toggle light/dark mode">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
     </div>
-    <div class="fs-content" id="fs-content">
-      <slot />
+    <div class="fs-stage">
+      <slot name="demo" />
     </div>
   </div>
 
-  <!-- Normal mode (hidden initially) -->
-  <div class="demo-normal" id="demo-normal" style="display:none;">
-    <div class="demo-page container">
-      <div class="normal-topbar">
-        <a href={base} class="back-link">&larr; Back to all demos</a>
-        <button class="fs-toggle-btn" id="fs-enter-btn" title="Enter fullscreen">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18-5h-3a2 2 0 0 0-2 2v3m0 8v3a2 2 0 0 0 2 2h3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
-          <span>Fullscreen</span>
+  <!-- Demos dropdown (fixed, outside topbar for z-index) -->
+  <div class="dd-overlay" id="dd-overlay">
+    <div class="dd-panel" id="demos-dropdown-menu">
+      <div class="dd-header">
+        <span class="dd-label">Switch demo</span>
+        <button class="dd-close" id="dd-close-btn">&times;</button>
+      </div>
+      <div class="dd-list">
+        {allDemos.map((d) => (
+          <a href={`${base}demos/${d.slug}/`} class:list={['dd-item', { active: d.label.includes(title) }]}>
+            {d.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Info modal -->
+  <div class="info-modal-overlay" id="info-modal" aria-hidden="true">
+    <div class="info-modal">
+      <div class="modal-header">
+        <div>
+          <h2>{title}</h2>
+          <p class="modal-summary">{summary}</p>
+        </div>
+        <button class="modal-close" id="info-close-btn" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </div>
 
-      <div class="demo-header">
-        <div class="demo-meta">
-          <span class="badge">{difficulty}</span>
-          {apis.map((api) => (
-            <code class="api-tag">{api}</code>
-          ))}
+      <div class="modal-body">
+        <!-- Context -->
+        <div class="modal-section">
+          <p class="modal-context">{context}</p>
+          <div class="modal-tags">
+            <span class="badge">{difficulty}</span>
+            {apis.map((api) => (
+              <code class="api-tag">{api}</code>
+            ))}
+          </div>
         </div>
-        <h1>{title}</h1>
-        <p class="summary">{summary}</p>
-        <p class="context">{context}</p>
-      </div>
 
-      <div id="normal-content"></div>
+        <!-- Info cards from slot -->
+        <slot name="info" />
+
+        <!-- Quick start code snippet -->
+        {snippet && (
+          <div class="modal-section">
+            <h3 class="modal-section-title">Quick start</h3>
+            <pre><code>{snippet}</code></pre>
+          </div>
+        )}
+      </div>
     </div>
   </div>
 </BaseLayout>
 
 <style>
-  /* ===== FULLSCREEN ===== */
-  .demo-fullscreen {
+  /* ===== FULLSCREEN LAYOUT ===== */
+  .demo-fs {
     position: fixed;
     inset: 0;
     z-index: 200;
@@ -83,155 +150,409 @@ const base = import.meta.env.BASE_URL;
     height: 42px;
   }
 
-  .fs-back {
-    font-size: 1rem;
-    color: var(--text-muted);
-    text-decoration: none;
-    padding: 4px 8px;
+  .topbar-back {
+    font-size: 1.1rem; color: var(--text-muted); text-decoration: none;
+    padding: 2px 8px; border-radius: var(--radius-sm);
+    transition: color var(--transition-fast); line-height: 1;
+  }
+  .topbar-back:hover { color: var(--accent); }
+
+  .topbar-title {
+    font-size: 0.85rem; font-weight: 600; color: var(--text-primary);
+    flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+
+  .topbar-badge {
+    font-size: 0.6rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; padding: 2px 8px; border-radius: 9999px;
+    background: var(--accent-dim); color: var(--accent);
+    border: 1px solid var(--border-accent); flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  /* Demos dropdown button */
+  .topbar-title-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    padding: 5px 14px 5px 10px;
     border-radius: var(--radius-sm);
     transition: all var(--transition-fast);
-    line-height: 1;
+    max-width: 100%;
+    font-family: var(--font-body);
+    min-width: 0;
   }
-  .fs-back:hover { color: var(--accent); }
 
-  .fs-title {
+  .topbar-title-btn:hover {
+    border-color: var(--accent);
+    background: var(--bg-card-hover);
+  }
+
+  .topbar-title {
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-primary);
-    flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .fs-actions {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
+  .topbar-caret {
     flex-shrink: 0;
+    color: var(--text-muted);
   }
 
-  .fs-badge {
-    font-size: 0.6rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding: 2px 8px;
-    border-radius: 9999px;
-    background: var(--accent-dim);
-    color: var(--accent);
-    border: 1px solid var(--border-accent);
+  /* Demos dropdown overlay (fixed) */
+  .dd-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 60px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
   }
 
-  .fs-toggle-btn {
+  .dd-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .dd-panel {
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    width: 320px;
+    max-height: 75vh;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    transform: translateY(-10px) scale(0.97);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .dd-overlay.open .dd-panel {
+    transform: translateY(0) scale(1);
+  }
+
+  .dd-header {
     display: flex;
     align-items: center;
-    gap: 5px;
-    padding: 4px 10px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border);
-    background: var(--bg-card);
-    color: var(--text-secondary);
-    font-size: 0.72rem;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: var(--font-body);
-    transition: all var(--transition-fast);
-  }
-  .fs-toggle-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
   }
 
-  .fs-content {
+  .dd-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  .dd-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+    transition: color var(--transition-fast);
+  }
+  .dd-close:hover { color: var(--accent); }
+
+  .dd-list {
+    overflow-y: auto;
+    padding: var(--space-xs);
+  }
+
+  .dd-item {
+    display: block;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+  }
+
+  .dd-item:hover {
+    background: var(--bg-card);
+    color: var(--text-primary);
+  }
+
+  .dd-item.active {
+    color: var(--accent);
+    font-weight: 600;
+    background: var(--accent-dim);
+  }
+
+  .topbar-btn {
+    display: flex; align-items: center; gap: 5px;
+    padding: 5px 12px; border-radius: var(--radius-sm);
+    border: 1px solid var(--border); background: var(--bg-card);
+    color: var(--text-secondary); font-size: 0.75rem; font-weight: 600;
+    cursor: pointer; font-family: var(--font-body);
+    transition: all var(--transition-fast); flex-shrink: 0;
+  }
+  .topbar-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .theme-toggle-fs {
+    display: flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: var(--radius-sm);
+    border: 1px solid var(--border); background: var(--bg-card);
+    color: var(--text-secondary); cursor: pointer; flex-shrink: 0;
+    transition: all var(--transition-fast); padding: 0;
+  }
+  .theme-toggle-fs:hover { color: var(--accent); border-color: var(--accent); }
+
+  :global([data-theme="dark"]) .theme-toggle-fs .icon-sun { display: block; }
+  :global([data-theme="dark"]) .theme-toggle-fs .icon-moon { display: none; }
+  :global([data-theme="light"]) .theme-toggle-fs .icon-sun { display: none; }
+  :global([data-theme="light"]) .theme-toggle-fs .icon-moon { display: block; }
+
+  .fs-stage {
     flex: 1;
     overflow: auto;
     padding: var(--space-md);
   }
 
-  /* ===== NORMAL ===== */
-  .demo-page {
-    padding: var(--space-xl) 0 var(--space-4xl);
-  }
-
-  .normal-topbar {
+  /* ===== MODAL ===== */
+  .info-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: var(--space-xl);
+    justify-content: center;
+    padding: var(--space-lg);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s ease;
   }
 
-  .back-link {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: color var(--transition-fast);
+  .info-modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
   }
-  .back-link:hover { color: var(--accent); }
 
-  .demo-meta {
+  .info-modal {
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    width: 100%;
+    max-width: 1100px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .info-modal-overlay.open .info-modal {
+    transform: translateY(0) scale(1);
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    padding: var(--space-xl) var(--space-2xl) var(--space-md);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--bg-primary);
+    z-index: 1;
+    border-radius: 0;
+  }
+
+  .modal-header h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  .modal-summary {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .modal-close {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: var(--radius-sm);
+    border: 1px solid var(--border); background: var(--bg-card);
+    color: var(--text-muted); cursor: pointer; flex-shrink: 0;
+    transition: all var(--transition-fast);
+  }
+  .modal-close:hover { border-color: var(--accent); color: var(--accent); }
+
+  .modal-body {
+    padding: var(--space-xl) var(--space-2xl) var(--space-2xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .modal-section { }
+
+  .modal-context {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--space-md);
+  }
+
+  .modal-tags {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-sm);
-    margin-bottom: var(--space-md);
   }
 
   .api-tag {
-    font-size: 0.75rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    padding: 0.2em 0.6em;
-    border-radius: var(--radius-sm);
-    color: var(--text-secondary);
+    font-size: 0.75rem; background: var(--bg-card);
+    border: 1px solid var(--border); padding: 0.2em 0.6em;
+    border-radius: var(--radius-sm); color: var(--text-secondary);
+  }
+
+  .modal-section-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    margin-bottom: var(--space-md);
+  }
+
+  .modal-body pre {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    border-radius: var(--radius-md);
+  }
+
+  /* Info cards inside modal */
+  .modal-body :global(.demo-info) {
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  @media (min-width: 768px) {
+    .modal-body :global(.demo-info) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Tablet */
+  @media (max-width: 768px) {
+    .info-modal-overlay { padding: var(--space-md); }
+    .modal-header { padding: var(--space-lg) var(--space-lg) var(--space-sm); }
+    .modal-body { padding: var(--space-lg); }
+    .info-modal { max-height: 90vh; }
+    .modal-body :global(.demo-info) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* Mobile */
+  @media (max-width: 480px) {
+    .info-modal-overlay { padding: var(--space-xs); }
+    .modal-header {
+      padding: var(--space-md) var(--space-md) var(--space-sm);
+      gap: var(--space-sm);
+    }
+    .modal-header h2 { font-size: 1.15rem; }
+    .modal-body { padding: var(--space-md); gap: var(--space-md); }
+    .info-modal {
+      max-height: 95vh;
+      border-radius: 0;
+    }
+    .modal-body :global(.demo-info) {
+      grid-template-columns: 1fr;
+    }
+    .modal-body pre { font-size: 0.72rem; }
+    .topbar-btn span { display: none; }
   }
 </style>
 
 <script>
-  const fsEl = document.getElementById('demo-fullscreen')!;
-  const normalEl = document.getElementById('demo-normal')!;
-  const fsContent = document.getElementById('fs-content')!;
-  const normalContent = document.getElementById('normal-content')!;
-  const exitBtn = document.getElementById('fs-exit-btn')!;
-  const enterBtn = document.getElementById('fs-enter-btn')!;
+  const openBtn = document.getElementById('info-open-btn')!;
+  const closeBtn = document.getElementById('info-close-btn')!;
+  const modal = document.getElementById('info-modal')!;
 
   const mainNav = document.querySelector('nav.nav') as HTMLElement | null;
   const mainFooter = document.querySelector('footer.footer') as HTMLElement | null;
   const mobileMenu = document.querySelector('.mobile-menu') as HTMLElement | null;
 
-  function setFullscreen(on: boolean) {
-    if (on) {
-      // Move content to fullscreen
-      while (normalContent.firstChild) {
-        fsContent.appendChild(normalContent.firstChild);
-      }
-      fsEl.style.display = 'flex';
-      normalEl.style.display = 'none';
-      if (mainNav) mainNav.style.display = 'none';
-      if (mainFooter) mainFooter.style.display = 'none';
-      if (mobileMenu) mobileMenu.style.display = 'none';
-      document.body.style.overflow = 'hidden';
-    } else {
-      // Move content to normal
-      while (fsContent.firstChild) {
-        normalContent.appendChild(fsContent.firstChild);
-      }
-      fsEl.style.display = 'none';
-      normalEl.style.display = 'block';
-      if (mainNav) mainNav.style.display = '';
-      if (mainFooter) mainFooter.style.display = '';
-      if (mobileMenu) mobileMenu.style.display = '';
-      document.body.style.overflow = '';
-    }
-  }
-
-  exitBtn.addEventListener('click', () => setFullscreen(false));
-  enterBtn.addEventListener('click', () => setFullscreen(true));
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') setFullscreen(false);
+  openBtn.addEventListener('click', () => {
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
   });
 
-  // Start in fullscreen — hide nav/footer immediately
+  closeBtn.addEventListener('click', () => {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+  });
+
+  // Close on overlay click
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (ddOverlay.classList.contains('open')) { closeDemos(); return; }
+      if (modal.classList.contains('open')) {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+    }
+  });
+
+  // Demos dropdown
+  const ddBtn = document.getElementById('demos-dropdown-btn')!;
+  const ddOverlay = document.getElementById('dd-overlay')!;
+  const ddCloseBtn = document.getElementById('dd-close-btn')!;
+
+  function openDemos() { ddOverlay.classList.add('open'); }
+  function closeDemos() { ddOverlay.classList.remove('open'); }
+
+  ddBtn.addEventListener('click', openDemos);
+  ddCloseBtn.addEventListener('click', closeDemos);
+  ddOverlay.addEventListener('click', (e) => {
+    if (e.target === ddOverlay) closeDemos();
+  });
+
+  // Theme toggle
+  const themeBtn = document.getElementById('theme-toggle-fs')!;
+  themeBtn.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+
+  // Always fullscreen — hide nav/footer
   if (mainNav) mainNav.style.display = 'none';
   if (mainFooter) mainFooter.style.display = 'none';
   if (mobileMenu) mobileMenu.style.display = 'none';

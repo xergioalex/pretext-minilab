@@ -9,12 +9,25 @@ import ChatBubblesIsland from '../../islands/demos/ChatBubbles.svelte';
   context="Chat UIs need to size bubbles to fit their content, handle container resizes (mobile rotation, split view), and potentially virtualize hundreds of messages. Pretext makes all of this practical."
   apis={['prepare()', 'layout()']}
   difficulty="Intermediate"
+  snippet={`import { prepare, layout } from '@chenglou/pretext';
+
+// Size each bubble without DOM measurement
+function sizeBubble(text: string, maxWidth: number) {
+  const prepared = prepare(text, '14px Inter');
+  const { height, lineCount } = layout(prepared, maxWidth, 21);
+  return { height: height + padding, lineCount };
+}
+
+// On container resize — relayout all bubbles instantly
+messages.forEach(msg => {
+  msg.size = sizeBubble(msg.text, containerWidth * 0.75);
+});`}
 >
-  <div class="demo-area">
+  <div class="demo-area" slot="demo">
     <ChatBubblesIsland client:only="svelte" />
   </div>
 
-  <div class="demo-info">
+  <div class="demo-info" slot="info">
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>

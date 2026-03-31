@@ -9,12 +9,24 @@ import RichTextLinesIsland from '../../islands/demos/RichTextLines.svelte';
   context="Real content is rarely plain text. This demo shows how Pretext handles text that will be rendered with mixed inline styles — bold, code, accent colors, and badges — by computing line breaks on the full text and mapping styled segments back to each line."
   apis={['prepareWithSegments()', 'layoutWithLines()']}
   difficulty="Advanced"
+  snippet={`import { prepareWithSegments, layoutWithLines } from '@chenglou/pretext';
+
+// Concatenate all segments into plain text
+const plainText = segments.map(s => s.text).join('');
+const prepared = prepareWithSegments(plainText, '16px Inter');
+const result = layoutWithLines(prepared, width, 27);
+
+// Map character positions back to styled segments
+result.lines.forEach(line => {
+  const styledSpans = mapToSegments(line, segments);
+  renderStyledLine(styledSpans);
+});`}
 >
-  <div class="demo-area">
+  <div class="demo-area" slot="demo">
     <RichTextLinesIsland client:only="svelte" />
   </div>
 
-  <div class="demo-info">
+  <div class="demo-info" slot="info">
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>

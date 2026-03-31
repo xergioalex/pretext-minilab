@@ -9,12 +9,28 @@ import TextVortexIsland from '../../islands/demos/TextVortex.svelte';
   context="Every character starts spinning in a colorful vortex. Click Reassemble and watch them smoothly animate to their computed text positions. Click Vortex to scatter them again. The home position of every character comes from Pretext's layout engine."
   apis={['prepareWithSegments()', 'layoutWithLines()']}
   difficulty="Spectacular"
+  snippet={`import { prepareWithSegments, layoutWithLines } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, '18px Inter');
+const result = layoutWithLines(prepared, width, 27);
+
+// Get home position for every character
+const particles = extractCharPositions(result.lines);
+
+// Animate: interpolate between vortex and home positions
+function frame() {
+  const t = transitionProgress; // 0 = vortex, 1 = text
+  particles.forEach(p => {
+    p.x = vortexX(p) * (1 - t) + p.homeX * t;
+    p.y = vortexY(p) * (1 - t) + p.homeY * t;
+  });
+}`}
 >
-  <div class="demo-area">
+  <div class="demo-area" slot="demo">
     <TextVortexIsland client:only="svelte" />
   </div>
 
-  <div class="demo-info">
+  <div class="demo-info" slot="info">
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>

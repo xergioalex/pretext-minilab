@@ -9,12 +9,32 @@ import WaveDistortionIsland from '../../islands/demos/WaveDistortion.svelte';
   context="This demo creates a mesmerizing flowing effect by applying a sine wave to the available width of each line. The wave animates continuously, and the text reflows smoothly to fill the undulating shape. Adjust amplitude, frequency, and speed to create different wave patterns."
   apis={['prepareWithSegments()', 'layoutNextLine()']}
   difficulty="Spectacular"
+  snippet={`import { prepareWithSegments, layoutNextLine } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, '15px Inter');
+
+// Each frame: animate wave phase, reflow text
+function frame() {
+  wavePhase += 0.02;
+  let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+  let y = 0;
+
+  while (true) {
+    // Sine wave determines width per line
+    const wave = Math.sin((y / 100) * freq + wavePhase);
+    const width = baseWidth + wave * amplitude;
+    const line = layoutNextLine(prepared, cursor, width);
+    if (!line) break;
+    cursor = line.end;
+    y += lineHeight;
+  }
+}`}
 >
-  <div class="demo-area">
+  <div class="demo-area" slot="demo">
     <WaveDistortionIsland client:only="svelte" />
   </div>
 
-  <div class="demo-info">
+  <div class="demo-info" slot="info">
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>

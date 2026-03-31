@@ -377,7 +377,7 @@ textarea {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: var(--space-xl);
-  margin-bottom: var(--space-2xl);
+  margin-bottom: var(--space-md);
 }
 
 .demo-controls {

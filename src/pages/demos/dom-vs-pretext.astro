@@ -9,12 +9,24 @@ import DomVsPretextIsland from '../../islands/demos/DomVsPretext.svelte';
   context="This is not a rigorous benchmark — it is an architectural explainer. The key difference is not raw speed but the decoupling of analysis from layout. DOM measurement couples reading to writing. Pretext separates them cleanly."
   apis={['prepare()', 'layout()']}
   difficulty="Conceptual"
+  snippet={`import { prepare, layout } from '@chenglou/pretext';
+
+// DOM approach: N elements × M widths = N×M reflows
+// Pretext: prepare N texts once, then layout is arithmetic
+
+const prepared = prepare(text, '16px Inter');
+
+// This runs in ~0.09ms for 500 texts:
+const result = layout(prepared, width, 24);
+
+// vs DOM approach: create div, set text, read offsetHeight
+// Each read triggers a full layout reflow`}
 >
-  <div class="demo-area">
+  <div class="demo-area" slot="demo">
     <DomVsPretextIsland client:only="svelte" />
   </div>
 
-  <div class="demo-info">
+  <div class="demo-info" slot="info">
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>

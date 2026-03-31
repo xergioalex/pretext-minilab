@@ -9,12 +9,25 @@ import ShrinkWrapIsland from '../../islands/demos/ShrinkWrap.svelte';
   context="Shrink-wrapping multiline text to its tightest possible width is surprisingly awkward with CSS alone. Pretext gives you the exact widest line width, so you can snap the container to a perfect tight fit."
   apis={['prepareWithSegments()', 'layoutWithLines()']}
   difficulty="Intermediate"
+  snippet={`import { prepareWithSegments, layoutWithLines } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, '18px Inter');
+const result = layoutWithLines(prepared, maxWidth, 27);
+
+// Find the widest line for tight shrink-wrap
+let tightWidth = 0;
+for (const line of result.lines) {
+  if (line.width > tightWidth) tightWidth = line.width;
+}
+
+// Set container to exact tight width
+container.style.width = Math.ceil(tightWidth) + 'px';`}
 >
-  <div class="demo-area">
+  <div class="demo-area" slot="demo">
     <ShrinkWrapIsland client:only="svelte" />
   </div>
 
-  <div class="demo-info">
+  <div class="demo-info" slot="info">
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>

@@ -9,12 +9,32 @@ import DragonChaseIsland from '../../islands/demos/DragonChase.svelte';
   context="Inspired by the viral Pretext dragon demo. Each segment of the dragon acts as a circular obstacle, and layoutNextLine() computes a different available width per line based on which segments overlap. Move your mouse (or wait for auto-orbit) and watch text part around the creature at 60fps."
   apis={['prepareWithSegments()', 'layoutNextLine()']}
   difficulty="Spectacular"
+  snippet={`import { prepareWithSegments, layoutNextLine } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(text, '15px Inter');
+
+// Each frame: update dragon, then reflow all text
+function frame() {
+  updateDragonSegments(mouseX, mouseY);
+
+  let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+  let y = 0;
+
+  while (true) {
+    // Check ALL 40 segments for this line's Y position
+    const width = getWidthAroundDragon(y, segments);
+    const line = layoutNextLine(prepared, cursor, width);
+    if (!line) break;
+    cursor = line.end;
+    y += lineHeight;
+  }
+}`}
 >
-  <div class="demo-area">
+  <div class="demo-area" slot="demo">
     <DragonChaseIsland client:only="svelte" />
   </div>
 
-  <div class="demo-info">
+  <div class="demo-info" slot="info">
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>

@@ -9,12 +9,23 @@ import ResizeRelayoutIsland from '../../islands/demos/ResizeRelayout.svelte';
   context="This demonstrates the performance advantage of Pretext's prepare-once model. All text blocks are prepared once, then relayouted cheaply as you drag the width slider. In a traditional DOM approach, each block would trigger a separate reflow."
   apis={['prepare()', 'layout()']}
   difficulty="Beginner"
+  snippet={`import { prepare, layout } from '@chenglou/pretext';
+
+// Prepare all text blocks once
+const blocks = texts.map(text => prepare(text, '14px Inter'));
+
+// On every resize event — relayout is cheap
+function onResize(newWidth: number) {
+  const results = blocks.map(p => layout(p, newWidth, 21));
+  // Each result has .height and .lineCount
+  // No DOM reads needed — pure arithmetic
+}`}
 >
-  <div class="demo-area">
+  <div class="demo-area" slot="demo">
     <ResizeRelayoutIsland client:only="svelte" />
   </div>
 
-  <div class="demo-info">
+  <div class="demo-info" slot="info">
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>

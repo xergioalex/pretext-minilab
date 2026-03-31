@@ -9,12 +9,24 @@ import I18nStressIsland from '../../islands/demos/I18nStress.svelte';
   context="Text layout is globally complex. This page presents curated samples across multiple scripts and edge cases to show both Pretext's capabilities and the inherent difficulty of multilingual text layout."
   apis={['prepare()', 'layout()', 'prepareWithSegments()', 'layoutWithLines()']}
   difficulty="Advanced"
+  snippet={`import { prepareWithSegments, layoutWithLines, setLocale } from '@chenglou/pretext';
+
+// Set locale for language-specific line breaking
+setLocale('ja'); // Japanese kinsoku rules
+
+const prepared = prepareWithSegments(japaneseText, '16px sans-serif');
+const result = layoutWithLines(prepared, 400, 26);
+
+// Each line respects CJK break rules, bidi, grapheme clusters
+result.lines.forEach(line => {
+  console.log(line.text, line.width);
+});`}
 >
-  <div class="demo-area">
+  <div class="demo-area" slot="demo">
     <I18nStressIsland client:only="svelte" />
   </div>
 
-  <div class="demo-info">
+  <div class="demo-info" slot="info">
     <div class="info-card">
       <h3>What this demonstrates</h3>
       <p>

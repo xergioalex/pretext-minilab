@@ -230,6 +230,11 @@
   .step.prepare { border-color: var(--accent); color: var(--accent); }
   .step.fast { border-color: #3ecf8e66; color: #3ecf8e; background: #3ecf8e0d; }
 
+  :global([data-theme="light"]) .step.bad { color: #b91c1c; border-color: #fca5a5; }
+  :global([data-theme="light"]) .step.danger { color: #991b1b; border-color: #ef4444; background: #fef2f2; }
+  :global([data-theme="light"]) .step.prepare { color: #5b4cd4; border-color: #7c6cf0; }
+  :global([data-theme="light"]) .step.fast { color: #047857; border-color: #6ee7b7; background: #ecfdf5; }
+
   .step-arrow { font-size: 0.7rem; color: var(--text-muted); }
 
   .arch-vs {
@@ -242,6 +247,8 @@
     color: var(--success); line-height: 1;
   }
   .speedup-label { font-size: 0.8rem; color: var(--success); font-weight: 600; }
+  :global([data-theme="light"]) .speedup { color: #059669; }
+  :global([data-theme="light"]) .speedup-label { color: #059669; }
 
   .timing-result {
     margin-top: var(--space-lg); text-align: center;
@@ -255,6 +262,8 @@
   }
   .dom-color { color: #ef4444; }
   .pretext-color { color: #3ecf8e; }
+  :global([data-theme="light"]) .dom-color { color: #dc2626; }
+  :global([data-theme="light"]) .pretext-color { color: #059669; }
   .timing-detail { font-size: 0.7rem; color: var(--text-muted); }
 
   .bar-comparison {
