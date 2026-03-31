@@ -38,10 +38,9 @@ export const demoIcons: Record<string, string> = {
   'text-fluid': '🫧',
   'text-origami': '📄',
   'text-black-hole': '🕳️',
-  'comic-speech-layout': '💥',
   'pdf-reflow-engine': '🗞️',
   'subtitle-composer': '🎬',
   'incremental-layout-profiler': '📊',
   'topology-morph': '🧬',
-  'ocr-reconstruction': '🔎',
+  'text-regatta': '⛵',
 };

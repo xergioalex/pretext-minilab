@@ -11,14 +11,14 @@ npm run build                     # Production build to ./dist/
 npm run preview                   # Preview production build locally
 npm run check                     # TypeScript type checking via astro check
 npm run og-image                  # Regenerate OG image (public/og-image.png)
-npm run og-image -- --demos 38   # Regenerate with updated demo count
+npm run og-image -- --demos 39   # Regenerate with updated demo count
 ```
 
 The `--legacy-peer-deps` flag is needed due to peer dependency conflicts between Astro 5 and the Svelte integration.
 
 ## Project Overview
 
-**Pretext Lab** is a public demo lab for the [@chenglou/pretext](https://github.com/chenglou/pretext) text layout library. It contains **38 interactive demos** organized across 4 categories (foundational, practical, advanced, spectacular), built with Astro + Svelte 5.
+**Pretext Lab** is a public demo lab for the [@chenglou/pretext](https://github.com/chenglou/pretext) text layout library. It contains **39 interactive demos** organized across 4 categories (foundational, practical, advanced, spectacular), built with Astro + Svelte 5.
 
 **Live site:** [pretext.xergioalex.com](https://pretext.xergioalex.com)
 
@@ -32,7 +32,7 @@ Comprehensive documentation lives in the `docs/` directory:
 | **Architecture** | `docs/architecture.md` | Directory structure, design decisions, component patterns, theme system, fullscreen mode |
 | **Technologies** | `docs/technologies.md` | Full tech stack (Astro, Svelte 5, Pretext, TypeScript), build pipeline, deployment, browser APIs |
 | **Pretext Guide** | `docs/pretext-guide.md` | Deep dive into `@chenglou/pretext` — complete API reference, 6 usage patterns, performance benchmarks, Unicode support, limitations |
-| **Demo Catalog** | `docs/demos/README.md` | Index of all 38 demos with API usage, difficulty, and rendering approach tables |
+| **Demo Catalog** | `docs/demos/README.md` | Index of all 39 demos with API usage, difficulty, and rendering approach tables |
 | **Individual Demos** | `docs/demos/*.md` | One file per demo — 8-section technical breakdown (overview, APIs, implementation, state, controls, rendering, insight, replication) |
 
 When modifying demos or architecture, keep the relevant documentation in sync.
@@ -56,7 +56,7 @@ This is a **static Astro site** with **Svelte interactive islands** — static c
 src/
 ├── components/          # Astro components (Nav, Footer)
 ├── islands/
-│   └── demos/           # 38 Svelte island components (one per demo)
+│   └── demos/           # 39 Svelte island components (one per demo)
 ├── layouts/
 │   ├── BaseLayout.astro # Root HTML shell (meta, fonts, theme init)
 │   └── DemoLayout.astro # Demo wrapper (fullscreen, topbar, info modal, demo switcher)
@@ -69,7 +69,7 @@ src/
 │       └── demoVisuals.ts # Shared icons and category-color mappings
 ├── pages/
 │   ├── index.astro      # Homepage with hero + demo grid
-│   └── demos/           # 38 demo pages (one .astro per demo)
+│   └── demos/           # 39 demo pages (one .astro per demo)
 └── styles/
     └── global.css       # Design tokens, utilities, dark/light themes
 ```
@@ -162,7 +162,7 @@ function tick() {
 onMount(() => { tick(); return () => cancelAnimationFrame(animFrame); });
 ```
 
-## All 38 Demos
+## All 39 Demos
 
 ### Foundational (4)
 
@@ -202,7 +202,7 @@ onMount(() => { tick(); return () => cancelAnimationFrame(animFrame); });
 | `comic-speech-layout` | Comic Speech Layout | `prepareWithSegments`, `layoutWithLines` | Hybrid |
 | `topology-morph` | Topology Morph | `prepareWithSegments`, `layoutNextLine` | Hybrid |
 
-### Spectacular (15)
+### Spectacular (16)
 
 | Slug | Title | APIs | Rendering |
 |------|-------|------|-----------|
@@ -221,6 +221,7 @@ onMount(() => { tick(); return () => cancelAnimationFrame(animFrame); });
 | `text-fluid` | Text Fluid Field | `prepareWithSegments`, `layoutNextLine` | Hybrid |
 | `text-origami` | Text Origami Panels | `prepareWithSegments`, `layoutNextLine` | Hybrid |
 | `text-black-hole` | Text Black Hole | `prepareWithSegments`, `layoutNextLine` | Hybrid |
+| `text-regatta` | Text Regatta | `prepareWithSegments`, `layoutNextLine` | Hybrid |
 
 ## Pretext API Surface (verified from @chenglou/pretext v0.0.3)
 
@@ -274,7 +275,7 @@ onMount(() => { tick(); return () => cancelAnimationFrame(animFrame); });
 |----------|-------------|---------|
 | **DOM** | Text in HTML elements, Pretext provides dimensions | Masonry, Chat, Resize Relayout, Streaming, Heatmap, Multi-Column, Living Document, Subtitle Composer, Incremental Layout Profiler |
 | **Canvas 2D** | Pretext provides line breaks, Canvas renders | Canvas Layout, Gravity Letters, Text Breakout, Text Vortex, Text Rain, Text Collision, Voronoi, Text Terrain |
-| **Hybrid** | Positioned divs for text + SVG/Canvas for effects | Dragon Chase, Editorial Engine, Flow Around Obstacle, Wave Distortion, Text Silhouette, Waterfall, Hourglass, Earthquake, PDF Reflow Engine, OCR Reconstruction, Text Fluid, Text Origami, Topology Morph, Text Black Hole, Comic Speech Layout |
+| **Hybrid** | Positioned divs for text + SVG/Canvas for effects | Dragon Chase, Editorial Engine, Flow Around Obstacle, Wave Distortion, Text Silhouette, Waterfall, Hourglass, Earthquake, PDF Reflow Engine, OCR Reconstruction, Text Fluid, Text Origami, Topology Morph, Text Black Hole, Comic Speech Layout, Text Regatta |
 | **Web Audio** | Audio analysis drives layout parameters | Audio-Reactive Typography |
 
 ## Escaping Curly Braces in Astro
@@ -294,7 +295,7 @@ The social sharing image (`public/og-image.png`, 1200×630) is generated from:
 
 ```bash
 npm run og-image                  # Regenerate from current SVG + logo
-npm run og-image -- --demos 38   # Also update demo count in SVG
+npm run og-image -- --demos 39   # Also update demo count in SVG
 ```
 
 Script: `scripts/generate-og-image.mjs` — uses `sharp` to render SVG and composite the logo.

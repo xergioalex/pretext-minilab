@@ -61,7 +61,7 @@ This is not a generic blog or documentation portal. It is a product-like showcas
 
 ## Demo catalog overview
 
-Current total: 38 demos
+Current total: 39 demos
 
 Categories:
 - Foundational
@@ -228,6 +228,10 @@ Categories:
 - Text Black Hole
   - URL: https://pretext.xergioalex.com/demos/text-black-hole/
   - Summary: gravitational lensing, radial compression, and orbital text behavior
+
+- Text Regatta
+  - URL: https://pretext.xergioalex.com/demos/text-regatta/
+  - Summary: a sailboat carving wake turbulence through a sea made of text
 
 ## Documentation strategy
 

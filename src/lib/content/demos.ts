@@ -331,16 +331,6 @@ export const demos: DemoMeta[] = [
     difficulty: 'Flagship',
   },
   {
-    slug: 'comic-speech-layout',
-    title: 'Comic Speech Layout',
-    summary: 'Speech balloons, panel rhythm, and emphatic word styling composed without trial-and-error sizing.',
-    category: 'advanced',
-    featured: true,
-    flagship: false,
-    apis: ['prepareWithSegments()', 'layoutWithLines()'],
-    difficulty: 'Advanced',
-  },
-  {
     slug: 'pdf-reflow-engine',
     title: 'PDF Reflow Engine',
     summary: 'The same article is re-composed into phone, tablet, poster, and editorial spreads instantly.',
@@ -381,14 +371,14 @@ export const demos: DemoMeta[] = [
     difficulty: 'Advanced',
   },
   {
-    slug: 'ocr-reconstruction',
-    title: 'OCR Reconstruction',
-    summary: 'Messy OCR blocks are reordered into readable columns, captions, and paragraphs with editable layout.',
-    category: 'practical',
+    slug: 'text-regatta',
+    title: 'Text Regatta',
+    summary: 'A sailboat cuts through a sea made of text, with swell, wake turbulence, and current-driven reflow.',
+    category: 'spectacular',
     featured: true,
-    flagship: false,
-    apis: ['prepare()', 'layout()', 'layoutNextLine()'],
-    difficulty: 'Advanced',
+    flagship: true,
+    apis: ['prepareWithSegments()', 'layoutNextLine()'],
+    difficulty: 'Flagship',
   },
 ];
 

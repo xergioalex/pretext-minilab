@@ -106,7 +106,7 @@ The `vitePreprocess` enables TypeScript and other preprocessors in Svelte files.
 
 ## @chenglou/pretext
 
-The core library that powers all 38 demos. See the dedicated [Pretext Guide](./pretext-guide.md) for a complete deep dive. The most advanced demos also share helper modules in `src/lib/advanced-demos/` for region geometry, fixtures, and multi-region flow.
+The core library that powers all 39 demos. See the dedicated [Pretext Guide](./pretext-guide.md) for a complete deep dive. The most advanced demos also share helper modules in `src/lib/advanced-demos/` for region geometry, fixtures, and multi-region flow.
 
 ### Key Facts
 

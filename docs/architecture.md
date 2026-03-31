@@ -106,7 +106,7 @@ pretext-minilab/
 │   ├── pages/
 │   │   ├── index.astro             # Homepage with hero section + demo grid
 │   │   └── demos/
-│   │       └── [38 demo pages].astro
+│   │       └── [39 demo pages].astro
 │   └── styles/
 │       └── global.css              # Design tokens, utilities, dark/light themes
 ├── CLAUDE.md                       # AI agent guidance

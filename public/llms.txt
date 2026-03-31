@@ -8,7 +8,7 @@
 
 Pretext Lab is a static Astro site with client-only Svelte demos that showcase programmable text layout in the browser using `@chenglou/pretext`.
 
-The site currently includes 38 demos spanning:
+The site currently includes 39 demos spanning:
 - foundational measurement and architecture
 - practical UI/product use cases
 - advanced editorial and multi-region systems

@@ -1,0 +1,62 @@
+---
+import DemoLayout from '../../layouts/DemoLayout.astro';
+import TextRegattaIsland from '../../islands/demos/TextRegatta.svelte';
+---
+
+<DemoLayout
+  slug="text-regatta"
+  title="Text Regatta"
+  summary="A sailboat cuts through a sea made of text, with swell, wake turbulence, and current-driven reflow."
+  context="This demo treats the paragraph itself as ocean surface. Instead of laying text into a static column, every line becomes part of a moving sea shaped by swell, current, and the boat's wake. The vessel does not merely sit on top of the typography; its draft and turbulence alter the water-like line geometry in real time."
+  apis={['prepareWithSegments()', 'layoutNextLine()']}
+  difficulty="Flagship"
+  snippet={`import { prepareWithSegments, layoutNextLine, buildFont } from '@chenglou/pretext';
+
+const prepared = prepareWithSegments(seaText, buildFont(15, 'Georgia, serif'));
+let cursor = { segmentIndex: 0, graphemeIndex: 0 };
+let y = 34;
+
+while (y < seaHeight) {
+  const swell = sampleSwellAtY(y, phase);
+  const wake = sampleWakeFromBoat(y, boatY, boatX);
+  const xStart = margin + Math.max(0, swell * 0.46) + wake.shift;
+  const width = usableWidth - Math.abs(swell) * 0.7 - wake.compression;
+
+  const line = layoutNextLine(prepared, cursor, Math.max(120, width));
+  if (!line) break;
+
+  seaLines.push({ text: line.text, x: xStart, y, width: line.width });
+  cursor = line.end;
+  y += lineHeight;
+}`}
+>
+  <div class="demo-area" slot="demo">
+    <TextRegattaIsland client:only="svelte" />
+  </div>
+
+  <div class="demo-info" slot="info">
+    <div class="info-card">
+      <h3>What this demonstrates</h3>
+      <p>
+        A navigable text-ocean where the paragraph behaves like water. Swell shapes the baseline
+        width of each line, current drifts the surface laterally, and the boat adds local wake
+        turbulence so the sea is visibly responding to the vessel.
+      </p>
+    </div>
+    <div class="info-card">
+      <h3>Relevant Pretext API</h3>
+      <ul>
+        <li><code>prepareWithSegments()</code> to prepare the ocean text once</li>
+        <li><code>layoutNextLine()</code> to compute one wave-shaped line at a time</li>
+      </ul>
+    </div>
+    <div class="info-card">
+      <h3>Why plain DOM measurement is painful here</h3>
+      <p>
+        The available width changes for every line, on every frame, and the boat introduces local
+        turbulence that changes the shape of the water surface dynamically. That is exactly the kind
+        of problem where DOM text measurement becomes brittle, expensive, and hard to choreograph.
+      </p>
+    </div>
+  </div>
+</DemoLayout>

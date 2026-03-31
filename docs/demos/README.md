@@ -1,6 +1,6 @@
 # Demo Catalog
 
-This directory contains detailed technical documentation for all 38 interactive demos in Pretext Lab. Each demo showcases different capabilities of the `@chenglou/pretext` library, from foundational measurement patterns to ambitious document systems and flagship spatial experiments.
+This directory contains detailed technical documentation for all 39 interactive demos in Pretext Lab. Each demo showcases different capabilities of the `@chenglou/pretext` library, from foundational measurement patterns to ambitious document systems and flagship spatial experiments.
 
 ---
 
@@ -71,6 +71,7 @@ Visual showcases that push Pretext to its limits.
 | [Text Fluid Field](./text-fluid.md) | `prepareWithSegments()`, `layoutNextLine()` | Spectacular | A paragraph bends through a simulated velocity field |
 | [Text Origami Panels](./text-origami.md) | `prepareWithSegments()`, `layoutNextLine()` | Spectacular | Continuous text flow across foldable paper panels |
 | [Text Black Hole](./text-black-hole.md) | `prepareWithSegments()`, `layoutNextLine()` | Flagship | Radial compression and lensing around a singularity |
+| [Text Regatta](./text-regatta.md) | `prepareWithSegments()`, `layoutNextLine()` | Flagship | A sailboat navigates a sea whose surface is made of flowing text |
 
 ---
 
@@ -97,7 +98,7 @@ $effect(() => {
 |----------|-------|-------------|
 | **DOM-based** | Chat Bubbles, Masonry Cards, Resize Relayout, Rich Text, i18n, Streaming Text, Typographic Heatmap, Living Document, Subtitle Composer, Incremental Layout Profiler | Text displayed in HTML elements; Pretext provides dimensions |
 | **Canvas-based** | Canvas Layout, Gravity Letters, Text Breakout, Text Vortex, Text Rain, Text Collision, Voronoi Text, Text Terrain | Pretext provides line breaks; Canvas handles rendering |
-| **Hybrid** | Dragon Chase, Editorial Engine, Flow Around Obstacle, Wave Distortion, Text Silhouette, Text Waterfall, Text Hourglass, Text Earthquake, Multi-Column, PDF Reflow Engine, Text Fluid, Text Origami, Topology Morph, Text Black Hole, Comic Speech Layout, OCR Reconstruction | Text as positioned divs plus overlays, staged regions, or custom geometry |
+| **Hybrid** | Dragon Chase, Editorial Engine, Flow Around Obstacle, Wave Distortion, Text Silhouette, Text Waterfall, Text Hourglass, Text Earthquake, Multi-Column, PDF Reflow Engine, Text Fluid, Text Origami, Topology Morph, Text Black Hole, Comic Speech Layout, OCR Reconstruction, Text Regatta | Text as positioned divs plus overlays, staged regions, or custom geometry |
 | **Web Audio** | Audio-Reactive | Sound-driven layout parameters |
 | **Visualization** | DOM vs Pretext, Shrink-Wrap, Measure Height | SVG, bars, and metrics showing layout data |
 

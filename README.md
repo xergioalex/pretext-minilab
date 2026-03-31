@@ -1,3 +1,11 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./public/logos/logo-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="./public/logos/logo-light.png">
+    <img src="./public/logos/logo-light.png" alt="Pretext Lab" width="360">
+  </picture>
+</p>
+
 # Pretext Lab
 
 > **Programmable text layout, visualized.** An interactive demo lab exploring what becomes possible when text measurement is no longer coupled to the DOM.
@@ -8,7 +16,7 @@
 
 ## What is this?
 
-A collection of **38 interactive demos** that show what [@chenglou/pretext](https://github.com/chenglou/pretext) — a JavaScript library for programmable text layout — actually enables in practice.
+A collection of **39 interactive demos** that show what [@chenglou/pretext](https://github.com/chenglou/pretext) — a JavaScript library for programmable text layout — actually enables in practice.
 
 Pretext separates text analysis from layout computation:
 
@@ -50,7 +58,7 @@ The site itself makes an architectural point: **Pretext is exciting for interact
 
 ```
 src/
-  pages/index.astro              # Homepage — grid of all 38 demos
+  pages/index.astro              # Homepage — grid of all 39 demos
   pages/demos/*.astro             # Demo pages (static shell + Svelte island)
   islands/demos/*.svelte          # Interactive demo components (client-only)
   components/Nav.astro            # Navigation with theme toggle
